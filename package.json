@@ -1,0 +1,25 @@
+{
+  "name": "nidza",
+  "version": "1.0.0",
+  "description": "canvas2d engine explicit only for drawing no events no frame animation. Objective is low CPU usage price.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zlatnaspirala/nidza.git"
+  },
+  "keywords": [
+    "2dcanvas",
+    "matrix-engine",
+    "texture",
+    "generator"
+  ],
+  "author": "Nikola Lukic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zlatnaspirala/nidza/issues"
+  },
+  "homepage": "https://github.com/zlatnaspirala/nidza#readme"
+}
