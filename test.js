@@ -15,4 +15,6 @@ testNidza.createNidzaIndentity(myFirstNidzaObjectOptions);
 
 testNidza.access.welcomeText.addTextComponent({ text: "nikola" })
 
+
+
 window.textNidza = testNidza;
