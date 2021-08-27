@@ -4,7 +4,6 @@ import { NidzaIdentity } from "./lib/identity";
 export class Nidza {
 
   constructor() {
-    this.collections = [];
     this.access = {};
     console.info("Nidza engine constructed.");
   }
@@ -26,7 +25,6 @@ export class Nidza {
     });
 
     this.access[arg.id] = nidzaIntentityInstance;
-    this.collections.push(nidzaIntentityInstance);
 
     return nidzaIntentityInstance;
 

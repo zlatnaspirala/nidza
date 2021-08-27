@@ -13,8 +13,18 @@ let myFirstNidzaObjectOptions = {
 
 testNidza.createNidzaIndentity(myFirstNidzaObjectOptions);
 
-testNidza.access.welcomeText.addTextComponent({ text: "nikola" })
-
+testNidza.access.welcomeText.addTextComponent({
+  id: "Title",
+  text: "Generate images from code",
+  position: {
+    x: 20,
+    y: 40
+  },
+  dimension: {
+    width: 100,
+    height: 100
+  }
+});
 
 
 window.textNidza = testNidza;

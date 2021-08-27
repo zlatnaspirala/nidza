@@ -1,7 +1,7 @@
 {
   "name": "nidza",
-  "version": "1.0.0",
-  "description": "canvas2d engine explicit only for drawing no events no frame animation. Objective is low CPU usage price.",
+  "version": "1.0.1",
+  "description": "canvas2d engine explicit only for generating images with basic canvas 2D context. Objective is low CPU usage price.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,10 @@
     "2dcanvas",
     "matrix-engine",
     "texture",
-    "generator"
+    "generator",
+    "vanilla-js",
+    "canvas",
+    "2d"
   ],
   "author": "Nikola Lukic",
   "license": "MIT",
