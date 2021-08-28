@@ -14,6 +14,11 @@ export class Position {
     this.setReferent = setReferent;
     this.referentCanvasWidth = () => 250;
     this.referentCanvasHeight = () => 250;
+    this.elementIdentity = null;
+  }
+
+  onDone() {
+    dispatchEvent(new CustomEvent("deactivate-updater", { detail: { id: this.elementIdentity } }));
   }
 
   setSpeed(num_) {
@@ -27,25 +32,26 @@ export class Position {
   }
 
   translateX(x) {
-    dispatchEvent(new CustomEvent("activate-updater"));
+    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
     this.IN_MOVE = true;
     this.targetX = x;
   }
 
   translateY(y) {
-    dispatchEvent(new CustomEvent("activate-updater"));
+    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
     this.IN_MOVE = true;
     this.targetY = y;
   }
 
   translate(x_, y_) {
-    dispatchEvent(new CustomEvent("activate-updater"));
+    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
     this.IN_MOVE = true;
     this.targetX = x_;
     this.targetY = y_;
   }
 
   setPosition(x_, y_, type_) {
+    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
     this.targetX = x_;
     this.targetY = y_;
     this.x = x_;
@@ -70,6 +76,7 @@ export class Position {
         this.y = this.targetY;
         this.IN_MOVE = false;
         this.onTargetReached();
+        this.onDone();
       }
     }
   }

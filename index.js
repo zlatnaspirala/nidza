@@ -1,9 +1,6 @@
 
-import { Nidza } from "./src/nidza"
-
-let nidzaTest = true;
+import { Nidza } from "./src/nidza";
 
 export {
-  Nidza,
-  nidzaTest
+  Nidza
 }

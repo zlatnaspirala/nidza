@@ -1,5 +1,8 @@
 
 import { NidzaElement } from "./base-component";
+import { drawRotatedText,
+         drawBorder,
+         drawRotatedBorderText } from "./operations";
 
 export class NidzaTextComponent extends NidzaElement {
 
@@ -12,7 +15,16 @@ export class NidzaTextComponent extends NidzaElement {
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
 
-    this.dimension.setReferent(this.canvasDom);
+    this.border = {
+      isActive: false,
+      color: 'yellow',
+      radius: 50
+    };
+
+    this.rotation = {
+      isActive: false,
+      angle: 0
+    }
 
     var newW = 20, newH = 20;
     if (arg.dimension) {
@@ -20,6 +32,8 @@ export class NidzaTextComponent extends NidzaElement {
       newH = arg.dimension.height || 20;
     }
 
+    this.dimension.setReferent(this.canvasDom);
+    this.dimension.elementIdentity = this.id;
     this.dimension.setDimension(newW, newH);
 
     var newX = 20, newY = 20;
@@ -29,16 +43,52 @@ export class NidzaTextComponent extends NidzaElement {
     }
 
     this.position.setReferent(this.canvasDom);
-    this.position.setPosition(arg.position.x, arg.position.y);
+    this.position.elementIdentity = this.id;
+    this.position.setPosition(newX, newY);
 
+    // Setup draw
+    this.draw = this.drawSimple;
+
+    this.drawRotatedText = drawRotatedText;
+    this.drawRotatedBorderText = drawRotatedBorderText;
+    this.drawBorder = drawBorder;
   }
 
-  draw() {
+  setBorder() {
+    this.border.isActive = true;
+    if (this.rotation.isActive) {
+      this.draw = this.drawRotatedBorderText;
+    } else {
+      this.draw = this.drawWithBorder;
+    }
+  }
+
+  setAngle(angle) {
+    this.rotation.isActive = true;
+    this.rotation.angle = angle;
+    if (this.border.isActive) { 
+      this.draw = this.drawRotatedBorderText;
+    } else {
+      this.draw = this.drawRotatedText;
+    }
+    dispatchEvent(new CustomEvent("activate-updater", { 
+      detail: {
+       id: this.elementIdentity,
+       oneDraw: true
+      }
+    }));
+  }
+
+  drawSimple() {
     this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
   }
 
-  drawOverride() {
-    //
+  drawWithBorder() {
+    this.drawBorder( this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight(),
+                10, "lime", "stroke", "#012293")
+    this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
   }
+
+  
 
 }

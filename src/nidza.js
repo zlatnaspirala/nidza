@@ -16,12 +16,17 @@ export class Nidza {
     c.width = arg.size.width;
     c.height = arg.size.height;
     var ctx = c.getContext("2d");
-    document.body.append(c);
+
+    if (arg.parentDom) {
+      arg.parentDom.append(c);
+    }
+    // document.body.append(c);
 
     let nidzaIntentityInstance  = new NidzaIdentity({
       canvasDom: c,
       ctx: ctx,
-      elements: []
+      elements: [],
+      parentDom: arg.parentDom
     });
 
     this.access[arg.id] = nidzaIntentityInstance;

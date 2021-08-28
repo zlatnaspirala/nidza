@@ -8,23 +8,25 @@ let myFirstNidzaObjectOptions = {
   size: {
     width: 250,
     height: 250
-  }
+  },
+  parentDom: document.getElementById('testHolder')
 };
 
 testNidza.createNidzaIndentity(myFirstNidzaObjectOptions);
 
 testNidza.access.welcomeText.addTextComponent({
-  id: "Title",
+  id: "Title1",
   text: "Generate images from code",
   position: {
-    x: 20,
-    y: 40
+    x: 50,
+    y: 50
   },
   dimension: {
-    width: 100,
-    height: 100
+    width: 80,
+    height: 10
   }
 });
 
+textNidza.access.welcomeText.elements[0].setBorder();
 
 window.textNidza = testNidza;
