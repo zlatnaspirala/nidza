@@ -13,7 +13,7 @@ because can be used for any other project.
 
 Create object of instance Nidza.
 `var testNidza = new Nidza();`
-This object containe all necessary staff.
+This object containe all necessary staff, everything related to the nidza engine.
 
 Now we create generic new objects with:
 ```js
@@ -45,13 +45,16 @@ testNidza.access.welcomeText.addTextComponent({
 });
 ```
 
-## Example - TextComponent
+## Example `text-example.js` => TextComponent
 
 ```js
-// Using npm i nidza
-// import { Nidza } from "nidza";
+/**
+ *  If you using npm i nidza
+ * import { Nidza } from "nidza";
+ * If you use nidza from source for dev stage use this
+ * there is no build just run http protocol
+ */
 
-// from source 
 import { Nidza } from "./src/nidza";
 
 var testNidza = new Nidza();

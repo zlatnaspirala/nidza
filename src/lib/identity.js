@@ -82,7 +82,7 @@ export class NidzaIdentity {
 
   }
 
-  isUpdaterActive () {
+  isUpdaterActive() {
     if (this.updater == null) {
       return false;
     } else {
@@ -106,6 +106,10 @@ export class NidzaIdentity {
 
   print() {
     console.log('I am big holder nothing else.');
+  }
+
+  getElementById(id) {
+    return this.elements.filter(element => element.id == id)[0]
   }
 
 }

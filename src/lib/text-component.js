@@ -1,6 +1,7 @@
 
 import { NidzaElement } from "./base-component";
-import { drawRotatedText,
+import { drawSimpleText,
+         drawRotatedText,
          drawBorder,
          drawRotatedBorderText } from "./operations";
 
@@ -8,7 +9,12 @@ export class NidzaTextComponent extends NidzaElement {
 
   constructor(arg) {
 
-    super();
+    const eArg = {
+      position: arg.position,
+      id: arg.id,
+      canvasDom: arg.canvasDom
+    }
+    super(eArg);
 
     this.id = arg.id;
     this.text = arg.text;
@@ -16,6 +22,8 @@ export class NidzaTextComponent extends NidzaElement {
     this.canvasDom = arg.canvasDom;
 
     this.border = {
+      typeOfDraw: 'stroke',
+      strokeColor: 'blue',
       isActive: false,
       color: 'yellow',
       radius: 50
@@ -36,19 +44,7 @@ export class NidzaTextComponent extends NidzaElement {
     this.dimension.elementIdentity = this.id;
     this.dimension.setDimension(newW, newH);
 
-    var newX = 20, newY = 20;
-    if (arg.position) {
-      newX = arg.position.x || 20;
-      newY = arg.position.y || 20;
-    }
-
-    this.position.setReferent(this.canvasDom);
-    this.position.elementIdentity = this.id;
-    this.position.setPosition(newX, newY);
-
-    // Setup draw
-    this.draw = this.drawSimple;
-
+    this.draw = drawSimpleText;
     this.drawRotatedText = drawRotatedText;
     this.drawRotatedBorderText = drawRotatedBorderText;
     this.drawBorder = drawBorder;
@@ -79,16 +75,15 @@ export class NidzaTextComponent extends NidzaElement {
     }));
   }
 
-  drawSimple() {
-    this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
-  }
-
   drawWithBorder() {
-    this.drawBorder( this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight(),
-                10, "lime", "stroke", "#012293")
+    this.drawBorder( this.position.getX(),
+                     this.position.getY(),
+                     this.dimension.getWidth(),
+                     this.dimension.getHeight(),
+                     10,
+                     this.border.color,
+                     this.typeOfDraw);
     this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
   }
-
-  
 
 }

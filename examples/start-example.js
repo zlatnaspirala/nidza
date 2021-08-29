@@ -1,5 +1,5 @@
 
-import { Nidza } from "./src/nidza";
+import { Nidza } from "../src/nidza";
 
 var testNidza = new Nidza();
 
@@ -17,7 +17,7 @@ testNidza.createNidzaIndentity(myStar);
 testNidza.access.myStar.addStarComponent({
   id: "Title1",
   radius: 33,
-  inset: 0.2,
+  inset: 0.4,
   n: 6,
   position: {
     x: 50,

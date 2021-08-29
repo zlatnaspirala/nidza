@@ -19,8 +19,9 @@ export class Nidza {
 
     if (arg.parentDom) {
       arg.parentDom.append(c);
+    } else {
+      document.body.append(c);
     }
-    // document.body.append(c);
 
     let nidzaIntentityInstance  = new NidzaIdentity({
       canvasDom: c,

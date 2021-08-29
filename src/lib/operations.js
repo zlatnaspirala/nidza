@@ -4,12 +4,13 @@
  */
 
 /**
-* @description
-* Osc is math Value Oscilator.
-*/
+ * @description
+ * Osc is math Value Oscilator.
+ * Argument regimeType is optimal
+ */
 export class Osc {
 
-  constructor( start, finish, step, regimeType ) {
+  constructor(start, finish, step, regimeType) {
 
     this.step = 1;
     this.start = 0;
@@ -31,11 +32,11 @@ export class Osc {
     this.regimeType = newSeqType;
   }
 
-  setNewValue( newValue ) {
+  setNewValue(newValue) {
     this.value = newValue;
   }
 
-  setDelay( newDelay ) {
+  setDelay(newDelay) {
     this.delay = newDelay;
     this.delayInitial = newDelay;
   }
@@ -111,7 +112,7 @@ export class Osc {
 
 }
 
-function toRad(angle) {
+export function toRad(angle) {
   if ( typeof angle === "string" || typeof angle === "number" ) {
     return angle * ( Math.PI / 180 );
   } else {
@@ -146,10 +147,10 @@ export function drawRotatedBorderText() {
   this.ctx.restore();
 }
 
-export function drawBorder(x, y, width, height, radius, color, type, strokeColor) {
+export function drawBorder(x, y, width, height, radius, color, type) {
   this.ctx.save();
   if ( type == "stroke" ) {
-    this.ctx.strokeStyle = strokeColor;
+    this.ctx.strokeStyle = color;
   } else {
     this.ctx.fillStyle = color;
   }
@@ -173,4 +174,42 @@ export function drawBorder(x, y, width, height, radius, color, type, strokeColor
     this.ctx.fill();
   }
   this.ctx.restore();
+}
+
+export function drawSimpleText() {
+  this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
+}
+
+export function drawStar() {
+  this.ctx.beginPath();
+  this.ctx.save();
+  this.ctx.translate(this.position.getX(), this.position.getY());
+  this.ctx.moveTo(0, 0 - this.radius);
+  for ( let i = 0; i < this.n; i++ ) {
+    this.ctx.rotate(Math.PI / this.n);
+    this.ctx.lineTo(0, 0 - ( this.radius * this.inset));
+    this.ctx.rotate(Math.PI / this.n);
+    this.ctx.lineTo(0, 0 - this.radius);
+  }
+  this.ctx.restore();
+  this.ctx.closePath();
+  this.ctx.stroke();
+  this.ctx.fill();
+}
+
+export function drawStarRotation () {
+  this.ctx.beginPath();
+  this.ctx.save();
+  this.ctx.translate(0, 0);
+  this.ctx.moveTo(0, 0 - this.radius);
+  for ( let i = 0; i < this.n; i++ ) {
+    this.ctx.rotate(Math.PI / this.n);
+    this.ctx.lineTo(0, 0 - ( this.radius * this.inset));
+    this.ctx.rotate(Math.PI / this.n);
+    this.ctx.lineTo(0, 0 - this.radius);
+  }
+  this.ctx.restore();
+  this.ctx.closePath();
+  this.ctx.stroke();
+  this.ctx.fill();
 }

@@ -4,9 +4,13 @@ import {Dimension} from "./dimension";
 
 export class NidzaElement {
 
-  constructor() {
-    this.position = new Position(0,0);
+  constructor(arg) {
+    this.position = new Position(arg.position.x, arg.position.y);
     this.dimension = new Dimension(100,100);
+
+    this.position.setReferent(arg.canvasDom);
+    this.position.elementIdentity = arg.id;
+
   }
 
 }
