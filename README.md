@@ -1,13 +1,16 @@
 # nidza
 
-2d canvas engine - Scene Object oriented engine without classic auto update/requestAnimationFrame.
-There is no events system for rayhits. `Nidza` is exclusively for draws staff.
-Objective is CPU low price of usage. You can move object do any animation but on finish there is no any draw calls. This is main objective task to make autoupdater with releasing 
-on target/object reach.
-Project object is also adding all of kind composition video/webcam/images/text in same tiem and place.
+2d canvas engine - Scene Object oriented engine without classic auto update like calling requestAnimationFrame or timers. There is no events for drawen elements. `Nidza` is exclusively for draws staff. Objective is CPU low price of usage. You can move object or start any animation but on finish there is no any draw calls. This is main objective task to make autoupdater with releasing on target/object reach. Project object is also adding all of kind composition video/webcam/images/text in same time and place.
+
 
 Nidza will be `texture generator` for `matrix-engine` but still this project is indipendent
 because can be used for any other project.
+
+ - You can generate images
+ - Use like texture in 3d space
+ - Use it like web site features
+ - Draw logo animation
+
 
 ## How it works
 

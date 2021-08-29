@@ -107,26 +107,34 @@ export class Osc {
 
   // For overriding
   onRepeat() {
-    console.log( 'on repeat default log' )
+    console.info( 'on repeat default log' )
   };
 
 }
 
+/**
+ * @description Convert angle to radians
+ */
 export function toRad(angle) {
   if ( typeof angle === "string" || typeof angle === "number" ) {
     return angle * ( Math.PI / 180 );
   } else {
-    console.log(
+    console.warn(
       "toRad, Input arg angle " + typeof angle + " << must be string or number."
     );
   }
 }
 
+/**
+ * @description Draw Text with:
+ *  - rotation procedure
+ */
 export function drawRotatedText() {
   this.ctx.save();
   this.ctx.translate(this.position.getX(),
   this.position.getY())
   this.ctx.rotate(toRad(this.rotation.angle));
+  if (this.font.isActive) this.ctx.font = this.getFont();
   this.ctx.fillText(
     this.text, 0, 0,
     this.dimension.getWidth(),
@@ -134,30 +142,36 @@ export function drawRotatedText() {
   this.ctx.restore();
 }
 
+/**
+ * @description Draw Text with:
+ *  - rotation procedure
+ *  - Border procedure
+ */
 export function drawRotatedBorderText() {
   this.ctx.save();
   this.ctx.translate(this.position.getX(), this.position.getY());
   this.ctx.rotate(toRad(this.rotation.angle));
+  if (this.font.isActive) this.ctx.font = this.getFont();
   this.ctx.fillText(
     this.text, 0, 0,
     this.dimension.getWidth(),
     this.dimension.getHeight());
   this.drawBorder(0, 0, this.dimension.getWidth(), this.dimension.getHeight(),
-    10, "lime", "stroke", "#012293")
+                  10, "lime", "stroke", "#012293")
   this.ctx.restore();
 }
 
-export function drawBorder(x, y, width, height, radius, color, type) {
-  this.ctx.save();
-  if ( type == "stroke" ) {
-    this.ctx.strokeStyle = color;
-  } else {
-    this.ctx.fillStyle = color;
-  }
+/**
+ * @description Draw Text vs Border with
+ * radius option for rounded corners
+ */
+export function drawBorder(x, y, width, height, radius, fillColor, strokeColor, type) {
 
+  this.ctx.save();
+  this.ctx.strokeStyle = strokeColor;
+  this.ctx.fillStyle = fillColor;
   x -= width / 2;
   y -= height / 2;
-
   this.ctx.beginPath();
   this.ctx.moveTo( x, y + radius );
   this.ctx.lineTo( x, y + height - radius );
@@ -168,16 +182,46 @@ export function drawBorder(x, y, width, height, radius, color, type) {
   this.ctx.quadraticCurveTo( x + width, y, x + width - radius, y );
   this.ctx.lineTo( x + radius, y );
   this.ctx.quadraticCurveTo( x, y, x, y + radius );
-  if ( type == "stroke" ) {
+  if (type == "fill-stroke") {
+    this.ctx.fill();
     this.ctx.stroke();
-  } else {
+  } else if (type == "stroke") {
+    this.ctx.stroke();
+  } else if (type == "fill") {
     this.ctx.fill();
   }
   this.ctx.restore();
 }
 
-export function drawSimpleText() {
+/**
+ * @description Draw Text:
+ *  - Border procedure
+ */
+export function drawWithBorder() {
+  this.ctx.save();
+  if (this.font.isActive) this.ctx.font = this.getFont();
+  this.drawBorder(this.position.getX(),
+                  this.position.getY(),
+                  this.dimension.getWidth(),
+                  this.dimension.getHeight(),
+                  10,
+                  this.border.fillColor,
+                  this.border.strokeColor,
+                  this.border.typeOfDraw);
   this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
+  this.ctx.restore();
+}
+
+/**
+ * @description Draw Text:
+ *  - Simple
+ */
+export function drawSimpleText() {
+  this.ctx.save();
+  if (this.font.isActive) this.ctx.font = this.getFont();
+  this.ctx.fillStyle = this.color;
+  this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
+  this.ctx.restore();
 }
 
 export function drawStar() {
