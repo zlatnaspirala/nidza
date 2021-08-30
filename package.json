@@ -1,6 +1,6 @@
 {
   "name": "nidza",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "canvas2d engine explicit only for generating textures, images (on web page), animation , visual effect etc. Objective is low CPU usage price.",
   "main": "index.js",
   "scripts": {
