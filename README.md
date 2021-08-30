@@ -50,6 +50,7 @@ testNidza.access.welcomeText.addTextComponent({
 
 ## Example `text-example.js` => TextComponent
 
+![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/text-example.gif)
 ```js
 /**
  *  If you using npm i nidza
