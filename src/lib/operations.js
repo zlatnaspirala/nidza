@@ -152,12 +152,20 @@ export function drawRotatedBorderText() {
   this.ctx.translate(this.position.getX(), this.position.getY());
   this.ctx.rotate(toRad(this.rotation.angle));
   if (this.font.isActive) this.ctx.font = this.getFont();
+  this.drawBorder(
+    0,
+    0,
+    this.dimension.getWidth(),
+    this.dimension.getHeight(),
+    10,
+    this.border.fillColor,
+    this.border.strokeColor,
+    this.border.typeOfDraw);
+  this.ctx.fillStyle = this.color;
   this.ctx.fillText(
     this.text, 0, 0,
     this.dimension.getWidth(),
     this.dimension.getHeight());
-  this.drawBorder(0, 0, this.dimension.getWidth(), this.dimension.getHeight(),
-                  10, "lime", "stroke", "#012293")
   this.ctx.restore();
 }
 
@@ -208,6 +216,7 @@ export function drawWithBorder() {
                   this.border.fillColor,
                   this.border.strokeColor,
                   this.border.typeOfDraw);
+  this.ctx.fillStyle = this.color;
   this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
   this.ctx.restore();
 }

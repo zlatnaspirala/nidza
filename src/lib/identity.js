@@ -11,7 +11,7 @@ export class NidzaIdentity {
     this.clearOnUpdate = true;
     this.updaterIsLive = false;
     this.updater = null;
-    this.updaterInterval = 20;
+    this.updaterInterval = 1;
     this.uRegister = [];
     addEventListener('activate-updater', this.activateUpdater);
     addEventListener('deactivate-updater', this.deactivateUpdater);
@@ -23,12 +23,17 @@ export class NidzaIdentity {
     this.ctx.textBaseline="middle";
   }
 
+  setCanvasBgColor () {
+
+  }
+
   addTextComponent(arg) {
     arg.ctx = this.ctx;
     arg.canvasDom = this.canvasDom;
     let textComponent = new NidzaTextComponent(arg);
     textComponent.draw();
     this.elements.push(textComponent);
+    return textComponent;
   }
 
   addStarComponent(arg) {
@@ -37,6 +42,7 @@ export class NidzaIdentity {
     let starComponent = new NidzaStarComponent(arg);
     starComponent.draw();
     this.elements.push(starComponent);
+    return starComponent;
   }
 
   activateUpdater = (e) => {

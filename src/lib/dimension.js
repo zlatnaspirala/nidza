@@ -75,8 +75,8 @@ export class Dimension {
         this.width = this.targetX;
         this.height = this.targetY;
         this.IN_MOVE = false;
-        this.onTargetReached();
         this.onDone();
+        this.onTargetReached();
       }
     }
   }

@@ -75,8 +75,8 @@ export class Position {
         this.x = this.targetX;
         this.y = this.targetY;
         this.IN_MOVE = false;
-        this.onTargetReached();
         this.onDone();
+        this.onTargetReached();
       }
     }
   }

@@ -80,6 +80,7 @@ export class NidzaTextComponent extends NidzaElement {
     this.drawRotatedBorderText = drawRotatedBorderText;
     this.drawBorder = drawBorder;
     this.drawWithBorder = drawWithBorder;
+
   }
 
   getFont() {

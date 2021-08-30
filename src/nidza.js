@@ -10,9 +10,11 @@ export class Nidza {
 
   createNidzaIndentity(arg) {
 
-    var c = document.createElement('canvas');
+    let c = document.createElement('canvas');
+    let cStyle = "background: linear-gradient(-90deg, black, red);";
+    cStyle    += "border:solid red 1px;";
     c.id = arg.id;
-    c.setAttribute("style", "border:solid red 1px;");
+    c.setAttribute("style", cStyle);
     c.width = arg.size.width;
     c.height = arg.size.height;
     var ctx = c.getContext("2d");
