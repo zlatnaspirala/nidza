@@ -47,12 +47,13 @@ export class Dimension {
   }
 
   setDimension(x_, y_, type_) {
-    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
     this.targetX = x_;
     this.targetY = y_;
     this.width = x_;
     this.height = y_;
     this.IN_MOVE = false;
+    dispatchEvent(new CustomEvent("activate-updater",
+      { detail: { id: this.elementIdentity, oneDraw: true } }));
   }
 
   onDone() {

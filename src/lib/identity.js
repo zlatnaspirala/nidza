@@ -52,6 +52,7 @@ export class NidzaIdentity {
       if (this.uRegister.indexOf(data.id) == -1) {
         if (data.oneDraw) {
           this.updateScene();
+          return;
         } else {
           // resister
           this.uRegister.push(data.id);
