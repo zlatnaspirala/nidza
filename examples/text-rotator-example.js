@@ -49,15 +49,17 @@ let zlatnaspiralaTxt = myScene.addTextComponent({
 });
 
 // Create one simple oscillator
-let rotationOption = new nidza.Osc(0, 360, 0.5);
+let rotationOption = new nidza.Osc(0, 360, 2);
 
 rotationOption.onRepeat = function(osc) {
   console.info("Values reached onrepeat targets osc: ", osc)
+  zlatnaspiralaTxt.rotation.clearUpdate();
   dispatchEvent(new CustomEvent("deactivate-updater",
     { detail: { id: osc.elementIdentity } }));
 }
 
 zlatnaspiralaTxt.rotation.setRotation(rotationOption)
+zlatnaspiralaTxt.rotation.osc.setDelay(0)
 
 /**
  * @description Middle text component
@@ -86,9 +88,10 @@ let zlatnaspiralaTxt2 = myScene.addTextComponent({
 });
 
 
-let rotationOption2 = new nidza.Osc(0, 90, 0.5, "oscMax");
+let rotationOption2 = new nidza.Osc(0, 90, 1, "oscMax");
 rotationOption2.onReachMin = (osc) => {
   console.info("Values reached min targets osc: ", osc)
+
   zlatnaspiralaTxt2.rotation.clearUpdate();
   dispatchEvent(new CustomEvent("deactivate-updater",
   { detail: { id: osc.elementIdentity } }));

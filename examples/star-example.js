@@ -14,7 +14,7 @@ let myStar = {
 
 nidza.createNidzaIndentity(myStar);
 
-nidza.access.myStar.addStarComponent({
+let myStarElement = nidza.access.myStar.addStarComponent({
   id: "Title1",
   radius: 33,
   inset: 0.4,
@@ -29,6 +29,8 @@ nidza.access.myStar.addStarComponent({
   }
 });
 
+let rotationOption = new nidza.Osc(0, 90, 0.5, "oscMax");
+myStarElement.rotation.setRotation(rotationOption)
 // nidza.access.welcomeText.elements[0].setBorder();
 
-window.nidza = nidza;
+window.myStarElement = myStarElement;

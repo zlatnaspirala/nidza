@@ -5,6 +5,7 @@ import {
   drawStar,
   drawStarRotation,
 } from "./operations";
+import {Rotator} from "./rotation";
 
 export class NidzaStarComponent extends NidzaElement {
 
@@ -24,17 +25,16 @@ export class NidzaStarComponent extends NidzaElement {
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
 
-    this.rotation = {
-      isActive: false,
-      angle: 0
-    }
+    this.rotation = new Rotator();
+    this.rotation.setId(this.id);
+    addEventListener("activate-rotator", this.activateRotator, false);
 
     this.draw = drawStar;
     this.drawStarRotation = drawStarRotation;
 
   }
 
-  activateRotator(angle) {
+  activateRotator = (angle) => {
     if (!this.rotation.isActive) {
       this.draw = this.drawRotatedStar;
       this.rotation.isActive = true;
