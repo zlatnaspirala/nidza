@@ -1,7 +1,7 @@
 
 import { Nidza } from "../src/nidza";
 
-var testNidza = new Nidza();
+var nidza = new Nidza();
 
 let myStar = {
   id: "myStar",
@@ -12,9 +12,9 @@ let myStar = {
   parentDom: document.getElementById('testHolder')
 };
 
-testNidza.createNidzaIndentity(myStar);
+nidza.createNidzaIndentity(myStar);
 
-testNidza.access.myStar.addStarComponent({
+nidza.access.myStar.addStarComponent({
   id: "Title1",
   radius: 33,
   inset: 0.4,
@@ -31,4 +31,4 @@ testNidza.access.myStar.addStarComponent({
 
 // nidza.access.welcomeText.elements[0].setBorder();
 
-window.nidza = testNidza;
+window.nidza = nidza;
