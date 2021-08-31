@@ -29,6 +29,6 @@ testNidza.access.myStar.addStarComponent({
   }
 });
 
-// textNidza.access.welcomeText.elements[0].setBorder();
+// nidza.access.welcomeText.elements[0].setBorder();
 
-window.textNidza = testNidza;
+window.nidza = testNidza;

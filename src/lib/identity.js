@@ -3,7 +3,9 @@ import { NidzaTextComponent } from "./text-component";
 import { NidzaStarComponent } from "./star-component";
 
 export class NidzaIdentity {
+
   constructor(arg) {
+
     this.canvasDom = arg.canvasDom;
     this.ctx = arg.ctx;
     this.elements = arg.elements;
@@ -15,7 +17,9 @@ export class NidzaIdentity {
     this.uRegister = [];
     addEventListener('activate-updater', this.activateUpdater);
     addEventListener('deactivate-updater', this.deactivateUpdater);
+
     this.setupGlobalCtx();
+
   }
 
   setupGlobalCtx() {
@@ -23,8 +27,8 @@ export class NidzaIdentity {
     this.ctx.textBaseline="middle";
   }
 
-  setCanvasBgColor () {
-
+  setCanvasBgColor(color) {
+    arg.canvasDom.style.background = color;
   }
 
   addTextComponent(arg) {
@@ -46,7 +50,6 @@ export class NidzaIdentity {
   }
 
   activateUpdater = (e) => {
-
     var data = e.detail;
     if (data) {
       if (this.uRegister.indexOf(data.id) == -1) {
@@ -72,17 +75,15 @@ export class NidzaIdentity {
 
     var data = e.detail;
     if (data) {
-      // check if exist
       var loc = this.uRegister.indexOf(data.id);
       if (loc == -1) {
-        alert("BAD");
+        console.warn("remove event but not exist", data.id);
       } else {
         this.uRegister.splice(loc, 1);
-        // console.log("Test deactivate", data.id);
         if (this.uRegister.length == 0) {
           clearInterval(this.updater);
           this.updater = null;
-          console.info("There is no regiistred active elements deactivate updater.");
+          console.info("There is no registred active elements -> deactivate updater.");
         }
       }
     }
@@ -106,6 +107,7 @@ export class NidzaIdentity {
     this.elements.forEach(e => {
       e.position.update();
       e.dimension.update();
+      e.rotation.update();
       e.draw();
     });
 

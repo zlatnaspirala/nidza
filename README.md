@@ -61,141 +61,76 @@ testNidza.access.welcomeText.addTextComponent({
 
 import { Nidza } from "../src/nidza";
 
-var testNidza = new Nidza();
+/**
+ * @description Create nidza object.
+ */
+let nidza = new Nidza();
 
 let myFirstNidzaObjectOptions = {
-  id: "welcomeText",
+  id: "RottationProgram",
   size: {
-    width: 250,
-    height: 250
+    width: 300,
+    height: 600
   },
   parentDom: document.getElementById('testHolder')
 };
 
-testNidza.createNidzaIndentity(myFirstNidzaObjectOptions);
+nidza.createNidzaIndentity(myFirstNidzaObjectOptions);
 
 // Make shortcut object
-let myScene = testNidza.access.welcomeText;
-
+let myScene = nidza.access.RottationProgram;
+// Make it global for debug acces from console in chrome.
 window.myScene = myScene;
 
-myScene.addTextComponent({
-  id: "SimpleText",
-  text: "Use simple text labels on canvas surface.",
+/**
+ * @description Top text component
+ */
+let zlatnaspiralaTxt = myScene.addTextComponent({
+  id: "zlatna",
+  text: "Simple rotate 360*",
+  color: "yellow",
   position: {
     x: 50,
-    y: 5
+    y: 10
   },
   dimension: {
-    width: 80,
-    height: 15
-  }
-});
-
-let TitleWithBorder = myScene.addTextComponent({
-  id: "TitleWithBorder",
-  text: "Generate images from code",
-  position: {
-    x: 150,
-    y: 25
-  },
-  dimension: {
-    width: 80,
+    width: 45,
     height: 10
+  },
+  border: {
+    fillColor: "black",
+    strokeColor: "yellow"
   },
   font: {
     fontSize: "20px",
-    fontStyle: "bold",
-    fontName: "serif"
-  }
-});
-
-TitleWithBorder.position.thrust = 0.15
-TitleWithBorder.position.onTargetReached = function () {
-  TitleWithBorder.setAngle(0);
-};
-TitleWithBorder.position.translateX(50);
-TitleWithBorder.setAngle(2);
-
-myScene.getElementById("TitleWithBorder").setBorder();
-
-let TitleBig = myScene.addTextComponent({
-  id: "TitleBig",
-  text: "NidzA",
-  position: {
-    x: 150,
-    y: 45
-  },
-  dimension: {
-    width: 60,
-    height: 20
-  },
-  font: {
-    fontSize: "40px",
-    fontStyle: "italic",
-    fontName: "helvetica"
-  }
-});
-TitleBig.position.translateX(50);
-// Set default border
-TitleBig.setBorder();
-
-let TitleWithAngle = myScene.addTextComponent({
-  id: "TitleWithAngle",
-  text: "Generate images from code",
-  position: {
-    x: 5,
-    y: -50
-  },
-  dimension: {
-    width: 80,
-    height: 10
-  }
-});
-
-TitleWithAngle.position.thrust = 0.15
-TitleWithAngle.position.translateY(50);
-TitleWithAngle.setAngle(90);
-
-let JS = myScene.addTextComponent({
-  id: "JS",
-  text: "js",
-  color: "yellow",
-  position: {
-    x: 85,
-    y: 45
-  },
-  dimension: {
-    width: 18,
-    height: 18
-  },
-  border: {
-    typeOfDraw: 'fill-stroke',
-    isActive: true,
-    fillColor: 'black',
-    strokeColor: 'red',
-    radius: 10
-  },
-  font: {
-    fontSize: "50px",
-    fontStyle: "",
+    fontStyle: "underline",
     fontName: "helvetica"
   }
 });
 
-JS.setBorder();
-JS.setAngle(90);
+// Create one simple oscillator
+let rotationOption = new nidza.Osc(0, 360, 0.5);
 
-let zlatnaspiralaTxt = myScene.addTextComponent({
-  id: "zlatna",
-  text: "@zlatnaspirala",
+rotationOption.onRepeat = function(osc) {
+  dispatchEvent(new CustomEvent("deactivate-updater",
+    { detail: { id: osc.elementIdentity } }));
+}
+
+zlatnaspiralaTxt.rotation.setRotation(rotationOption)
+
+/**
+ * @description Middle text component
+ */
+let zlatnaspiralaTxt2 = myScene.addTextComponent({
+  id: "zlatna2",
+  text: "cik cak",
   color: "yellow",
   position: {
-    x: 40,
-    y: 165
+    x: 50,
+    y: 50
   },
   dimension: {
-    width: 18,
+    width: 45,
     height: 18
   },
   border: {
@@ -209,14 +144,21 @@ let zlatnaspiralaTxt = myScene.addTextComponent({
   }
 });
 
-zlatnaspiralaTxt.position.onTargetReached = function() {
-  zlatnaspiralaTxt.dimension.smoothWidth(70)
+let rotationOption2 = new nidza.Osc(0, 90, 0.5, "oscMax");
+
+rotationOption2.onReachMin = (osc) => {
+
+  zlatnaspiralaTxt2.rotation.clearUpdate();
+  dispatchEvent(new CustomEvent("deactivate-updater",
+    { detail: { id: osc.elementIdentity } }));
 };
-zlatnaspiralaTxt.position.translateY(70);
 
+rotationOption2.onReachMax = (osc) => {
+  console.info("Values reached max targets osc: ", osc)
+};
 
-// Make it global for console access in chrome.
-window.testNidza = testNidza;
+zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
+
 ```
 
 

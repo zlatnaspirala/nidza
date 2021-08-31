@@ -1,10 +1,12 @@
 
 import { NidzaElement } from "./base-component";
-import { drawSimpleText,
+import { Osc,
+         drawSimpleText,
          drawRotatedText,
          drawBorder,
          drawWithBorder,
          drawRotatedBorderText } from "./operations";
+import {Rotator} from "./rotation";
 
 export class NidzaTextComponent extends NidzaElement {
 
@@ -41,6 +43,11 @@ export class NidzaTextComponent extends NidzaElement {
 
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
+    this.draw = drawSimpleText;
+    this.drawRotatedText = drawRotatedText;
+    this.drawRotatedBorderText = drawRotatedBorderText;
+    this.drawBorder = drawBorder;
+    this.drawWithBorder = drawWithBorder;
 
     this.border = {
       typeOfDraw: 'fill-stroke',
@@ -58,12 +65,12 @@ export class NidzaTextComponent extends NidzaElement {
         strokeColor: arg.border.strokeColor || 'red',
         radius: arg.border.radius || 10
       };
+      this.setBorder(this.border);
     }
 
-    this.rotation = {
-      isActive: false,
-      angle: 0
-    }
+    this.rotation = new Rotator();
+    this.rotation.setId(this.id);
+    addEventListener("activate-rotator", this.activateRotator, false);
 
     var newW = 20, newH = 20;
     if (arg.dimension) {
@@ -74,12 +81,6 @@ export class NidzaTextComponent extends NidzaElement {
     this.dimension.setReferent(this.canvasDom);
     this.dimension.elementIdentity = this.id;
     this.dimension.setDimension(newW, newH);
-
-    this.draw = drawSimpleText;
-    this.drawRotatedText = drawRotatedText;
-    this.drawRotatedBorderText = drawRotatedBorderText;
-    this.drawBorder = drawBorder;
-    this.drawWithBorder = drawWithBorder;
 
   }
 
@@ -100,21 +101,26 @@ export class NidzaTextComponent extends NidzaElement {
     }
 
     this.border.isActive = true;
-    if (this.rotation.isActive) {
+    if (this.rotation && this.rotation.isActive) {
       this.draw = this.drawRotatedBorderText;
     } else {
       this.draw = this.drawWithBorder;
     }
   }
 
-  setAngle(angle) {
-    this.rotation.isActive = true;
-    this.rotation.angle = angle;
-    if (this.border.isActive) { 
-      this.draw = this.drawRotatedBorderText;
-    } else {
-      this.draw = this.drawRotatedText;
+  // Important - overriding is here
+  // flag rotation.isActive indicate
+  activateRotator = () => {
+
+    if (this.rotation.isActive == false) {
+      this.rotation.isActive = true;
+      if (this.border.isActive) { 
+        this.draw = this.drawRotatedBorderText;
+      } else {
+        this.draw = this.drawRotatedText;
+      }
     }
+
     dispatchEvent(new CustomEvent("activate-updater", { 
       detail: {
        id: this.elementIdentity,

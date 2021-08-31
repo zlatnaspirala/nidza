@@ -1,7 +1,7 @@
 
 import { Nidza } from "../src/nidza";
 
-var testNidza = new Nidza();
+var nidza = new Nidza();
 
 let myFirstNidzaObjectOptions = {
   id: "welcomeText",
@@ -12,10 +12,10 @@ let myFirstNidzaObjectOptions = {
   parentDom: document.getElementById('testHolder')
 };
 
-testNidza.createNidzaIndentity(myFirstNidzaObjectOptions);
+nidza.createNidzaIndentity(myFirstNidzaObjectOptions);
 
 // Make shortcut object
-let myScene = testNidza.access.welcomeText;
+let myScene = nidza.access.welcomeText;
 
 window.myScene = myScene;
 
@@ -52,10 +52,21 @@ let TitleWithBorder = myScene.addTextComponent({
 
 TitleWithBorder.position.thrust = 0.15
 TitleWithBorder.position.onTargetReached = function () {
-  TitleWithBorder.setAngle(0);
+  // TitleWithBorder.rotation.setAngle(0);
 };
 TitleWithBorder.position.translateX(50);
-TitleWithBorder.setAngle(2);
+
+let rotationOption = new nidza.Osc(0, 90, 0.5);
+rotationOption.regimeType = "oscMin";
+
+rotationOption.onReachMin = function(osc) {
+  console.info("Values reached onReachMin targets osc: ", osc)
+  TitleWithBorder.rotation.clearUpdate();
+  dispatchEvent(new CustomEvent("deactivate-updater",
+    { detail: { id: osc.elementIdentity } }));
+}
+
+TitleWithBorder.rotation.setRotation(rotationOption);
 
 myScene.getElementById("TitleWithBorder").setBorder();
 
@@ -95,7 +106,7 @@ let TitleWithAngle = myScene.addTextComponent({
 
 TitleWithAngle.position.thrust = 0.15
 TitleWithAngle.position.translateY(50);
-TitleWithAngle.setAngle(90);
+TitleWithAngle.rotation.setAngle(90);
 
 let JS = myScene.addTextComponent({
   id: "JS",
@@ -123,15 +134,31 @@ let JS = myScene.addTextComponent({
   }
 });
 
+
+let rotationOptionJS = new nidza.Osc(0, 90, 2);
+rotationOptionJS.regimeType = "oscMin";
+
+rotationOptionJS.onReachMin = function(osc) {
+  console.info("Values reached onrepeat targets osc: ", osc)
+  // if (osc.ciklus > 3) {
+    JS.rotation.clearUpdate();
+    dispatchEvent(new CustomEvent("deactivate-updater",
+      { detail: { id: osc.elementIdentity } }));
+  // }
+
+}
+
+
 JS.setBorder();
-JS.setAngle(90);
+JS.rotation.setRotation(rotationOptionJS);
+JS.rotation.osc.setDelay(0)
 
 let zlatnaspiralaTxt = myScene.addTextComponent({
   id: "zlatna",
   text: "@zlatnaspirala",
   color: "yellow",
   position: {
-    x: 40,
+    x: 50,
     y: 165
   },
   dimension: {
@@ -154,10 +181,17 @@ zlatnaspiralaTxt.position.onTargetReached = function() {
 };
 zlatnaspiralaTxt.position.translateY(70);
 
-let angle = 0;
-setInterval(() => {
-  // myScene.getElementById("JS").setAngle(angle++);
-}, 20)
+let rotationOption2 = new nidza.Osc(0, 90, 0.5);
+rotationOption2.regimeType = "oscMin";
 
+rotationOption2.onReachMin = function(osc) {
+  console.info("Values reached onrepeat targets osc: ", osc)
+  zlatnaspiralaTxt.rotation.clearUpdate();
+  dispatchEvent(new CustomEvent("deactivate-updater",
+    { detail: { id: osc.elementIdentity } }));
+}
 
-window.testNidza = testNidza;
+zlatnaspiralaTxt.rotation.setRotation(rotationOption2)
+zlatnaspiralaTxt.rotation.osc.setDelay(1)
+
+window.nidza = nidza;

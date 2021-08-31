@@ -34,7 +34,7 @@ export class NidzaStarComponent extends NidzaElement {
 
   }
 
-  setAngle(angle) {
+  activateRotator(angle) {
     if (!this.rotation.isActive) {
       this.draw = this.drawRotatedStar;
       this.rotation.isActive = true;

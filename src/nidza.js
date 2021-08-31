@@ -1,10 +1,14 @@
 
 import { NidzaIdentity } from "./lib/identity";
+import { Osc } from "./lib/operations";
 
 export class Nidza {
 
   constructor() {
     this.access = {};
+
+    // Reference
+    this.Osc = Osc;
     console.info("Nidza engine constructed.");
   }
 

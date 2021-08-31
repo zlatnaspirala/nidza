@@ -12,12 +12,13 @@ export class Osc {
 
   constructor(start, finish, step, regimeType) {
 
+    this.elementIdentity = null;
     this.step = 1;
     this.start = 0;
     this.finish = 10;
     this.value = 0;
-    this.delay = 100;
-    this.delayInitial = 100;
+    this.delay = 2;
+    this.delayInitial = 2;
     this.regimeType = "REPEAT";
 
     this.value = start;
@@ -26,6 +27,12 @@ export class Osc {
     this.step = step;
     if ( regimeType ) {this.regimeType = regimeType;}
 
+    this.ciklus = 0;
+
+  }
+
+  resetCiklus() {
+    this.ciklus = 0;
   }
 
   setNewSeqFrameRegimeType( newSeqType ) {
@@ -65,11 +72,14 @@ export class Osc {
         switch ( this.regimeType ) {
 
           case "STOP": {
+            this.ciklus++;
+            this.onStop(this);
             return this.value;
           }
           case "REPEAT": {
+            this.ciklus++;
             this.value = this.start;
-            this.onRepeat();
+            this.onRepeat(this);
             return this.value;
           }
           default:
@@ -86,6 +96,8 @@ export class Osc {
           return this.value;
         } else {
           this.regimeType = "oscMax";
+          if (this.ciklus > 0) this.onReachMin(this);
+          this.ciklus++;
           return this.value;
         }
 
@@ -95,6 +107,7 @@ export class Osc {
           this.value = this.value + this.step;
           return this.value;
         } else {
+          this.onReachMax(this);
           this.regimeType = "oscMin";
           return this.value;
         }
@@ -105,7 +118,18 @@ export class Osc {
     return 0;
   }
 
-  // For overriding
+  onReachMax() {
+    console.info( 'on reach max default log' )
+  }
+
+  onReachMin() {
+    console.info( 'on reach min default log' )
+  }
+
+  onStop() {
+    console.info( 'on stop default log' )
+  }
+
   onRepeat() {
     console.info( 'on repeat default log' )
   };
