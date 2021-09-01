@@ -11,9 +11,9 @@ because can be used for any other project.
  - Draw logo animation
 
 All other aspcet will be optimised.
-It doesn't matter what the code looks like, the length of the code doesn't matter, the only thing that matters is the runtime app flow. To explane my methodology is exampling if overriding update or draw functions. If i dont'n want to use rotation at all
+It doesn't matter what the code looks like, the length of the code doesn't matter, the only thing that matters is the runtime app flow. To explane my methodology for example take a look on overriding update or draw functions. If i dont'n want to use rotation at all
 i don't need function `drawRotatedText` i will override it and use `drawSimpleText`.
-You can look this functions in ./src/lib/operations.js , you will see that it is much simpler. Why to ask something on every draw calls if if not necessary. Thats the point of this project.
+You can look this functions in ./src/lib/operations.js , you will see that `drawSimpleText` is much simpler. Why to ask/do something on every draw calls if if not necessary. Thats the point of this project.
 
 
 ### In the name of proof
