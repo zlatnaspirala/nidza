@@ -17,6 +17,10 @@ export class Dimension {
     this.elementIdentity = null;
   }
 
+  getKey(action) {
+    return action + this.canvasDom.id;
+  }
+
   setSpeed(num_) {
     if (typeof num_ === "number") {
       this.thrust = num_;

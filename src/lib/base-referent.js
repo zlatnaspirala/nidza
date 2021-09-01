@@ -5,6 +5,7 @@
  */
 export function setReferent (canvasDom) {
   this.canvasDom = canvasDom;
+  // this.pIdentity = canvasDom.id;
   this.referentCanvasWidth = () => {
       return this.canvasDom.width;
   };

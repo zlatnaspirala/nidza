@@ -1,5 +1,5 @@
 
-import { Nidza } from "../src/nidza";
+import { Nidza } from "../../index";
 
 /**
  * @description Create nidza object.
@@ -7,7 +7,7 @@ import { Nidza } from "../src/nidza";
 let nidza = new Nidza();
 
 let myFirstNidzaObjectOptions = {
-  id: "RottationProgram",
+  id: "RotationProgram",
   size: {
     width: 300,
     height: 600
@@ -18,7 +18,7 @@ let myFirstNidzaObjectOptions = {
 nidza.createNidzaIndentity(myFirstNidzaObjectOptions);
 
 // Make shortcut object
-let myScene = nidza.access.RottationProgram;
+let myScene = nidza.access.RotationProgram;
 // Make it global for debug acces from console in chrome.
 window.myScene = myScene;
 
@@ -31,7 +31,7 @@ let zlatnaspiralaTxt = myScene.addTextComponent({
   color: "yellow",
   position: {
     x: 50,
-    y: 10
+    y: 15
   },
   dimension: {
     width: 45,
@@ -83,7 +83,7 @@ let zlatnaspiralaTxt2 = myScene.addTextComponent({
   font: {
     fontSize: "20px",
     fontStyle: "",
-    fontName: "helvetica"
+    fontName: ""
   }
 });
 
@@ -100,3 +100,47 @@ rotationOption2.onReachMax = (osc) => {
   console.info("Values reached max targets osc: ", osc)
 };
 zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
+
+/**
+ * @description Middle text component
+ * Rotate to target angle then rotate back.
+ * Use osc.ciklus to determinate who much
+ * how many cycles do you want.
+ */
+ let zlatnaspiralaTxt3 = myScene.addTextComponent({
+  id: "zlatna3",
+  text: "Two cycles",
+  color: "black",
+  position: {
+    x: 50,
+    y: 80
+  },
+  dimension: {
+    width: 45,
+    height: 18
+  },
+  border: {
+    fillColor: "yellow",
+    strokeColor: "black"
+  },
+  font: {
+    fontSize: "20px",
+    fontStyle: "",
+    fontName: ""
+  }
+});
+
+
+let rotationOption3 = new nidza.Osc(0, 90, 1, "oscMax");
+rotationOption3.onReachMin = (osc) => {
+  console.info("Values reached min targets osc: ", osc)
+  if (osc.ciklus == 2) {
+    zlatnaspiralaTxt3.rotation.clearUpdate();
+    dispatchEvent(new CustomEvent("deactivate-updater",
+      { detail: { id: osc.elementIdentity } }));
+  }
+};
+rotationOption3.onReachMax = (osc) => {
+  console.info("Values reached max targets osc: ", osc)
+};
+zlatnaspiralaTxt3.rotation.setRotation(rotationOption3)

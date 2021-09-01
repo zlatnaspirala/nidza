@@ -15,10 +15,15 @@ export class Position {
     this.referentCanvasWidth = () => 250;
     this.referentCanvasHeight = () => 250;
     this.elementIdentity = null;
+    this.pIdentity = null;
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
   }
 
   onDone() {
-    dispatchEvent(new CustomEvent("deactivate-updater", { detail: { id: this.elementIdentity } }));
+    dispatchEvent(new CustomEvent(this.getKey("deactivate-updater"), { detail: { id: this.elementIdentity } }));
   }
 
   setSpeed(num_) {
@@ -26,25 +31,28 @@ export class Position {
       this.thrust = num_;
     } else {
     console.warn(
-      "nidza: warning for method 'Position.setSpeed'. Desciption: args (w, h) must be type of number."
+      "Warning for method 'Position.setSpeed' : args (w, h) must be type of number."
     );
     }
   }
 
   translateX(x) {
-    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"),
+      { detail: { id: this.elementIdentity } }));
     this.IN_MOVE = true;
     this.targetX = x;
   }
 
   translateY(y) {
-    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"),
+      { detail: { id: this.elementIdentity } }));
     this.IN_MOVE = true;
     this.targetY = y;
   }
 
   translate(x_, y_) {
-    dispatchEvent(new CustomEvent("activate-updater", { detail: { id: this.elementIdentity } }));
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"),
+      { detail: { id: this.elementIdentity } }));
     this.IN_MOVE = true;
     this.targetX = x_;
     this.targetY = y_;
@@ -56,7 +64,7 @@ export class Position {
     this.x = x_;
     this.y = y_;
     this.IN_MOVE = false;
-    dispatchEvent(new CustomEvent("activate-updater",
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"),
     { detail: { id: this.elementIdentity, oneDraw: true } }));
   }
 

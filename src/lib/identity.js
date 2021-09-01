@@ -15,11 +15,18 @@ export class NidzaIdentity {
     this.updater = null;
     this.updaterInterval = 1;
     this.uRegister = [];
-    addEventListener('activate-updater', this.activateUpdater);
-    addEventListener('deactivate-updater', this.deactivateUpdater);
+
+    console.info("Construct uniq acess key for nidza instance.");
+
+    addEventListener(this.getKey('activate-updater'), this.activateUpdater);
+    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater);
 
     this.setupGlobalCtx();
 
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
   }
 
   setupGlobalCtx() {

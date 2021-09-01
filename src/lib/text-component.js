@@ -68,9 +68,9 @@ export class NidzaTextComponent extends NidzaElement {
       this.setBorder(this.border);
     }
 
-    this.rotation = new Rotator();
+    this.rotation = new Rotator(this.id, this.canvasDom.id);
     this.rotation.setId(this.id);
-    addEventListener("activate-rotator", this.activateRotator, false);
+    addEventListener(this.getKey("activate-rotator"), this.activateRotator, false);
 
     var newW = 20, newH = 20;
     if (arg.dimension) {
@@ -82,6 +82,10 @@ export class NidzaTextComponent extends NidzaElement {
     this.dimension.elementIdentity = this.id;
     this.dimension.setDimension(newW, newH);
 
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
   }
 
   getFont() {
@@ -121,7 +125,7 @@ export class NidzaTextComponent extends NidzaElement {
       }
     }
 
-    dispatchEvent(new CustomEvent("activate-updater", { 
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"), { 
       detail: {
        id: this.elementIdentity,
        oneDraw: true

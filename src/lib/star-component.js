@@ -25,13 +25,17 @@ export class NidzaStarComponent extends NidzaElement {
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
 
-    this.rotation = new Rotator();
+    this.rotation = new Rotator(this.id, this.canvasDom.id);
     this.rotation.setId(this.id);
-    addEventListener("activate-rotator", this.activateRotator, false);
+    addEventListener(this.getKey("activate-rotator"), this.activateRotator, false);
 
     this.draw = drawStar;
     this.drawStarRotation = drawStarRotation;
 
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
   }
 
   activateRotator = (angle) => {
@@ -42,7 +46,7 @@ export class NidzaStarComponent extends NidzaElement {
 
     this.rotation.angle = angle;
 
-    dispatchEvent(new CustomEvent("activate-updater", {
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"), {
       detail: {
        id: this.elementIdentity,
        oneDraw: true

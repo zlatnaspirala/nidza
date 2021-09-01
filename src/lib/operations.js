@@ -97,7 +97,6 @@ export class Osc {
         } else {
           this.regimeType = "oscMax";
           if (this.ciklus > 0) this.onReachMin(this);
-          this.ciklus++;
           return this.value;
         }
 
@@ -109,6 +108,7 @@ export class Osc {
         } else {
           this.onReachMax(this);
           this.regimeType = "oscMin";
+          this.ciklus++;
           return this.value;
         }
 

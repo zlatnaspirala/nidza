@@ -2,7 +2,6 @@
 
 2d canvas engine - Scene Object oriented engine without classic auto update like calling requestAnimationFrame or timers. There is no events for drawen elements. `Nidza` is exclusively for draws staff. Objective is CPU low price of usage. You can move object or start any animation but on finish there is no any draw calls. This is main objective task to make autoupdater with releasing on target/object reach. Project object is also adding all of kind composition video/webcam/images/text in same time and place.
 
-
 Nidza will be `texture generator` for `matrix-engine` but still this project is indipendent
 because can be used for any other project.
 
@@ -11,6 +10,33 @@ because can be used for any other project.
  - Use it like web site features
  - Draw logo animation
 
+All other aspcet will be optimised.
+It doesn't matter what the code looks like, the length of the code doesn't matter, the only thing that matters is the runtime app flow. To explane my methodology is exampling if overriding update or draw functions. If i dont'n want to use rotation at all
+i don't need function `drawRotatedText` i will override it and use `drawSimpleText`.
+You can look this functions in ./src/lib/operations.js , you will see that it is much simpler. Why to ask something on every draw calls if if not necessary. Thats the point of this project.
+
+
+### In the name of proof
+ - Every example will run without loading time.
+ - Run 100 nidza example applications on same page.
+
+
+### About running Examples
+
+Run examples with url parameter `?u=text-example.js`:
+`http://localhost/nidza/examples/example.html?u=text-example.js`
+
+```js
+import { Utility } from "nidza";
+
+/**
+ * @description Examples loader handler
+ * I use async loading script.
+ */
+Utility.importAsync(Utility.QueryUrl().u, () => {
+  console.info('Application runned.')
+});
+```
 
 ## How it works
 

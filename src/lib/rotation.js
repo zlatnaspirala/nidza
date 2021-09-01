@@ -3,13 +3,19 @@ import { Osc } from "./operations";
 
 export class Rotator {
 
-  constructor() {
+  constructor(eleId, identityId) {
     this.isActive = false;
     this.angle = 0;
     this.osc = null;
     this.elementIdentity = null;
     this.updateOrigin = () => {};
     this.update = () => {};
+    this.elementIdentity = eleId;
+    this.nIndentity = identityId;
+  }
+
+  getKey(action) {
+    return action + this.nIndentity;
   }
 
   clearUpdate() {
@@ -17,7 +23,6 @@ export class Rotator {
   }
 
   setId(id) {
-    this.elementIdentity = id;
     if (this.osc != null) this.osc.elementIdentity = id;
   }
 
@@ -26,16 +31,13 @@ export class Rotator {
     this.clearUpdate();
 
     if (!this.isActive) {
-      dispatchEvent(new CustomEvent("activate-rotator",
+      dispatchEvent(new CustomEvent(this.getKey("activate-rotator"),
         { detail: { id: this.elementIdentity } }));
     }
 
     this.angle = angle;
-    dispatchEvent(new CustomEvent("activate-updater", { 
-      detail: {
-       id: this.elementIdentity,
-       oneDraw: true
-      }
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"), {
+      detail: { id: this.elementIdentity, oneDraw: true }
     }));
   }
 
@@ -54,17 +56,16 @@ export class Rotator {
     this.update = this.updateOsc;
 
     if (!this.isActive) {
-      dispatchEvent(new CustomEvent("activate-rotator",
+      dispatchEvent(new CustomEvent(this.getKey("activate-rotator"),
         { detail: { id: this.elementIdentity } }));
     }
 
-    dispatchEvent(new CustomEvent("activate-updater",
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"),
       { detail: { id: this.elementIdentity } }));
   }
 
   updateOsc() {
     this.angle = this.osc.getValue();
-    // console.log(">>>>>", this.angle);
   }
 
 }
