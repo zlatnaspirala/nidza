@@ -187,6 +187,4 @@ zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
 
 ```
 
-
-
-
+![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza-1.0.5.gif)
