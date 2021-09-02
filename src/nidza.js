@@ -6,14 +6,12 @@ export class Nidza {
 
   constructor() {
     this.access = {};
-
     // Reference
     this.Osc = Osc;
     console.info("Nidza engine constructed.");
   }
 
   createNidzaIndentity(arg) {
-
     let c = document.createElement('canvas');
     let cStyle = "background: linear-gradient(-90deg, black, red);";
     cStyle    += "border:solid red 1px;";
@@ -23,6 +21,7 @@ export class Nidza {
     c.height = arg.size.height;
     var ctx = c.getContext("2d");
 
+    this.canvasDom = c;
     if (arg.parentDom) {
       arg.parentDom.append(c);
     } else {

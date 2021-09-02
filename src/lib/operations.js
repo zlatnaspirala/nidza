@@ -131,7 +131,7 @@ export class Osc {
   }
 
   onRepeat() {
-    console.info( 'on repeat default log' )
+    // console.info('on repeat default log');
   };
 
 }
@@ -260,6 +260,7 @@ export function drawSimpleText() {
 export function drawStar() {
   this.ctx.beginPath();
   this.ctx.save();
+  this.fillStyle = this.color;
   this.ctx.translate(this.position.getX(), this.position.getY());
   this.ctx.moveTo(0, 0 - this.radius);
   for ( let i = 0; i < this.n; i++ ) {
@@ -268,15 +269,16 @@ export function drawStar() {
     this.ctx.rotate(Math.PI / this.n);
     this.ctx.lineTo(0, 0 - this.radius);
   }
-  this.ctx.restore();
   this.ctx.closePath();
   this.ctx.stroke();
   this.ctx.fill();
+  this.ctx.restore();
 }
 
 export function drawStarRotation () {
   this.ctx.beginPath();
   this.ctx.save();
+  this.ctx.fillStyle = this.color;
   this.ctx.translate(0, 0);
   this.ctx.moveTo(0, 0 - this.radius);
   for ( let i = 0; i < this.n; i++ ) {
@@ -285,8 +287,9 @@ export function drawStarRotation () {
     this.ctx.rotate(Math.PI / this.n);
     this.ctx.lineTo(0, 0 - this.radius);
   }
-  this.ctx.restore();
+  
   this.ctx.closePath();
   this.ctx.stroke();
   this.ctx.fill();
+  this.ctx.restore();
 }

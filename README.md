@@ -10,7 +10,8 @@ because can be used for any other project.
  - Use it like web site features
  - Draw logo animation
 
-All other aspcet will be optimised.
+All other aspcet will be optimised. I will use css for canvas background becouse lot of
+features already exist in web (browser) platform.
 It doesn't matter what the code looks like, the length of the code doesn't matter, the only thing that matters is the runtime app flow. To explane my methodology for example take a look on overriding update or draw functions. If i dont'n want to use rotation at all
 i don't need function `drawRotatedText` i will override it and use `drawSimpleText`.
 You can look this functions in ./src/lib/operations.js , you will see that `drawSimpleText` is much simpler. Why to ask/do something on every draw calls if if not necessary. Thats the point of this project.
@@ -187,4 +188,7 @@ zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
 
 ```
 
+## Screenshots
+
+![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/stareffect1.png)
 ![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza-1.0.5.gif)

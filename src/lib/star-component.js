@@ -24,6 +24,7 @@ export class NidzaStarComponent extends NidzaElement {
     this.inset = arg.inset;
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
+    this.color = arg.color;
 
     this.rotation = new Rotator(this.id, this.canvasDom.id);
     this.rotation.setId(this.id);

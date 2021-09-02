@@ -1,6 +1,7 @@
 
 import { NidzaTextComponent } from "./text-component";
 import { NidzaStarComponent } from "./star-component";
+import { isMobile } from "./utility";
 
 export class NidzaIdentity {
 
@@ -23,6 +24,30 @@ export class NidzaIdentity {
 
     this.setupGlobalCtx();
 
+  }
+
+  attachClickEvent(callback) {
+    if (isMobile()) {
+      this.canvasDom.addEventListener("touchstart", callback);
+    } else {
+      this.canvasDom.addEventListener("click", callback);
+    }
+  }
+
+  attachMoveEvent(callback) {
+    if (isMobile()) {
+      this.canvasDom.addEventListener("touchmove", callback);
+    } else {
+      this.canvasDom.addEventListener("mousemove", callback);
+    }
+  }
+
+  onClick() {
+    console.info('default indentity click event call.');
+  }
+
+  setBackground (arg) {
+    this.canvasDom.style.background = arg;
   }
 
   getKey(action) {
