@@ -65,3 +65,22 @@ export function isMobile() {
       return navigator.userAgent.match(toMatchItem);
   });
 }
+
+export let convert = {
+  PER_TO_PIX: function(v) {
+      var o = window.innerWidth / 100;
+      return v * o;
+  },
+  PIX_TO_PER: function(v) {
+      var o = window.innerWidth / 100;
+      return v / o;
+  },
+  PER_TO_PIY: function(v) {
+      var o = window.innerHeight / 100;
+      return v * o;
+  },
+  PIY_TO_PER: function(v) {
+      var o = window.innerHeight / 100;
+      return v / o;
+  }
+};

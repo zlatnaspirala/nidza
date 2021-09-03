@@ -188,7 +188,47 @@ zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
 
 ```
 
+### Use Oscillator -> Osc
+Oscillator is extreme simple program.
+I use Osc function for any operation i want in animation scene for rotation, translation etc.
+
+Explanation for Osc:
+```js
+  // constructor(start, finish, step, regimeType)
+  // regimeType is optimal 
+  // default value for regimeType : REPEAT
+  let colorB = new nidza.Osc(0, 255, 21);
+
+  // no reaction delay
+  colorB.setDelay(0);
+
+  // Usage
+  colorG.getValue()
+
+
+  // colorG.getValue() in regimeType REPEAT
+  // returns 0, 1, 2, 3 ... 255 , 0, 1, 2, 3, ...255 ...
+
+  // colorG.getValue() in regimeType oscMin or oscMax
+  // returns 0, 1, 2, 3 ... 255 , 254, 253, 252 ... 0
+
+  // If you wanna make it slow use `colorB.setDelay( 100 );` 
+  // `getValue()` returns same value for 100 iterarion.
+```
+
+With different combination of Osc i made any animation i want.
+Originally writen in visual-js 
+https://github.com/zlatnaspirala/visualjs/blob/master/project/program_instance/lib/math.js#:~:text=function-,OSCILLATOR,-(min%2C%20max%2C%20step
+
+
 ## Screenshots
 
-![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/stareffect1.png)
+Text example
 ![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza-1.0.5.gif)
+
+Star effect 1
+![star-effect1](https://github.com/zlatnaspirala/nidza/blob/main/non-project/stareffect1.png)
+
+Moving Star effect on click event:
+![star-effect2](https://github.com/zlatnaspirala/nidza/blob/main/non-project/moving-star.gif)
+
