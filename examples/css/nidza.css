@@ -1,0 +1,19 @@
+
+.matrix1 {
+  background: linear-gradient(-45deg, #000000, #25f600, #000000, #0ba506);
+  background-size: 400% 400%;
+  animation: bgAnim 15s ease infinite;
+  height: 100vh;
+}
+
+@keyframes bgAnim {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

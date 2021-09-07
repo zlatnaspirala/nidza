@@ -232,3 +232,6 @@ Star effect 1
 Moving Star effect on click event:
 ![star-effect2](https://github.com/zlatnaspirala/nidza/blob/main/non-project/moving-star.gif)
 
+## Credits
+
+https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect

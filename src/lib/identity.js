@@ -1,6 +1,8 @@
 
 import { NidzaTextComponent } from "./text-component";
 import { NidzaStarComponent } from "./star-component";
+import { NidzaMatrixComponent } from "./matrix-component";
+
 import { isMobile } from "./utility";
 
 export class NidzaIdentity {
@@ -81,6 +83,15 @@ export class NidzaIdentity {
     return starComponent;
   }
 
+  addMatrixComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let starComponent = new NidzaMatrixComponent(arg);
+    starComponent.draw();
+    this.elements.push(starComponent);
+    return starComponent;
+  }
+
   activateUpdater = (e) => {
     var data = e.detail;
     if (data) {
@@ -151,6 +162,11 @@ export class NidzaIdentity {
 
   getElementById(id) {
     return this.elements.filter(element => element.id == id)[0]
+  }
+
+  setupMatrix1 () {
+    this.canvasDom.style.background = "";
+    this.canvasDom.className = "matrix1";
   }
 
 }
