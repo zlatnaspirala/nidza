@@ -45,6 +45,15 @@
     text-align: center;
   }
 
+  .holderExamples {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left:20%;
+    top:0;
+    text-align: center;
+  }
+
   .leftMenu {
     border-right:solid  indianred 1px;
     display:flex;
@@ -58,10 +67,12 @@
   }
 </style>
 
+<link defer href="css/nidza.css" />
+
 <script type="module" src="./examples.js" ></script>
 
-<div class="holder" id="testHolder">
-</div>
+<div class="holderExamples" id="testHolder"></div>
+<div class="loader" id="loader">LOADING</div>
 
 <div class="leftMenu" id="leftMenu">
   <a href="example.html?u=text-example.js">Text</a>
@@ -69,4 +80,6 @@
   <a href="example.html?u=text-rotator-example.js">Text Rotation</a>
   <a href="example.html?u=star-effect-1.js">Star effect</a>
   <a href="example.html?u=star-effect-2.js">Moving Star on click event</a>
+  <a href="example.html?u=matrix-effect-1.js">Matrix effect 1</a>
+  <a href="example.html?u=matrix-effect-2.js">Matrix effect 2</a>
 </div>

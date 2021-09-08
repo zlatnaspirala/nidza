@@ -14,7 +14,7 @@ export class Nidza {
   createNidzaIndentity(arg) {
     let c = document.createElement('canvas');
     let cStyle = "background: linear-gradient(-90deg, black, red);";
-    cStyle    += "border:solid red 1px;";
+    // cStyle    += "border:solid red 1px;";
     c.id = arg.id;
     c.setAttribute("style", cStyle);
     c.width = arg.size.width;

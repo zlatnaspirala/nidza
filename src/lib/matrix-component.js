@@ -19,11 +19,46 @@ export class NidzaMatrixComponent extends NidzaElement {
     this.text = arg.text;
     this.color = arg.color || 'black';
 
-    this.fontSizeInternal = 16;
+    this.centralObjectS = new Osc(0, 360, 1);
+    this.centralObjectS.setDelay(110);
+
+    this.centralObjectE = new Osc(0, 360, 1.2);
+    this.centralObjectE.setDelay(110);
+
+    this.centralObjectRadius = new Osc(0, 22, 1);
+    this.centralObjectRadius.regimeType = "oscMin";
+    this.centralObjectRadius.setDelay(330);
+
+    this.centralObjectRadiusLocal = new Osc(10, 15, 1);
+    this.centralObjectRadiusLocal.regimeType = "oscMin";
+    this.centralObjectRadiusLocal.setDelay(22);
+
+    this.centralObjectLineW = new Osc(1, 44, 1);
+    this.centralObjectLineW.regimeType = "oscMin";
+    this.centralObjectLineW.setDelay(11);
+
+    this.objectLineW = new Osc(2, 4, 1);
+    this.objectLineW.setDelay(22);
+
+    this.objectGlobalAlpha = new Osc(0, 1, 0.01);
+    this.objectGlobalAlpha.regimeType = "oscMin";
+    this.objectGlobalAlpha.setDelay(11);
+
+    this.colorR = new Osc(0, 11, 1);
+    this.colorR.regimeType = "oscMin";
+    this.colorG = new Osc(77, 222, 1);
+    this.colorG.regimeType = "oscMin";
+
+    this.colorB = new Osc(0, 11, 1);
+    this.colorB.regimeType = "oscMin";
+    this.colorR.setDelay(0);
+    this.colorB.setDelay(0);
+    this.colorG.setDelay(0);
+
+    this.fontSizeInternal = 28;
     this.columns = Math.floor( this.dimension.getWidth() / 2 );
-    // this.columns = 5;
     this.drops = [];
-    for ( var i = 0; i < this.columns; i++ ) {
+    for ( var i = 0; i < this.columns / 1.77; i++ ) {
       this.drops.push( 0 );
     }
 
@@ -88,6 +123,10 @@ export class NidzaMatrixComponent extends NidzaElement {
 
   }
 
+  getColor () {
+    return "rgb(" + this.colorR.getValue() + ", " + this.colorG.getValue() + ", " + this.colorB.getValue() + ")";
+  }
+
   getKey( action ) {
     return action + this.canvasDom.id;
   }
@@ -141,49 +180,30 @@ export class NidzaMatrixComponent extends NidzaElement {
   drawSimpleMatrix() {
     this.ctx.save();
     if ( this.font.isActive ) this.ctx.font = this.getFont();
-    this.ctx.fillStyle = this.color;
+    this.ctx.fillStyle = this.getColor();
     // this.ctx.fillRect(0, 0, this.canvasDom.width, this.canvasDom.height);
     this.ctx.fontSize = "700 " + this.fontSizeInternal + "px";
-    this.ctx.fillStyle = "#00cc33";
+    // this.ctx.fillStyle = "#00cc33";
     for ( var i = 0; i < this.columns; i++ ) {
       var index = Math.floor( Math.random() * this.text.length );
       var x = i * this.fontSizeInternal;
       var y = this.drops[i] * this.fontSizeInternal;
 
-      this.ctx.fillText( this.text[index], x, y );
-
-      this.ctx.fillStyle = "#00cc33";
-
       this.ctx.shadowBlur = 122;
-      this.ctx.shadowColor = 'orange';
       this.ctx.fillText( this.text[index], x, y - 35, this.dimension.getWidth() * 10 );
 
       this.ctx.shadowBlur = 22;
-      this.ctx.shadowColor = 'gray';
+      this.ctx.shadowColor = 'lime';
       this.ctx.fillText( this.text[index], x, y - 15, this.dimension.getWidth() * 10 );
-
-      this.ctx.shadowBlur = 2;
-      this.ctx.shadowColor = 'lime';
-      this.ctx.fillText( this.text[index], x, y, this.dimension.getWidth() * 10 );
-
-      this.ctx.shadowBlur = 5;
-      this.ctx.shadowColor = 'lime';
       this.ctx.fillText( this.text[index], x, y + 10, this.dimension.getWidth() );
-
       this.ctx.shadowBlur = 15;
-      this.ctx.shadowColor = 'lime';
       this.ctx.fillText( this.text[index], x, y + 30, this.dimension.getWidth() );
 
-      this.ctx.fillStyle = "black";
-
-      this.ctx.shadowBlur = 125;
-      this.ctx.shadowColor = 'lime';
-      this.ctx.fillText( this.text[index], x, y + 50, this.dimension.getWidth() );
-
+      this.ctx.fillStyle = this.getColor();
 
       this.ctx.font = "bold " + getRandomIntFromTo( 9, 30 ) + "px " + this.font.fontName;
 
-      this.ctx.strokeStyle = "lime";
+      this.ctx.strokeStyle = this.getColor();
       this.ctx.shadowBlur = 25;
       this.ctx.shadowColor = 'black';
       this.ctx.fillText( this.text[index], y, x, this.dimension.getWidth() );
@@ -192,12 +212,41 @@ export class NidzaMatrixComponent extends NidzaElement {
 
 
       this.ctx.beginPath();
-      this.ctx.arc( x, y, getRandomArbitrary( 1, 50 ), 0, getRandomArbitrary( 0, 2 ) * Math.PI );
+      this.ctx.arc( x, y, getRandomArbitrary( 1, 50 ), 0, getRandomArbitrary( 1, 2 ) * Math.PI );
       this.ctx.stroke();
 
+      this.ctx.shadowBlur = 1;
+      
+      this.ctx.globalAlpha = this.objectGlobalAlpha.getValue();
       this.ctx.beginPath();
-      this.ctx.arc( x, y, getRandomArbitrary( 5, 30 ), 0, 2 * Math.PI );
+      this.ctx.arc(x, y,
+        this.centralObjectRadiusLocal.getValue(), this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180);
+      this.ctx.arc(x, y,
+      this.centralObjectRadiusLocal.getValue() , this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180, true);
+      this.ctx.closePath();
+      this.ctx.lineWidth = this.centralObjectLineW.getValue();
+      this.ctx.stroke();
+      this.ctx.fillStyle = this.getColor()
       this.ctx.fill();
+
+
+      this.ctx.shadowBlur = 0;
+      this.ctx.globalAlpha = 1;
+
+      this.ctx.fillStyle = this.getColor()
+
+      this.ctx.beginPath();
+      this.ctx.arc(this.position.getX(), this.position.getY(),
+        this.centralObjectRadius.getValue(), this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180);
+      this.ctx.arc(this.position.getX(), this.position.getY(), 
+      this.centralObjectRadius.getValue() , this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180, true);
+      this.ctx.closePath();
+      this.ctx.lineWidth = this.centralObjectLineW.getValue();
+      this.ctx.stroke();
+      this.ctx.fillStyle = this.getColor()
+      this.ctx.fill();
+
+      this.ctx.lineWidth = this.objectLineW.getValue();;
 
       if ( y >= this.canvasDom.height && Math.random() > 0.99 ) {
         this.drops[i] = 0;

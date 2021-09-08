@@ -122,11 +122,11 @@ export class Osc {
   }
 
   onReachMax() {
-    console.info( 'on reach max default log' )
+    // console.info( 'on reach max default log' )
   }
 
   onReachMin() {
-    console.info( 'on reach min default log' )
+    // console.info( 'on reach min default log' )
   }
 
   onStop() {

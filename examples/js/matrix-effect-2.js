@@ -1,22 +1,21 @@
 
 import { Nidza, Utility } from "../../index";
 
-let loader;
+let loader = document.getElementById("loader");
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function (e) {
     // navigator.serviceWorker.register('worker.js');
-    loader = document.getElementById("loader");
+    createMyStars(50,50);
     loader.innerText = 'NIDZA READY';
     setTimeout(function() {
-      createMyStars(50,50)
-
       loader.style.display = 'none';
     },
     200);
   });
 }
 
+ 
 var nidza = new Nidza();
 
 let myStar = {
@@ -62,7 +61,7 @@ function createMyStars(x, y) {
  
     let myStarElement = starEffect.addMatrixComponent({
       id: "star",
-      text: "xy?><}{[]",
+      text: "NidzA",
       color:  "rgb("+ colorR.getValue() +"," + colorG.getValue() + "," + colorB.getValue() + ")",
       position: {
         x: x,
