@@ -21,8 +21,8 @@ export class NidzaIdentity {
 
     console.info("Construct uniq acess key for nidza instance.");
 
-    addEventListener(this.getKey('activate-updater'), this.activateUpdater);
-    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater);
+    addEventListener(this.getKey('activate-updater'), this.activateUpdater, {passive: true});
+    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater, {passive: true});
 
     this.setupGlobalCtx();
 
@@ -30,17 +30,17 @@ export class NidzaIdentity {
 
   attachClickEvent(callback) {
     if (isMobile()) {
-      this.canvasDom.addEventListener("touchstart", callback);
+      this.canvasDom.addEventListener("touchstart", callback, {passive: true});
     } else {
-      this.canvasDom.addEventListener("click", callback);
+      this.canvasDom.addEventListener("click", callback, {passive: true});
     }
   }
 
   attachMoveEvent(callback) {
     if (isMobile()) {
-      this.canvasDom.addEventListener("touchmove", callback);
+      this.canvasDom.addEventListener("touchmove", callback, {passive: true});
     } else {
-      this.canvasDom.addEventListener("mousemove", callback);
+      this.canvasDom.addEventListener("mousemove", callback, {passive: true});
     }
   }
 

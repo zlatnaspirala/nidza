@@ -50,7 +50,7 @@ function createMyStars(x, y) {
  
     let myStarElement = starEffect.addMatrixComponent({
       id: "star",
-      text: "javascript wild",
+      text: "NidzA",
       color:  "rgb("+ colorR.getValue() +"," + colorG.getValue() + "," + colorB.getValue() + ")",
       position: {
         x: x,
@@ -69,7 +69,7 @@ function createMyStars(x, y) {
     }));
 
     starEffect.setupMatrix1()
-
+    starEffect.clearOnUpdate = false
     // let rotationOption = new nidza.Osc(0, 5, 1);
     // myStarElement.rotation.setRotation(rotationOption);
 

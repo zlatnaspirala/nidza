@@ -1,3 +1,6 @@
+
+import { getRandomArbitrary, getRandomIntFromTo} from "./utility";
+
 /**
  * @description Diffrent variant of math and
  * draws calculation data.
@@ -340,15 +343,24 @@ export function drawSimpleMatrix() {
       this.ctx.shadowColor = 'lime';
       this.ctx.fillText(this.text[index], x , y + 50, this.dimension.getWidth()  );
 
+      
+      this.ctx.font = "bold " + getRandomIntFromTo(9, 30) + "px " + this.font.fontName;
+
       this.ctx.strokeStyle  = "lime";
       this.ctx.shadowBlur = 25;
-      this.ctx.shadowColor = 'red';
+      this.ctx.shadowColor = 'black';
       this.ctx.fillText(this.text[index], y , x , this.dimension.getWidth()  );
       this.ctx.strokeText(this.text[index], y + 5 , x + 5 , this.dimension.getWidth()  );
+      this.ctx.strokeText(this.text[index], y + 25 , x + 25 , this.dimension.getWidth()  );
+
 
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 50, 0, 2 * Math.PI);
+      this.ctx.arc(x, y,  getRandomArbitrary(1,50), 0, getRandomArbitrary(0,2) * Math.PI);
       this.ctx.stroke();
+
+      this.ctx.beginPath();
+      this.ctx.arc(x, y,  getRandomArbitrary(5,30), 0, 2 * Math.PI);
+      this.ctx.fill();
 
       if(y >= this.canvasDom.height && Math.random() > 0.99){
           this.drops[i] = 0;

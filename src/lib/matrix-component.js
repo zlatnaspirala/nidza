@@ -22,6 +22,7 @@ export class NidzaMatrixComponent extends NidzaElement {
 
     this.fontSizeInternal = 16;
     this.columns = Math.floor(this.dimension.getWidth() / 2);
+    // this.columns = 5;
     this.drops = [];
     for(var i=0; i < this.columns; i++){
       this.drops.push(0);
