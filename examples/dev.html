@@ -12,11 +12,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#000000" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimal-ui" />
-    <link rel="preload"  type="image/png" sizes="96x96" href="imgs/icons/favicon-96x96.png" />
+    <link rel="icon"  type="image/png" sizes="96x96" href="imgs/icons/favicon-96x96.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="imgs/icons/android-icon.png" />
     <link rel="icon" href="imgs/icons/favicon.ico" type="image/x-icon" />
     <meta name="msapplication-TileImage" content="imgs/icons/ms-icon.png" />
-    <link defer rel="preload" href="css/nidza.css" />
+    <link defer href="css/nidza.css" />
     <script type="module" src="./js/matrix-effect-1.js" ></script>
   </head>
 
@@ -46,6 +46,9 @@
     height: 100%;
     left:0;
     top:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     background: gray;
   }

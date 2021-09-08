@@ -1,6 +1,12 @@
 
 import { Nidza, Utility } from "../../index";
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function (e) {
+    navigator.serviceWorker.register('worker.js');
+  });
+}
+
 var nidza = new Nidza();
 
 let myStar = {
@@ -14,6 +20,7 @@ let myStar = {
 
 let starEffect = nidza.createNidzaIndentity(myStar);
 
+/*
 starEffect.attachClickEvent((e)=> {
   console.log("Click on indentity.", e);
 
@@ -25,7 +32,7 @@ starEffect.attachClickEvent((e)=> {
   // createMyStars(x,y);
 
 
-});
+});*/
 
 starEffect.attachMoveEvent((e)=> {
   // console.log("Move on indentity.", e.clientX);
