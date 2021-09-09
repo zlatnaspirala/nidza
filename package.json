@@ -4,6 +4,14 @@
   "description": "New Matix component .Option for attaching click/move for (mobile and desktop) event. Make uniq custom events names, preparing for multi nidza instancing. canvas2d engine explicit only for generating textures , animations, images (on web page), animation , visual effect etc. Objective is low CPU usage price.",
   "main": "index.js",
   "scripts": {
+    "build.text.example": "browserify examples/js/text-example.js -p esmify > examples/builds/text-example.js",
+    "build.text.rotator.example": "browserify examples/js/text-rotator-example.js -p esmify > examples/builds/text-rotator-example.js",
+    "build.star.1.example": "browserify examples/js/star-effect-1.js -p esmify > examples/builds/star-effect-1.js",
+    "build.star.2.example": "browserify examples/js/star-effect-2.js -p esmify > examples/builds/star-effect-2.js",
+    "build.star.example": "browserify examples/js/star-example.js -p esmify > examples/builds/star-example.js",
+    "build.matrix.effect.1": "browserify examples/js/matrix-effect-1.js -p esmify > examples/builds/matrix-effect-1.js",
+    "build.matrix.effect.2": "browserify examples/js/matrix-effect-2.js -p esmify > examples/builds/matrix-effect-2.js",
+    "build.all": "npm run build.text.example | npm run build.text.rotator.example | npm run build.star.1.example | npm run build.star.2.example | npm run build.star.example | npm run build.matrix.effect.1 | npm run build.matrix.effect.2",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
