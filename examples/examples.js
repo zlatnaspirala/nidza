@@ -6,6 +6,6 @@ import { Utility } from "nidza";
  * I use async loading script.
  */
 
-Utility.importAsync("js/" + Utility.QueryUrl().u, () => {
+Utility.importAsync("builds/" + Utility.QueryUrl().u, () => {
   console.info('Application runned.')
 });

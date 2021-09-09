@@ -7,7 +7,7 @@ var _nidza = require("nidza");
  * @description Examples loader handler
  * I use async loading script.
  */
-_nidza.Utility.importAsync("js/" + _nidza.Utility.QueryUrl().u, () => {
+_nidza.Utility.importAsync("builds/" + _nidza.Utility.QueryUrl().u, () => {
   console.info('Application runned.');
 });
 
