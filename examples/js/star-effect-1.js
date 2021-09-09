@@ -1,5 +1,5 @@
 
-import { Nidza } from "../../src/nidza";
+import { Nidza, Utility } from "nidza";
 
 var nidza = new Nidza();
 

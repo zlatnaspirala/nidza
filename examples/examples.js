@@ -1,5 +1,5 @@
 
-import { Utility } from "../index";
+import { Utility } from "nidza";
 
 /**
  * @description Examples loader handler

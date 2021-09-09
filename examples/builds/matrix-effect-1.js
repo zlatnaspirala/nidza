@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-var _index = require("../../index");
+var _nidza = require("nidza");
 
 let loader;
 
@@ -17,7 +17,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-var nidza = new _index.Nidza();
+var nidza = new _nidza.Nidza();
 let myStar = {
   id: "myStar",
   size: {
@@ -77,7 +77,7 @@ function createMyStars(x, y) {
   // myStarElement.rotation.setRotation(rotationOption);
 }
 
-},{"../../index":2}],2:[function(require,module,exports){
+},{"nidza":2}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101,7 +101,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-},{"./src/lib/utility":13,"./src/nidza":14}],3:[function(require,module,exports){
+},{"./src/lib/utility":12,"./src/nidza":13}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -125,7 +125,7 @@ class NidzaElement {
 
 exports.NidzaElement = NidzaElement;
 
-},{"./dimension":5,"./position":9}],4:[function(require,module,exports){
+},{"./dimension":5,"./position":8}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -292,8 +292,6 @@ var _textComponent = require("./text-component");
 
 var _starComponent = require("./star-component");
 
-var _matrixComponent = require("./matrix-component");
-
 var _utility = require("./utility");
 
 class NidzaIdentity {
@@ -307,36 +305,24 @@ class NidzaIdentity {
     this.updaterInterval = 1;
     this.uRegister = [];
     console.info("Construct uniq acess key for nidza instance.");
-    addEventListener(this.getKey('activate-updater'), this.activateUpdater, {
-      passive: true
-    });
-    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater, {
-      passive: true
-    });
+    addEventListener(this.getKey('activate-updater'), this.activateUpdater);
+    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater);
     this.setupGlobalCtx();
   }
 
   attachClickEvent(callback) {
     if ((0, _utility.isMobile)()) {
-      this.canvasDom.addEventListener("touchstart", callback, {
-        passive: true
-      });
+      this.canvasDom.addEventListener("touchstart", callback);
     } else {
-      this.canvasDom.addEventListener("click", callback, {
-        passive: true
-      });
+      this.canvasDom.addEventListener("click", callback);
     }
   }
 
   attachMoveEvent(callback) {
     if ((0, _utility.isMobile)()) {
-      this.canvasDom.addEventListener("touchmove", callback, {
-        passive: true
-      });
+      this.canvasDom.addEventListener("touchmove", callback);
     } else {
-      this.canvasDom.addEventListener("mousemove", callback, {
-        passive: true
-      });
+      this.canvasDom.addEventListener("mousemove", callback);
     }
   }
 
@@ -374,15 +360,6 @@ class NidzaIdentity {
     arg.ctx = this.ctx;
     arg.canvasDom = this.canvasDom;
     let starComponent = new _starComponent.NidzaStarComponent(arg);
-    starComponent.draw();
-    this.elements.push(starComponent);
-    return starComponent;
-  }
-
-  addMatrixComponent(arg) {
-    arg.ctx = this.ctx;
-    arg.canvasDom = this.canvasDom;
-    let starComponent = new _matrixComponent.NidzaMatrixComponent(arg);
     starComponent.draw();
     this.elements.push(starComponent);
     return starComponent;
@@ -458,287 +435,11 @@ class NidzaIdentity {
     return this.elements.filter(element => element.id == id)[0];
   }
 
-  setupMatrix1() {
-    this.canvasDom.style.background = "";
-    this.canvasDom.className = "matrix1";
-  }
-
 }
 
 exports.NidzaIdentity = NidzaIdentity;
 
-},{"./matrix-component":7,"./star-component":11,"./text-component":12,"./utility":13}],7:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.NidzaMatrixComponent = void 0;
-
-var _baseComponent = require("./base-component");
-
-var _operations = require("./operations");
-
-var _utility = require("./utility");
-
-var _rotation = require("./rotation");
-
-class NidzaMatrixComponent extends _baseComponent.NidzaElement {
-  constructor(arg) {
-    const eArg = {
-      position: arg.position,
-      id: arg.id,
-      canvasDom: arg.canvasDom
-    };
-    super(eArg);
-    this.id = arg.id;
-    this.text = arg.text;
-    this.color = arg.color || 'black';
-    this.centralObjectS = new _operations.Osc(0, 360, 1);
-    this.centralObjectS.setDelay(110);
-    this.centralObjectE = new _operations.Osc(0, 360, 1.2);
-    this.centralObjectE.setDelay(110);
-    this.centralObjectRadius = new _operations.Osc(0, 22, 1);
-    this.centralObjectRadius.regimeType = "oscMin";
-    this.centralObjectRadius.setDelay(330);
-    this.centralObjectRadiusLocal = new _operations.Osc(10, 15, 1);
-    this.centralObjectRadiusLocal.regimeType = "oscMin";
-    this.centralObjectRadiusLocal.setDelay(22);
-    this.centralObjectLineW = new _operations.Osc(1, 44, 1);
-    this.centralObjectLineW.regimeType = "oscMin";
-    this.centralObjectLineW.setDelay(11);
-    this.objectLineW = new _operations.Osc(2, 4, 1);
-    this.objectLineW.setDelay(22);
-    this.objectGlobalAlpha = new _operations.Osc(0, 1, 0.01);
-    this.objectGlobalAlpha.regimeType = "oscMin";
-    this.objectGlobalAlpha.setDelay(11);
-    this.colorR = new _operations.Osc(0, 11, 1);
-    this.colorR.regimeType = "oscMin";
-    this.colorG = new _operations.Osc(77, 222, 1);
-    this.colorG.regimeType = "oscMin";
-    this.colorB = new _operations.Osc(0, 11, 1);
-    this.colorB.regimeType = "oscMin";
-    this.colorR.setDelay(0);
-    this.colorB.setDelay(0);
-    this.colorG.setDelay(0);
-    this.fontSizeInternal = 28;
-    this.columns = Math.floor(this.dimension.getWidth() / 2);
-    this.drops = [];
-
-    for (var i = 0; i < this.columns / 1.77; i++) {
-      this.drops.push(0);
-    } // Must be optimized with new override draws who setup font
-    // for now i use flag `isActive`.
-
-
-    this.font = {
-      isActive: false,
-      fontSize: "30px",
-      fontStyle: "bold",
-      fontName: "serif"
-    };
-
-    if (arg.font) {
-      this.font = {
-        isActive: true,
-        fontSize: arg.font.fontSize,
-        fontStyle: arg.font.fontStyle,
-        fontName: arg.font.fontName
-      };
-    }
-
-    this.ctx = arg.ctx;
-    this.canvasDom = arg.canvasDom;
-    this.draw = this.drawSimpleMatrix;
-    this.drawRotatedText = this.drawRotatedMatrix; // this.drawRotatedBorderText = drawRotatedBorderText;
-    // this.drawBorder = drawBorder;
-    // this.drawWithBorder = drawWithBorder;
-
-    this.border = {
-      typeOfDraw: 'fill-stroke',
-      isActive: true,
-      fillColor: 'gold',
-      strokeColor: 'red',
-      radius: 10
-    };
-
-    if (arg.border) {
-      this.border = {
-        typeOfDraw: arg.border.typeOfDraw || 'fill-stroke',
-        isActive: true,
-        fillColor: arg.border.fillColor || 'gold',
-        strokeColor: arg.border.strokeColor || 'red',
-        radius: arg.border.radius || 10
-      };
-      this.setBorder(this.border);
-    }
-
-    this.rotation = new _rotation.Rotator(this.id, this.canvasDom.id);
-    this.rotation.setId(this.id);
-    addEventListener(this.getKey("activate-rotator"), this.activateRotator, false);
-    var newW = 20,
-        newH = 20;
-
-    if (arg.dimension) {
-      newW = arg.dimension.width || 20;
-      newH = arg.dimension.height || 20;
-    }
-
-    this.dimension.setReferent(this.canvasDom);
-    this.dimension.elementIdentity = this.id;
-    this.dimension.setDimension(newW, newH);
-  }
-
-  getColor() {
-    return "rgb(" + this.colorR.getValue() + ", " + this.colorG.getValue() + ", " + this.colorB.getValue() + ")";
-  }
-
-  getKey(action) {
-    return action + this.canvasDom.id;
-  }
-
-  getFont() {
-    return this.font.fontStyle + " " + this.font.fontSize + " " + this.font.fontName;
-  }
-
-  setBorder(arg) {
-    if (arg) {
-      this.border = {
-        typeOfDraw: arg.typeOfDraw || 'fill-stroke',
-        isActive: true,
-        fillColor: arg.fillColor || 'gold',
-        strokeColor: arg.strokeColor || 'red',
-        radius: arg.radius || 10
-      };
-    }
-
-    this.border.isActive = true;
-
-    if (this.rotation && this.rotation.isActive) {// this.draw = this.drawRotatedBorderText;
-    } else {// this.draw = this.drawWithBorder;
-    }
-  } // Important - overriding is here
-  // flag rotation.isActive indicate
-
-
-  activateRotator = () => {
-    if (this.rotation.isActive == false) {
-      this.rotation.isActive = true;
-      this.draw = this.drawRotatedText;
-    }
-
-    dispatchEvent(new CustomEvent(this.getKey("activate-updater"), {
-      detail: {
-        id: this.elementIdentity // oneDraw: true
-
-      }
-    }));
-  };
-  /**
-   * @description Draw Matrix effect component:
-   *  - Simple
-   */
-
-  drawSimpleMatrix() {
-    this.ctx.save();
-    if (this.font.isActive) this.ctx.font = this.getFont();
-    this.ctx.fillStyle = this.getColor(); // this.ctx.fillRect(0, 0, this.canvasDom.width, this.canvasDom.height);
-
-    this.ctx.fontSize = "700 " + this.fontSizeInternal + "px"; // this.ctx.fillStyle = "#00cc33";
-
-    for (var i = 0; i < this.columns; i++) {
-      var index = Math.floor(Math.random() * this.text.length);
-      var x = i * this.fontSizeInternal;
-      var y = this.drops[i] * this.fontSizeInternal;
-      this.ctx.shadowBlur = 122;
-      this.ctx.fillText(this.text[index], x, y - 35, this.dimension.getWidth() * 10);
-      this.ctx.shadowBlur = 22;
-      this.ctx.shadowColor = 'lime';
-      this.ctx.fillText(this.text[index], x, y - 15, this.dimension.getWidth() * 10);
-      this.ctx.fillText(this.text[index], x, y + 10, this.dimension.getWidth());
-      this.ctx.shadowBlur = 15;
-      this.ctx.fillText(this.text[index], x, y + 30, this.dimension.getWidth());
-      this.ctx.fillStyle = this.getColor();
-      this.ctx.font = "bold " + (0, _utility.getRandomIntFromTo)(9, 30) + "px " + this.font.fontName;
-      this.ctx.strokeStyle = this.getColor();
-      this.ctx.shadowBlur = 25;
-      this.ctx.shadowColor = 'black';
-      this.ctx.fillText(this.text[index], y, x, this.dimension.getWidth());
-      this.ctx.strokeText(this.text[index], y + 5, x + 5, this.dimension.getWidth());
-      this.ctx.strokeText(this.text[index], y + 25, x + 25, this.dimension.getWidth());
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, (0, _utility.getRandomArbitrary)(1, 50), 0, (0, _utility.getRandomArbitrary)(1, 2) * Math.PI);
-      this.ctx.stroke();
-      this.ctx.shadowBlur = 1;
-      this.ctx.globalAlpha = this.objectGlobalAlpha.getValue();
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, this.centralObjectRadiusLocal.getValue(), this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180);
-      this.ctx.arc(x, y, this.centralObjectRadiusLocal.getValue(), this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180, true);
-      this.ctx.closePath();
-      this.ctx.lineWidth = this.centralObjectLineW.getValue();
-      this.ctx.stroke();
-      this.ctx.fillStyle = this.getColor();
-      this.ctx.fill();
-      this.ctx.shadowBlur = 0;
-      this.ctx.globalAlpha = 1;
-      this.ctx.fillStyle = this.getColor();
-      this.ctx.beginPath();
-      this.ctx.arc(this.position.getX(), this.position.getY(), this.centralObjectRadius.getValue(), this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180);
-      this.ctx.arc(this.position.getX(), this.position.getY(), this.centralObjectRadius.getValue(), this.centralObjectS.getValue() * Math.PI / 180, this.centralObjectE.getValue() * Math.PI / 180, true);
-      this.ctx.closePath();
-      this.ctx.lineWidth = this.centralObjectLineW.getValue();
-      this.ctx.stroke();
-      this.ctx.fillStyle = this.getColor();
-      this.ctx.fill();
-      this.ctx.lineWidth = this.objectLineW.getValue();
-      ;
-
-      if (y >= this.canvasDom.height && Math.random() > 0.99) {
-        this.drops[i] = 0;
-      }
-
-      this.drops[i]++;
-    } // this.ctx.fillText(this.text, this.position.getX(), this.position.getY(), this.dimension.getWidth(), this.dimension.getHeight());
-
-
-    this.ctx.restore();
-  }
-
-  drawRotatedMatrix() {
-    this.ctx.save();
-    this.ctx.translate(this.position.getX(), this.position.getY());
-    this.ctx.rotate(toRad(this.rotation.angle));
-    if (this.font.isActive) this.ctx.font = this.getFont(); // this.ctx.fillRect(0, 0, this.canvasDom.width, this.canvasDom.height);
-
-    this.ctx.fontSize = "700 " + this.fontSizeInternal + "px";
-    this.ctx.fillStyle = "#00cc33";
-
-    for (var i = 0; i < this.columns; i++) {
-      var index = Math.floor(Math.random() * this.text.length);
-      var x = i * this.fontSizeInternal;
-      var y = this.drops[i] * this.fontSizeInternal;
-      this.ctx.shadowBlur = 15;
-      this.ctx.shadowColor = '#fff';
-      this.ctx.fillText(this.text[index], x, y, this.dimension.getWidth() * 10);
-      this.ctx.shadowBlur = 15;
-      this.ctx.shadowColor = 'lime';
-      this.ctx.fillText(this.text[index], x + 2, y + 2, this.dimension.getWidth() * 10);
-
-      if (y >= this.canvasDom.height && Math.random() > 0.99) {
-        this.drops[i] = 0;
-      }
-
-      this.drops[i]++;
-    }
-
-    this.ctx.restore();
-  }
-
-}
-
-exports.NidzaMatrixComponent = NidzaMatrixComponent;
-
-},{"./base-component":3,"./operations":8,"./rotation":10,"./utility":13}],8:[function(require,module,exports){
+},{"./star-component":10,"./text-component":11,"./utility":12}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -753,8 +454,6 @@ exports.drawSimpleText = drawSimpleText;
 exports.drawStar = drawStar;
 exports.drawStarRotation = drawStarRotation;
 exports.Osc = void 0;
-
-var _utility = require("./utility");
 
 /**
  * @description Diffrent variant of math and
@@ -872,10 +571,12 @@ class Osc {
     return 0;
   }
 
-  onReachMax() {// console.info( 'on reach max default log' )
+  onReachMax() {
+    console.info('on reach max default log');
   }
 
-  onReachMin() {// console.info( 'on reach min default log' )
+  onReachMin() {
+    console.info('on reach min default log');
   }
 
   onStop() {
@@ -1033,7 +734,7 @@ function drawStarRotation() {
   this.ctx.restore();
 }
 
-},{"./utility":13}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1166,7 +867,7 @@ class Position {
 
 exports.Position = Position;
 
-},{"./base-referent":4}],10:[function(require,module,exports){
+},{"./base-referent":4}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1259,7 +960,7 @@ class Rotator {
 
 exports.Rotator = Rotator;
 
-},{"./operations":8}],11:[function(require,module,exports){
+},{"./operations":7}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1326,7 +1027,7 @@ class NidzaStarComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaStarComponent = NidzaStarComponent;
 
-},{"./base-component":3,"./operations":8,"./rotation":10}],12:[function(require,module,exports){
+},{"./base-component":3,"./operations":7,"./rotation":9}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1463,7 +1164,7 @@ class NidzaTextComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaTextComponent = NidzaTextComponent;
 
-},{"./base-component":3,"./operations":8,"./rotation":10}],13:[function(require,module,exports){
+},{"./base-component":3,"./operations":7,"./rotation":9}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1472,8 +1173,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.importAsync = importAsync;
 exports.loadAsync = loadAsync;
 exports.isMobile = isMobile;
-exports.getRandomIntFromTo = getRandomIntFromTo;
-exports.getRandomArbitrary = getRandomArbitrary;
 exports.convert = exports.QueryUrl = void 0;
 
 function importAsync(src, callback) {
@@ -1563,17 +1262,7 @@ let convert = {
 };
 exports.convert = convert;
 
-function getRandomIntFromTo(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1595,8 +1284,8 @@ class Nidza {
 
   createNidzaIndentity(arg) {
     let c = document.createElement('canvas');
-    let cStyle = "background: linear-gradient(-90deg, black, red);"; // cStyle    += "border:solid red 1px;";
-
+    let cStyle = "background: linear-gradient(-90deg, black, red);";
+    cStyle += "border:solid red 1px;";
     c.id = arg.id;
     c.setAttribute("style", cStyle);
     c.width = arg.size.width;
@@ -1624,4 +1313,4 @@ class Nidza {
 
 exports.Nidza = Nidza;
 
-},{"./lib/identity":6,"./lib/operations":8}]},{},[1]);
+},{"./lib/identity":6,"./lib/operations":7}]},{},[1]);

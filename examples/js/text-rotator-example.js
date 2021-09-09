@@ -1,5 +1,5 @@
 
-import { Nidza } from "../../index";
+import { Nidza, Utility } from "nidza";
 
 /**
  * @description Create nidza object.

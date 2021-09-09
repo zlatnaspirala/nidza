@@ -1,5 +1,5 @@
 
-import { Nidza, Utility } from "../../index";
+import { Nidza, Utility } from "nidza";
 
 let loader;
 
