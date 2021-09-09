@@ -43,6 +43,7 @@ Utility.importAsync(Utility.QueryUrl().u, () => {
 
  First install:
  ```
+  cd examples/
   npm i
  ```
 
