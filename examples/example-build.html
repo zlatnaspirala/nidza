@@ -1,0 +1,85 @@
+
+<style>
+  body {
+    background: #373737 url("./imgs/bg.png") 0 0 repeat;
+    font: 14px/20px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #6DA9CD;
+    overflow: hidden;
+  }
+
+  a {
+    outline: none;
+    text-decoration: none;
+    padding: 2px 1px 0;
+  }
+
+  a:link {
+    color: #0071f1;
+  }
+
+  a:visited {
+    color: #4d67ff;
+  }
+
+  a:focus {
+    border-bottom: 1px solid;
+    background: #07a9b8;
+  }
+
+  a:hover {
+    border-bottom: 1px solid;
+    background: #008cff;
+  }
+
+  a:active {
+    background: #00fff2;
+    color: #CDFEAA;
+  }
+
+  .holder {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left:25%;
+    top:2%;
+    text-align: center;
+  }
+
+  .holderExamples {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left:20%;
+    top:0;
+    text-align: center;
+  }
+
+  .leftMenu {
+    border-right:solid  indianred 1px;
+    display:flex;
+    flex-direction: column;
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    left:0;
+    top:0;
+    text-align: center;
+  }
+</style>
+
+<link defer href="css/nidza.css" />
+
+<script src="./examples.js" ></script>
+
+<div class="holderExamples" id="testHolder"></div>
+<div class="loader" id="loader">LOADING</div>
+
+<div class="leftMenu" id="leftMenu">
+  <a href="example.html?u=text-example.js">Text</a>
+  <a href="example.html?u=star-example.js">Star</a>
+  <a href="example.html?u=text-rotator-example.js">Text Rotation</a>
+  <a href="example.html?u=star-effect-1.js">Star effect</a>
+  <a href="example.html?u=star-effect-2.js">Moving Star on click event</a>
+  <a href="example.html?u=matrix-effect-1.js">Matrix effect 1</a>
+  <a href="example.html?u=matrix-effect-2.js">Matrix effect 2</a>
+</div>
