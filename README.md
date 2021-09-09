@@ -243,16 +243,9 @@ Originally writen in visual-js
 https://github.com/zlatnaspirala/visualjs/blob/master/project/program_instance/lib/math.js#:~:text=function-,OSCILLATOR,-(min%2C%20max%2C%20step
 
 
-## Screenshots
+## Screenshots examples
+![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza.1.2.1.gif)
 
-Text example
-![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza-1.0.5.gif)
-
-Star effect 1
-![star-effect1](https://github.com/zlatnaspirala/nidza/blob/main/non-project/stareffect1.png)
-
-Moving Star effect on click event:
-![star-effect2](https://github.com/zlatnaspirala/nidza/blob/main/non-project/moving-star.gif)
 
 ## Credits
 
