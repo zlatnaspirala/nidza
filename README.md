@@ -39,6 +39,27 @@ Utility.importAsync(Utility.QueryUrl().u, () => {
 });
 ```
 
+## Dev vs Prodc - How to build examples folder for prodc
+
+ First install:
+ ```
+  npm i
+ ```
+
+ Same roles like in `matrix-engine`.
+
+ - For dev use `http` for prod use `https`.
+ - For dev use `module` for prod use `text/plain` javascript (builded)
+
+ - For dev not need to build at all , no need watchers.
+ - use `example.html`
+
+ - For prodc build with:
+ ```
+  npm i build.all
+ ```
+  - use `example-build.html`
+
 ## How it works
 
 Create object of instance Nidza.
