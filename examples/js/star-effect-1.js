@@ -1,5 +1,5 @@
 
-import { Nidza, Utility } from "nidza";
+import { Nidza, Utility } from "../node_modules/nidza/index";
 
 var nidza = new Nidza();
 
@@ -19,7 +19,7 @@ starEffect.attachClickEvent((e)=> {
 });
 
 starEffect.attachMoveEvent((e)=> {
-  console.log("Move on indentity.", e);
+  // console.log("Move on indentity.", e);
 });
 
 // screenX: 401, screenY: 671, clientX: 401, clientY:

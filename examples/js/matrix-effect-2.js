@@ -1,5 +1,5 @@
 
-import { Nidza, Utility } from "nidza";
+import { Nidza, Utility } from "../node_modules/nidza/index";
 
 let loader = document.getElementById("loader");
 
