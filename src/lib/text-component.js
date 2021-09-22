@@ -51,7 +51,7 @@ export class NidzaTextComponent extends NidzaElement {
 
     this.border = {
       typeOfDraw: 'fill-stroke',
-      isActive: true,
+      isActive: false,
       fillColor: 'gold',
       strokeColor: 'red',
       radius: 10

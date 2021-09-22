@@ -15,7 +15,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
- 
 var nidza = new Nidza();
 
 let myStar = {

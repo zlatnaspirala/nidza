@@ -1,6 +1,19 @@
 
 import { Nidza, Utility } from "../node_modules/nidza/index";
 
+let loader = document.getElementById("loader");
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function (e) {
+    // navigator.serviceWorker.register('worker.js');
+    loader.innerText = 'NIDZA READY';
+    setTimeout(function() {
+      loader.style.display = 'none';
+    },
+    200);
+  });
+}
+
 var nidza = new Nidza();
 
 let myFirstNidzaObjectOptions = {
@@ -89,11 +102,11 @@ let TitleBig = myScene.addTextComponent({
 });
 TitleBig.position.translateX(50);
 // Set default border
-TitleBig.setBorder();
+// TitleBig.setBorder();
 
 let TitleWithAngle = myScene.addTextComponent({
   id: "TitleWithAngle",
-  text: "Generate images from code",
+  text: "nidza rotated text",
   position: {
     x: 5,
     y: -50
@@ -106,7 +119,7 @@ let TitleWithAngle = myScene.addTextComponent({
 
 TitleWithAngle.position.thrust = 0.15
 TitleWithAngle.position.translateY(50);
-TitleWithAngle.rotation.setAngle(90);
+// TitleWithAngle.rotation.setAngle(90);
 
 let JS = myScene.addTextComponent({
   id: "JS",

@@ -1,9 +1,21 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-var _nidza = require("nidza");
+var _index = require("../node_modules/nidza/index");
 
-var nidza = new _nidza.Nidza();
+let loader = document.getElementById("loader");
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function (e) {
+    // navigator.serviceWorker.register('worker.js');
+    loader.innerText = 'NIDZA READY';
+    setTimeout(function () {
+      loader.style.display = 'none';
+    }, 200);
+  });
+}
+
+var nidza = new _index.Nidza();
 let myFirstNidzaObjectOptions = {
   id: "welcomeText",
   size: {
@@ -84,11 +96,11 @@ let TitleBig = myScene.addTextComponent({
   }
 });
 TitleBig.position.translateX(50); // Set default border
+// TitleBig.setBorder();
 
-TitleBig.setBorder();
 let TitleWithAngle = myScene.addTextComponent({
   id: "TitleWithAngle",
-  text: "Generate images from code",
+  text: "nidza rotated text",
   position: {
     x: 5,
     y: -50
@@ -99,8 +111,8 @@ let TitleWithAngle = myScene.addTextComponent({
   }
 });
 TitleWithAngle.position.thrust = 0.15;
-TitleWithAngle.position.translateY(50);
-TitleWithAngle.rotation.setAngle(90);
+TitleWithAngle.position.translateY(50); // TitleWithAngle.rotation.setAngle(90);
+
 let JS = myScene.addTextComponent({
   id: "JS",
   text: "js",
@@ -188,7 +200,7 @@ zlatnaspiralaTxt.rotation.setRotation(rotationOption2);
 zlatnaspiralaTxt.rotation.osc.setDelay(1);
 window.nidza = nidza;
 
-},{"nidza":2}],2:[function(require,module,exports){
+},{"../node_modules/nidza/index":2}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
