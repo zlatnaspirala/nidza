@@ -1,14 +1,18 @@
 # nidza
 
-2d canvas engine - Scene Object oriented engine without classic auto update like calling requestAnimationFrame or timers. There is no events for drawen elements. `Nidza` is exclusively for draws staff. Objective is CPU low price of usage. You can move object or start any animation but on finish there is no any draw calls. This is main objective task to make autoupdater with releasing on target/object reach. Project object is also adding all of kind composition video/webcam/images/text in same time and place.
+2d canvas engine - Scene Object oriented engine with option smart update system. Events works on indentity level(canvas dom element).
+`Nidza` is exclusively for draws staff. Objective is CPU low price of usage. You can move object or start any animation but on finish there is no any draw calls. This is main objective task to make autoupdater with releasing on target/object reach. Project object is also adding all of kind composition video/webcam/images/text in same time and place.
 
 Nidza will be `texture generator` for `matrix-engine` but still this project is indipendent
 because can be used for any other project.
 
+ - Create canvas2D apps
+ - Create shaders `GLSL`
  - You can generate images
  - Use like texture in 3d space
  - Use it like web site features
  - Draw logo animation
+ - Create web site's
 
 All other aspcet will be optimised. I will use css for canvas background becouse lot of
 features already exist in web (browser) platform.
@@ -210,6 +214,54 @@ zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
 
 ```
 
+### Create Nidza 3D Indentity [wip]
+
+Take a look `shader-component-default` for basic usage.
+```
+import { Nidza, Utility } from "../node_modules/nidza/index";
+
+window.addEventListener("load", function (e) {
+  loader.innerText = "NIDZA READY";
+  setTimeout(function () {
+    loader.style.display = "none";
+  }, 200);
+});
+
+// This component depems on glmatrix engine
+Utility.loadSync(
+  "https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js",
+  () => {
+    var nidza = new Nidza();
+
+    let myShader = {
+      id: "myShader",
+      size: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
+      parentDom: document.getElementById("testHolder"),
+    };
+
+    var indentityMyShader = nidza.createNidza3dIndentity(myShader);
+    let myShaderElement = indentityMyShader.addShaderComponent({
+      id: "vertex-color-comp",
+    });
+
+    dispatchEvent(
+      new CustomEvent(indentityMyShader.getKey("activate-updater"), {
+        detail: {
+          id: "vertex-color-comp",
+        },
+      })
+    );
+
+    // Meka it global just for dev propose
+    window.myShaderElement = myShaderElement;
+    window.indentityMyShader = indentityMyShader;
+  }
+);
+```
+
 ### Use Oscillator -> Osc
 Oscillator is extreme simple program.
 I use Osc function for any operation i want in animation scene for rotation, translation etc.
@@ -239,14 +291,14 @@ Explanation for Osc:
 ```
 
 With different combination of Osc i made any animation i want.
-Originally writen in visual-js 
-https://github.com/zlatnaspirala/visualjs/blob/master/project/program_instance/lib/math.js#:~:text=function-,OSCILLATOR,-(min%2C%20max%2C%20step
 
 
 ## Screenshots examples
 ![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza.1.2.1.gif)
 
 
-## Credits
+## Credits and inspiration
 
+https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/By_example
+https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
 https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect
