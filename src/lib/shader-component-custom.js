@@ -1,32 +1,14 @@
 
 import {BaseShader} from './base-shader-component';
 
-export class ShaderComponent extends BaseShader {
+export class ShaderComponentCustom extends BaseShader {
 
   constructor( arg ) {
     super();
     this.gl = arg.gl;
-    console.log('Arg -> ', arg);
-    // Just alias
-    this.reloadBuffers = this.initBuffers;
-    // params
-    this.background = [0.5, 0.0, 0.0, 1.0];
-    this.vertexCount = 4; // cube default
-    this.position = [-0.0, 0.0, -6.0];
-    this.geometry = [
-      1.0,  1.0,
-     -1.0,  1.0,
-      1.0, -1.0,
-     -1.0, -1.0,
-    ];
+    console.log('.arg.....', arg);
 
-    this.colors = [
-      1.0, 1.0, 1.0, 1.0,    // white
-      1.0, 0.0, 0.0, 1.0,    // red
-      0.0, 1.0, 0.0, 1.0,    // green
-      0.0, 0.0, 1.0, 1.0,    // blue
-    ];
-
+    /*
     const shaderProgram = this.initShaderProgram(this.gl, this.initDefaultVSShader(), this.initDefaultFSShader());
     this.programInfo = {
       program: shaderProgram,
@@ -41,29 +23,24 @@ export class ShaderComponent extends BaseShader {
     };
 
     this.buffers = this.initBuffers(this.gl);
-    this.draw();
-    console.log('ShaderComponent init default shader.');
-  }
+    // this.draw(this.gl, this.programInfo, this.buffers);
+    this.draw(); */
 
-  reload() {
-    this.buffers = this.reloadBuffers(this.gl);
-    this.draw();
+    console.log('ShaderComponentCustom init ! ');
   }
 
   initDefaultFSShader() {
-    const fsSource = `
+    return `
       varying lowp vec4 vColor;
 
       void main(void) {
         gl_FragColor = vColor;
       }
     `;
-
-    return fsSource;
   }
 
   initDefaultVSShader() {
-    const vsSource = `
+    return `
       attribute vec4 aVertexPosition;
       attribute vec4 aVertexColor;
 
@@ -77,29 +54,35 @@ export class ShaderComponent extends BaseShader {
         vColor = aVertexColor;
       }
     `;
-
-    return vsSource;
   }
 
-  initBuffers(gl) {
-
+  initDefaultBuffers(gl) {
     const positionBuffer = gl.createBuffer();
-
     // Select the positionBuffer as the one to apply buffer
     // operations to from here out.
-  
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   
-    // Now create an array of positions/geometry for the square.
-    // geometry
+    // Now create an array of positions for the square.
+    const positions = [
+       1.0,  1.0,
+      -1.0,  1.0,
+       1.0, -1.0,
+      -1.0, -1.0,
+    ];
     gl.bufferData(gl.ARRAY_BUFFER,
-      new Float32Array(this.geometry),
+      new Float32Array(positions),
       gl.STATIC_DRAW);
 
-    // Colors
+    const colors = [
+      1.0, 1.0, 1.0, 1.0,    // white
+      1.0, 0.0, 0.0, 1.0,    // red
+      0.0, 1.0, 0.0, 1.0,    // green
+      0.0, 0.0, 1.0, 1.0,    // blue
+    ];
+
     const colorBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.colors), gl.STATIC_DRAW);
+    gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colors ), gl.STATIC_DRAW );
 
     return {
       position: positionBuffer,
@@ -109,8 +92,7 @@ export class ShaderComponent extends BaseShader {
   }
 
   draw() {
-    this.gl.clearColor(this.background[0], this.background[1], this.background[2], this.background[3]);
-    // Clear to black, fully opaque
+    this.gl.clearColor(0.5, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
     this.gl.clearDepth(1.0);                 // Clear everything
     this.gl.enable( this.gl.DEPTH_TEST );    // Enable depth testing
     this.gl.depthFunc( this.gl.LEQUAL );     // Near things obscure far things
@@ -147,9 +129,9 @@ export class ShaderComponent extends BaseShader {
 
     mat4.translate( modelViewMatrix,     // destination matrix
       modelViewMatrix,     // matrix to translate
-      this.position );  // amount to translate
+      [-0.0, 0.0, -5.0] );  // amount to translate
 
-    // Tell WebGL how to pull out the positions/geometry from the position
+    // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
     {
       const numComponents = 2;
@@ -157,14 +139,14 @@ export class ShaderComponent extends BaseShader {
       const normalize = false;
       const stride = 0;
       const offset = 0;
-      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers.position);
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers.position );
       this.gl.vertexAttribPointer(
         this.programInfo.attribLocations.vertexPosition,
         numComponents,
         type,
         normalize,
         stride,
-        offset);
+        offset );
       this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
     }
 
@@ -194,16 +176,16 @@ export class ShaderComponent extends BaseShader {
     this.gl.uniformMatrix4fv(
       this.programInfo.uniformLocations.projectionMatrix,
       false,
-      projectionMatrix );
+      projectionMatrix);
     this.gl.uniformMatrix4fv(
       this.programInfo.uniformLocations.modelViewMatrix,
       false,
-      modelViewMatrix );
+      modelViewMatrix);
 
     {
       const offset = 0;
-      // this.vertexCount = 4;
-      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, this.vertexCount);
+      const vertexCount = 4;
+      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, vertexCount);
     }
   }
 

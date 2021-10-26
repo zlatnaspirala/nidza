@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "esmify": "^2.1.1",
-    "nidza": "^1.2.3"
+    "nidza": "^1.2.4"
   },
   "repository": {
     "type": "git",

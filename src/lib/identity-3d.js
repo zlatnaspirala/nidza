@@ -8,6 +8,7 @@ export class Nidza3dIdentity {
 
       this.canvasDom = arg.canvasDom;
       this.gl = arg.ctx;
+      this.elements = [];
       this.updater = null;
       this.updaterInterval = 1;
       this.uRegister = [];
@@ -60,6 +61,7 @@ export class Nidza3dIdentity {
     arg.gl = this.gl;
     arg.canvasDom = this.canvasDom;
     let shaderComponent = new ShaderComponent(arg);
+    this.elements.push(starComponent);
     shaderComponent.draw();
     return shaderComponent;
   }
@@ -114,7 +116,10 @@ export class Nidza3dIdentity {
   }
 
   updateScene() {
-    console.log('3d context updateScene func calls');
+    // console.log('3d context updateScene func calls');
+    this.elements.forEach(e => {
+      e.reload();
+    });
   }
 
 }

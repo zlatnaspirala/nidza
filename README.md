@@ -227,7 +227,7 @@ window.addEventListener("load", function (e) {
   }, 200);
 });
 
-// This component depems on glmatrix engine
+// This component depens on glmatrix engine
 Utility.loadSync(
   "https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js",
   () => {
@@ -286,7 +286,7 @@ Explanation for Osc:
   // colorG.getValue() in regimeType oscMin or oscMax
   // returns 0, 1, 2, 3 ... 255 , 254, 253, 252 ... 0
 
-  // If you wanna make it slow use `colorB.setDelay( 100 );` 
+  // If you wanna make it slow use `colorB.setDelay( 100 );`
   // `getValue()` returns same value for 100 iterarion.
 ```
 
@@ -299,6 +299,8 @@ With different combination of Osc i made any animation i want.
 
 ## Credits and inspiration
 
-https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/By_example
-https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
-https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect
+ - https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/By_example
+
+ - https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
+
+ - https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect
