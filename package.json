@@ -1,7 +1,7 @@
 {
   "name": "nidza",
-  "version": "1.2.3",
-  "description": "Add webgl context GLSL Nidza3DIndentity, New Matix component .Option for attaching click/move for (mobile and desktop) event. Make uniq custom events names, preparing for multi nidza instancing. canvas2d engine explicit only for generating textures , animations, images (on web page), animation , visual effect etc. Objective is low CPU usage price.",
+  "version": "1.2.6",
+  "description": "Test params for default shader component, Add webgl context GLSL Nidza3DIndentity, New Matix component .Option for attaching click/move for (mobile and desktop) event. Make uniq custom events names, preparing for multi nidza instancing. canvas2d engine explicit only for generating textures , animations, images (on web page), animation , visual effect etc. Objective is low CPU usage price.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,8 @@
     "url": "git+https://github.com/zlatnaspirala/nidza.git"
   },
   "keywords": [
+    "GLSL",
+    "glmatrix",
     "2dcanvas",
     "matrix-engine",
     "texture",

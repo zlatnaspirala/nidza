@@ -1,27 +1,27 @@
-
-import { isMobile, loadSync } from "./utility";
-import { ShaderComponent } from "./shader-component";
+import {isMobile, loadSync} from "./utility";
+import {ShaderComponent} from "./shader-component";
 
 export class Nidza3dIdentity {
-
   constructor(arg) {
+    this.canvasDom = arg.canvasDom;
+    this.gl = arg.ctx;
+    this.elements = [];
+    this.updater = null;
+    this.updaterInterval = 1;
+    this.uRegister = [];
+    console.info("Construct uniq acess key for nidza instance.");
+    addEventListener(this.getKey("activate-updater"), this.activateUpdater, {
+      passive: true,
+    });
+    addEventListener(
+      this.getKey("deactivate-updater"),
+      this.deactivateUpdater,
+      {
+        passive: true,
+      }
+    );
 
-      this.canvasDom = arg.canvasDom;
-      this.gl = arg.ctx;
-      this.updater = null;
-      this.updaterInterval = 1;
-      this.uRegister = [];
-      console.info("Construct uniq acess key for nidza instance.");
-      addEventListener(this.getKey('activate-updater'), this.activateUpdater, {
-        passive: true
-      });
-      addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater, {
-        passive: true
-      });
-
-      console.info("Construct 3d webgl access key for nidza instance.");
-      console.log("Test mat4", mat4)
-
+    console.info("Construct 3d webgl access key for nidza instance.");
   }
 
   attachClickEvent(callback) {
@@ -41,10 +41,10 @@ export class Nidza3dIdentity {
   }
 
   onClick() {
-    console.info('default indentity-3d click event call.');
+    console.info("default indentity-3d click event call.");
   }
 
-  setBackground (arg) {
+  setBackground(arg) {
     this.canvasDom.style.background = arg;
   }
 
@@ -60,11 +60,12 @@ export class Nidza3dIdentity {
     arg.gl = this.gl;
     arg.canvasDom = this.canvasDom;
     let shaderComponent = new ShaderComponent(arg);
+    this.elements.push(shaderComponent);
     shaderComponent.draw();
     return shaderComponent;
   }
 
-  activateUpdater = (e) => {
+  activateUpdater = e => {
     var data = e.detail;
     if (data) {
       if (this.uRegister.indexOf(data.id) == -1) {
@@ -83,11 +84,9 @@ export class Nidza3dIdentity {
         this.updateScene();
       }, this.updaterInterval);
     }
+  };
 
-  }
-
-  deactivateUpdater  = (e) => {
-
+  deactivateUpdater = e => {
     var data = e.detail;
     if (data) {
       var loc = this.uRegister.indexOf(data.id);
@@ -98,12 +97,13 @@ export class Nidza3dIdentity {
         if (this.uRegister.length == 0) {
           clearInterval(this.updater);
           this.updater = null;
-          console.info("There is no registred active elements -> deactivate updater.");
+          console.info(
+            "There is no registred active elements -> deactivate updater."
+          );
         }
       }
     }
-
-  }
+  };
 
   isUpdaterActive() {
     if (this.updater == null) {
@@ -114,7 +114,8 @@ export class Nidza3dIdentity {
   }
 
   updateScene() {
-    console.log('3d context updateScene func calls');
+    this.elements.forEach(e => {
+      e.reload();
+    });
   }
-
 }

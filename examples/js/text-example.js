@@ -191,6 +191,7 @@ let zlatnaspiralaTxt = myScene.addTextComponent({
 
 zlatnaspiralaTxt.position.onTargetReached = function() {
   zlatnaspiralaTxt.dimension.smoothWidth(70)
+  myScene.setBackground('#127612')
 };
 zlatnaspiralaTxt.position.translateY(70);
 

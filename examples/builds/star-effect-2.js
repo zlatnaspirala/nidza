@@ -88,7 +88,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-},{"./src/lib/utility":13,"./src/nidza":14}],3:[function(require,module,exports){
+},{"./src/lib/utility":16,"./src/nidza":17}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -112,7 +112,7 @@ class NidzaElement {
 
 exports.NidzaElement = NidzaElement;
 
-},{"./dimension":5,"./position":9}],4:[function(require,module,exports){
+},{"./dimension":6,"./position":11}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -137,6 +137,148 @@ function setReferent(canvasDom) {
 }
 
 },{}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BaseShader = void 0;
+
+class BaseShader {
+  constructor() {
+    console.log("SHADER BASE CLASS");
+  }
+  /**
+   * Creates and compiles a shader.
+   *
+   * @param {!WebGLRenderingContext} gl The WebGL Context.
+   * @param {string} shaderSource The GLSL source code for the shader.
+   * @param {number} shaderType The type of shader, VERTEX_SHADER or
+   *     FRAGMENT_SHADER.
+   * @return {!WebGLShader} The shader.
+   */
+
+
+  compileShader(gl, shaderType, shaderSource) {
+    // Create the shader object
+    var shader = gl.createShader(shaderType); // Set the shader source code.
+
+    gl.shaderSource(shader, shaderSource); // Compile the shader
+
+    gl.compileShader(shader); // Check if it compiled
+
+    var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+
+    if (!success) {
+      // Something went wrong during compilation; get the error
+      throw "could not compile shader:" + gl.getShaderInfoLog(shader);
+    }
+
+    return shader;
+  }
+  /**
+   * Creates a program from 2 shaders.
+   *
+   * @param {!WebGLRenderingContext) gl The WebGL context.
+   * @param {!WebGLShader} vertexShader A vertex shader.
+   * @param {!WebGLShader} fragmentShader A fragment shader.
+   * @return {!WebGLProgram} A program.
+   */
+
+
+  createProgram(gl, vertexShader, fragmentShader) {
+    // create a program.
+    var program = gl.createProgram(); // attach the shaders.
+
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader); // link the program.
+
+    gl.linkProgram(program); // Check if it linked.
+
+    var success = gl.getProgramParameter(program, gl.LINK_STATUS);
+
+    if (!success) {
+      // something went wrong with the link
+      throw "program failed to link:" + gl.getProgramInfoLog(program);
+    }
+
+    return program;
+  }
+  /**
+   * Creates a shader from the content of a script tag.
+   *
+   * @param {!WebGLRenderingContext} gl The WebGL Context.
+   * @param {string} scriptId The id of the script tag.
+   * @param {string} opt_shaderType. The type of shader to create.
+   *     If not passed in will use the type attribute from the
+   *     script tag.
+   * @return {!WebGLShader} A shader.
+   */
+
+
+  createShaderFromScript(gl, scriptId, opt_shaderType) {
+    // look up the script tag by id.
+    var shaderScript = document.getElementById(scriptId);
+
+    if (!shaderScript) {
+      throw "*** Error: unknown script element" + scriptId;
+    } // extract the contents of the script tag.
+
+
+    var shaderSource = shaderScript.text; // If we didn't pass in a type, use the 'type' from
+    // the script tag.
+
+    if (!opt_shaderType) {
+      if (shaderScript.type == "x-shader/x-vertex") {
+        opt_shaderType = gl.VERTEX_SHADER;
+      } else if (shaderScript.type == "x-shader/x-fragment") {
+        opt_shaderType = gl.FRAGMENT_SHADER;
+      } else if (!opt_shaderType) {
+        throw "*** Error: shader type not set";
+      }
+    }
+
+    return compileShader(gl, shaderSource, opt_shaderType);
+  } // init Shader PRogram from inline 
+
+
+  initShaderProgram(gl, vsSource, fsSource) {
+    const vertexShader = this.compileShader(gl, gl.VERTEX_SHADER, vsSource);
+    const fragmentShader = this.compileShader(gl, gl.FRAGMENT_SHADER, fsSource); // Create the shader program
+
+    const shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram); // If creating the shader program failed, alert
+
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram));
+      return null;
+    }
+
+    return shaderProgram;
+  }
+  /**
+   * Creates a program from 2 script tags.
+   * @param {!WebGLRenderingContext} gl The WebGL Context.
+   * @param {string[]} shaderScriptIds Array of ids of the script
+   *        tags for the shaders. The first is assumed to be the
+   *        vertex shader, the second the fragment shader.
+   * @return {!WebGLProgram} A program
+   */
+
+
+  createProgramFromScripts(gl, shaderScriptIds) {
+    var vertexShader = createShaderFromScript(gl, shaderScriptIds[0], gl.VERTEX_SHADER);
+    var fragmentShader = createShaderFromScript(gl, shaderScriptIds[1], gl.FRAGMENT_SHADER);
+    return createProgram(gl, vertexShader, fragmentShader);
+  }
+
+}
+
+exports.BaseShader = BaseShader;
+
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -267,7 +409,145 @@ class Dimension {
 
 exports.Dimension = Dimension;
 
-},{"./base-referent":4}],6:[function(require,module,exports){
+},{"./base-referent":4}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Nidza3dIdentity = void 0;
+
+var _utility = require("./utility");
+
+var _shaderComponent = require("./shader-component");
+
+class Nidza3dIdentity {
+  constructor(arg) {
+    this.canvasDom = arg.canvasDom;
+    this.gl = arg.ctx;
+    this.elements = [];
+    this.updater = null;
+    this.updaterInterval = 1;
+    this.uRegister = [];
+    console.info("Construct uniq acess key for nidza instance.");
+    addEventListener(this.getKey("activate-updater"), this.activateUpdater, {
+      passive: true
+    });
+    addEventListener(this.getKey("deactivate-updater"), this.deactivateUpdater, {
+      passive: true
+    });
+    console.info("Construct 3d webgl access key for nidza instance.");
+  }
+
+  attachClickEvent(callback) {
+    if ((0, _utility.isMobile)()) {
+      this.canvasDom.addEventListener("touchstart", callback, {
+        passive: true
+      });
+    } else {
+      this.canvasDom.addEventListener("click", callback, {
+        passive: true
+      });
+    }
+  }
+
+  attachMoveEvent(callback) {
+    if ((0, _utility.isMobile)()) {
+      this.canvasDom.addEventListener("touchmove", callback, {
+        passive: true
+      });
+    } else {
+      this.canvasDom.addEventListener("mousemove", callback, {
+        passive: true
+      });
+    }
+  }
+
+  onClick() {
+    console.info("default indentity-3d click event call.");
+  }
+
+  setBackground(arg) {
+    this.canvasDom.style.background = arg;
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
+  }
+
+  setCanvasBgColor(color) {
+    arg.canvasDom.style.background = color;
+  }
+
+  addShaderComponent(arg) {
+    arg.gl = this.gl;
+    arg.canvasDom = this.canvasDom;
+    let shaderComponent = new _shaderComponent.ShaderComponent(arg);
+    this.elements.push(shaderComponent);
+    shaderComponent.draw();
+    return shaderComponent;
+  }
+
+  activateUpdater = e => {
+    var data = e.detail;
+
+    if (data) {
+      if (this.uRegister.indexOf(data.id) == -1) {
+        if (data.oneDraw) {
+          this.updateScene();
+          return;
+        } else {
+          // resister
+          this.uRegister.push(data.id);
+        }
+      }
+    }
+
+    if (!this.isUpdaterActive()) {
+      this.updater = setInterval(() => {
+        this.updateScene();
+      }, this.updaterInterval);
+    }
+  };
+  deactivateUpdater = e => {
+    var data = e.detail;
+
+    if (data) {
+      var loc = this.uRegister.indexOf(data.id);
+
+      if (loc == -1) {
+        console.warn("remove event but not exist", data.id);
+      } else {
+        this.uRegister.splice(loc, 1);
+
+        if (this.uRegister.length == 0) {
+          clearInterval(this.updater);
+          this.updater = null;
+          console.info("There is no registred active elements -> deactivate updater.");
+        }
+      }
+    }
+  };
+
+  isUpdaterActive() {
+    if (this.updater == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  updateScene() {
+    this.elements.forEach(e => {
+      e.reload();
+    });
+  }
+
+}
+
+exports.Nidza3dIdentity = Nidza3dIdentity;
+
+},{"./shader-component":13,"./utility":16}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -454,7 +734,7 @@ class NidzaIdentity {
 
 exports.NidzaIdentity = NidzaIdentity;
 
-},{"./matrix-component":7,"./star-component":11,"./text-component":12,"./utility":13}],7:[function(require,module,exports){
+},{"./matrix-component":9,"./star-component":14,"./text-component":15,"./utility":16}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -725,7 +1005,7 @@ class NidzaMatrixComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaMatrixComponent = NidzaMatrixComponent;
 
-},{"./base-component":3,"./operations":8,"./rotation":10,"./utility":13}],8:[function(require,module,exports){
+},{"./base-component":3,"./operations":10,"./rotation":12,"./utility":16}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1020,7 +1300,7 @@ function drawStarRotation() {
   this.ctx.restore();
 }
 
-},{"./utility":13}],9:[function(require,module,exports){
+},{"./utility":16}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1153,7 +1433,7 @@ class Position {
 
 exports.Position = Position;
 
-},{"./base-referent":4}],10:[function(require,module,exports){
+},{"./base-referent":4}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1246,7 +1526,202 @@ class Rotator {
 
 exports.Rotator = Rotator;
 
-},{"./operations":8}],11:[function(require,module,exports){
+},{"./operations":10}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ShaderComponent = void 0;
+
+var _baseShaderComponent = require("./base-shader-component");
+
+var _operations = require("./operations");
+
+class ShaderComponent extends _baseShaderComponent.BaseShader {
+  constructor(arg) {
+    super();
+    this.gl = arg.gl;
+    console.log('Arg -> ', arg); // Just alias
+
+    this.reloadBuffers = this.initBuffers; // params
+
+    this.rotationX = new _operations.Osc(0, 360, 0.1, 'oscMin');
+    this.rotationX.setDelay(5);
+    this.rotationY = new _operations.Osc(0, 360, 0.1, 'oscMin');
+    this.rotationY.setDelay(5);
+    this.rotationZ = new _operations.Osc(0, 360, 0.1, 'oscMin');
+    this.rotationZ.setDelay(5);
+    this.rotationX.regimeType = "CONST";
+    this.rotationZ.regimeType = "CONST";
+    this.rotationY.regimeType = "CONST";
+    this.rotator = {
+      x: () => this.rotationX.getValue(),
+      y: () => this.rotationY.getValue(),
+      z: () => this.rotationZ.getValue()
+    };
+    this.background = [0.5, 0.0, 0.0, 1.0];
+    this.vertexCount = 4; // cube default
+
+    this.position = [-0.0, 0.0, -2.0];
+    this.geometry = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
+    this.colors = [1.0, 1.0, 1.0, 1.0, // white
+    1.0, 0.0, 0.0, 1.0, // red
+    0.0, 1.0, 0.0, 1.0, // green
+    0.0, 0.0, 1.0, 1.0 // blue
+    ];
+    const shaderProgram = this.initShaderProgram(this.gl, this.initDefaultVSShader(), this.initDefaultFSShader());
+    this.programInfo = {
+      program: shaderProgram,
+      attribLocations: {
+        vertexPosition: this.gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+        vertexColor: this.gl.getAttribLocation(shaderProgram, 'aVertexColor')
+      },
+      uniformLocations: {
+        projectionMatrix: this.gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+        modelViewMatrix: this.gl.getUniformLocation(shaderProgram, 'uModelViewMatrix')
+      }
+    };
+    this.buffers = this.initBuffers(this.gl);
+    this.draw();
+    console.log('ShaderComponent init default shader with single call draw.');
+  } // move it to common latter
+
+
+  degToRad(degrees) {
+    return degrees * Math.PI / 180;
+  }
+
+  reload() {
+    this.buffers = this.reloadBuffers(this.gl);
+    this.draw();
+  }
+
+  initDefaultFSShader() {
+    const fsSource = `
+      varying lowp vec4 vColor;
+
+      void main(void) {
+        gl_FragColor = vColor;
+      }
+    `;
+    return fsSource;
+  }
+
+  initDefaultVSShader() {
+    const vsSource = `
+      attribute vec4 aVertexPosition;
+      attribute vec4 aVertexColor;
+
+      uniform mat4 uModelViewMatrix;
+      uniform mat4 uProjectionMatrix;
+
+      varying lowp vec4 vColor;
+
+      void main(void) {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vColor = aVertexColor;
+      }
+    `;
+    return vsSource;
+  }
+
+  initBuffers(gl) {
+    const positionBuffer = gl.createBuffer(); // Select the positionBuffer as the one to apply buffer
+    // operations to from here out.
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer); // Now create an array of positions/geometry for the square.
+    // geometry
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.geometry), gl.STATIC_DRAW); // Colors
+
+    const colorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.colors), gl.STATIC_DRAW);
+    return {
+      position: positionBuffer,
+      color: colorBuffer
+    };
+  }
+
+  draw() {
+    this.gl.clearColor(this.background[0], this.background[1], this.background[2], this.background[3]); // Clear to black, fully opaque
+
+    this.gl.clearDepth(1.0); // Clear everything
+
+    this.gl.enable(this.gl.DEPTH_TEST); // Enable depth testing
+
+    this.gl.depthFunc(this.gl.LEQUAL); // Near things obscure far things
+    // Clear the canvas before we start drawing on it.
+
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT); // Create a perspective matrix, a special matrix that is
+    // used to simulate the distortion of perspective in a camera.
+    // Our field of view is 45 degrees, with a width/height
+    // ratio that matches the display size of the canvas
+    // and we only want to see objects between 0.1 units
+    // and 100 units away from the camera.
+
+    const fieldOfView = 45 * Math.PI / 180; // in radians
+
+    const aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
+    const zNear = 0.1;
+    const zFar = 100.0;
+    const projectionMatrix = mat4.create(); // note: glmatrix.js always has the first argument
+    // as the destination to receive the result.
+
+    mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar); // Set the drawing position to the "identity" point, which is
+    // the center of the scene.
+
+    const modelViewMatrix = mat4.create(); // Now move the drawing position a bit to where we want to
+    // start drawing the square.
+
+    mat4.translate(modelViewMatrix, // destination matrix
+    modelViewMatrix, // matrix to translate
+    this.position); // amount to translate
+
+    mat4.rotate(modelViewMatrix, modelViewMatrix, this.degToRad(this.rotator.x()), [1, 0, 0]);
+    mat4.rotate(modelViewMatrix, modelViewMatrix, this.degToRad(this.rotator.y()), [0, 1, 0]);
+    mat4.rotate(modelViewMatrix, modelViewMatrix, this.degToRad(this.rotator.z()), [0, 0, 1]); // Tell WebGL how to pull out the positions/geometry from the position
+    // buffer into the vertexPosition attribute.
+
+    {
+      const numComponents = 2;
+      const type = this.gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers.position);
+      this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexPosition, numComponents, type, normalize, stride, offset);
+      this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
+    } // Tell WebGL how to pull out the colors from the color buffer
+    // into the vertexColor attribute.
+
+    {
+      const numComponents = 4;
+      const type = this.gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers.color);
+      this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexColor, numComponents, type, normalize, stride, offset);
+      this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexColor);
+    } // Tell WebGL to use our program when drawing
+
+    this.gl.useProgram(this.programInfo.program); // Set the shader uniforms
+
+    this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, projectionMatrix);
+    this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
+    {
+      const offset = 0;
+      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, this.geometry.length / 2);
+    }
+  }
+
+}
+
+exports.ShaderComponent = ShaderComponent;
+
+},{"./base-shader-component":5,"./operations":10}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1313,7 +1788,7 @@ class NidzaStarComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaStarComponent = NidzaStarComponent;
 
-},{"./base-component":3,"./operations":8,"./rotation":10}],12:[function(require,module,exports){
+},{"./base-component":3,"./operations":10,"./rotation":12}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1365,7 +1840,7 @@ class NidzaTextComponent extends _baseComponent.NidzaElement {
     this.drawWithBorder = _operations.drawWithBorder;
     this.border = {
       typeOfDraw: 'fill-stroke',
-      isActive: true,
+      isActive: false,
       fillColor: 'gold',
       strokeColor: 'red',
       radius: 10
@@ -1450,7 +1925,7 @@ class NidzaTextComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaTextComponent = NidzaTextComponent;
 
-},{"./base-component":3,"./operations":8,"./rotation":10}],13:[function(require,module,exports){
+},{"./base-component":3,"./operations":10,"./rotation":12}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1458,6 +1933,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.importAsync = importAsync;
 exports.loadAsync = loadAsync;
+exports.loadSync = loadSync;
 exports.isMobile = isMobile;
 exports.getRandomIntFromTo = getRandomIntFromTo;
 exports.getRandomArbitrary = getRandomArbitrary;
@@ -1487,6 +1963,25 @@ function loadAsync(src, callback) {
   r = false;
   s = document.createElement('script');
   s.type = 'text/javascript';
+  s.src = src;
+
+  s.onload = s.onreadystatechange = function () {
+    if (!r && (!this.readyState || this.readyState == 'complete')) {
+      r = true;
+      callback();
+    }
+  };
+
+  t = document.getElementsByTagName('script')[0];
+  t.parentNode.insertBefore(s, t);
+}
+
+function loadSync(src, callback) {
+  var s, r, t;
+  r = false;
+  s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.async = false;
   s.src = src;
 
   s.onload = s.onreadystatechange = function () {
@@ -1560,7 +2055,7 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1569,6 +2064,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.Nidza = void 0;
 
 var _identity = require("./lib/identity");
+
+var _identity3d = require("./lib/identity-3d");
 
 var _operations = require("./lib/operations");
 
@@ -1580,14 +2077,18 @@ class Nidza {
     console.info("Nidza engine constructed.");
   }
 
-  createNidzaIndentity(arg) {
+  prepareCanvas(arg) {
     let c = document.createElement('canvas');
-    let cStyle = "background: linear-gradient(-90deg, black, red);"; // cStyle    += "border:solid red 1px;";
-
+    let cStyle = "background: black";
     c.id = arg.id;
     c.setAttribute("style", cStyle);
     c.width = arg.size.width;
     c.height = arg.size.height;
+    return c;
+  }
+
+  createNidzaIndentity(arg) {
+    let c = this.prepareCanvas(arg);
     var ctx = c.getContext("2d");
     this.canvasDom = c;
 
@@ -1607,8 +2108,32 @@ class Nidza {
     return nidzaIntentityInstance;
   }
 
+  createNidza3dIndentity(arg) {
+    this.canvasDom = this.prepareCanvas(arg);
+    const gl = this.canvasDom.getContext("webgl");
+
+    if (!gl) {
+      console.warn("No support for webGL.");
+      return;
+    }
+
+    if (arg.parentDom) {
+      arg.parentDom.append(this.canvasDom);
+    } else {
+      document.body.append(this.canvasDom);
+    }
+
+    let nidza3dIntentityInstance = new _identity3d.Nidza3dIdentity({
+      canvasDom: this.canvasDom,
+      ctx: gl,
+      parentDom: arg.parentDom
+    });
+    this.access[arg.id] = nidza3dIntentityInstance;
+    return nidza3dIntentityInstance;
+  }
+
 }
 
 exports.Nidza = Nidza;
 
-},{"./lib/identity":6,"./lib/operations":8}]},{},[1]);
+},{"./lib/identity":8,"./lib/identity-3d":7,"./lib/operations":10}]},{},[1]);
