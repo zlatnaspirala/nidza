@@ -497,7 +497,7 @@ class Nidza3dIdentity {
     arg.gl = this.gl;
     arg.canvasDom = this.canvasDom;
     let shaderComponent = new _shaderComponent.ShaderComponent(arg);
-    this.elements.push(starComponent);
+    this.elements.push(shaderComponent);
     shaderComponent.draw();
     return shaderComponent;
   }
