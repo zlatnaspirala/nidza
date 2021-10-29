@@ -294,7 +294,11 @@ With different combination of Osc i made any animation i want.
 
 
 ## Screenshots examples
+Mix examples:
 ![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza.1.2.1.gif)
+
+Basic shader program
+![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/makeRotationOnShaderComponent.png)
 
 
 ## Credits and inspiration

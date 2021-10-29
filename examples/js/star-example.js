@@ -6,31 +6,32 @@ var nidza = new Nidza();
 let myStar = {
   id: "myStar",
   size: {
-    width: 150,
-    height: 150
+    width: window.innerWidth,
+    height: window.innerHeight
   },
   parentDom: document.getElementById('testHolder')
 };
 
 nidza.createNidzaIndentity(myStar);
 
-let myStarElement = nidza.access.myStar.addStarComponent({
-  id: "Title1",
-  radius: 33,
-  inset: 0.4,
-  n: 6,
-  position: {
-    x: 50,
-    y: 50
-  },
-  dimension: {
-    width: 180,
-    height: 180
-  }
-});
+nidza.access.myStar.setBackground('lime')
+for (var j=0; j< 10;j++) {
+  let myStarElement = nidza.access.myStar.addStarComponent({
+    id: "Title1",
+    radius: 33 + j,
+    inset: 0.4 + j,
+    n: 6,
+    position: {
+      x: 50,
+      y: 50
+    },
+    dimension: {
+      width: 180 + j,
+      height: 180+ j
+    }
+  });
 
-let rotationOption = new nidza.Osc(0, 90, 0.5, "oscMax");
-myStarElement.rotation.setRotation(rotationOption)
-// nidza.access.welcomeText.elements[0].setBorder();
-
-window.myStarElement = myStarElement;
+  let rotationOption = new nidza.Osc(0, 90, 0.5, "oscMax");
+  myStarElement.rotation.setRotation(rotationOption)
+  // nidza.access.welcomeText.elements[0].setBorder();
+}

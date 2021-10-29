@@ -1,5 +1,6 @@
 
 import {BaseShader} from './base-shader-component';
+import { Osc } from "./operations";
 
 export class ShaderComponent extends BaseShader {
 
@@ -10,16 +11,29 @@ export class ShaderComponent extends BaseShader {
     // Just alias
     this.reloadBuffers = this.initBuffers;
     // params
+    this.rotationX = new Osc(0, 360, 0.1, 'oscMin');
+    this.rotationX.setDelay(5)
+    this.rotationY = new Osc(0, 360, 0.1, 'oscMin');
+    this.rotationY.setDelay(5)
+    this.rotationZ = new Osc(0, 360, 0.1, 'oscMin');
+    this.rotationZ.setDelay(5)
+    this.rotationX.regimeType = "CONST";
+    this.rotationZ.regimeType = "CONST";
+    this.rotationY.regimeType = "CONST";
+    this.rotator = {
+      x: () => this.rotationX.getValue(),
+      y: () => this.rotationY.getValue(),
+      z: () => this.rotationZ.getValue()
+    };
     this.background = [0.5, 0.0, 0.0, 1.0];
     this.vertexCount = 4; // cube default
-    this.position = [-0.0, 0.0, -6.0];
+    this.position = [-0.0, 0.0, -2.0];
     this.geometry = [
       1.0,  1.0,
      -1.0,  1.0,
       1.0, -1.0,
      -1.0, -1.0,
     ];
-
     this.colors = [
       1.0, 1.0, 1.0, 1.0,    // white
       1.0, 0.0, 0.0, 1.0,    // red
@@ -42,7 +56,12 @@ export class ShaderComponent extends BaseShader {
 
     this.buffers = this.initBuffers(this.gl);
     this.draw();
-    console.log('ShaderComponent init default shader.');
+    console.log('ShaderComponent init default shader with single call draw.');
+  }
+
+  // move it to common latter
+  degToRad(degrees) {
+    return degrees * Math.PI / 180;
   }
 
   reload() {
@@ -145,9 +164,13 @@ export class ShaderComponent extends BaseShader {
     // Now move the drawing position a bit to where we want to
     // start drawing the square.
 
-    mat4.translate( modelViewMatrix,     // destination matrix
-      modelViewMatrix,     // matrix to translate
-      this.position );  // amount to translate
+    mat4.translate(modelViewMatrix,     // destination matrix
+      modelViewMatrix,                  // matrix to translate
+      this.position );                  // amount to translate
+
+    mat4.rotate(modelViewMatrix, modelViewMatrix, this.degToRad(this.rotator.x()), [1,0,0]);
+    mat4.rotate(modelViewMatrix, modelViewMatrix, this.degToRad(this.rotator.y()), [0,1,0]);
+    mat4.rotate(modelViewMatrix, modelViewMatrix, this.degToRad(this.rotator.z()), [0,0,1]);
 
     // Tell WebGL how to pull out the positions/geometry from the position
     // buffer into the vertexPosition attribute.
@@ -202,8 +225,7 @@ export class ShaderComponent extends BaseShader {
 
     {
       const offset = 0;
-      // this.vertexCount = 4;
-      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, this.vertexCount);
+      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, this.geometry.length / 2);
     }
   }
 
