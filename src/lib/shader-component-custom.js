@@ -6,7 +6,7 @@ export class ShaderComponentCustom extends BaseShader {
   constructor( arg ) {
     super();
     this.gl = arg.gl;
-    console.log('.arg.....', arg);
+    console.log('.arg...CUSTOM TEST..', arg);
 
     /*
     const shaderProgram = this.initShaderProgram(this.gl, this.initDefaultVSShader(), this.initDefaultFSShader());

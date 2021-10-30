@@ -1,5 +1,5 @@
 
-import { Nidza, Utility } from "../node_modules/nidza/index";
+import { Nidza, Utility } from "nidza";
 
 window.addEventListener("load", function (e) {
   loader.innerText = "NIDZA READY";
@@ -24,7 +24,7 @@ Utility.loadSync(
     };
 
     var indentityMyShader = nidza.createNidza3dIndentity(myShader);
-    let myShaderElement = indentityMyShader.addShaderComponent({
+    let myShaderElement = indentityMyShader.addShaderComponentCustom({
       id: "vertex-color-comp",
     });
 
