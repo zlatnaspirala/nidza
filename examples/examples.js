@@ -1,5 +1,5 @@
 
-import { Utility } from "./node_modules/nidza/index";
+import { Utility } from "nidza";
 
 /**
  * @description Examples loader handler
