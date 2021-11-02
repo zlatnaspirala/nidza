@@ -1,4 +1,12 @@
 
+# ABOUT SHADERS
+
+## Full Custom shader on user level code [use glmatrix]
+ This is `shader-component-custom.js` example.
+ Also this is default code for base shader.
+
+```js
+
 // import { Nidza, Utility } from "nidza"; prodc
 import {Nidza, Utility} from "../node_modules/nidza/index";
 
@@ -124,3 +132,5 @@ Utility.loadSync(
     window.indentityMyShader = indentityMyShader;
   }
 );
+
+```

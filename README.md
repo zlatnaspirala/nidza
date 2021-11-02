@@ -262,6 +262,10 @@ Utility.loadSync(
 );
 ```
 
+Read more about full custom shader program at =>
+https://github.com/zlatnaspirala/nidza/blob/main/README-MORE.md
+
+
 ### Use Oscillator -> Osc
 Oscillator is extreme simple program.
 I use Osc function for any operation i want in animation scene for rotation, translation etc.

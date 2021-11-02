@@ -178,7 +178,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-},{"./src/lib/utility":16,"./src/nidza":17}],3:[function(require,module,exports){
+},{"./src/lib/utility":17,"./src/nidza":18}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -511,6 +511,8 @@ var _utility = require("./utility");
 
 var _shaderComponent = require("./shader-component");
 
+var _shaderComponentCustom = require("./shader-component-custom");
+
 class Nidza3dIdentity {
   constructor(arg) {
     this.canvasDom = arg.canvasDom;
@@ -578,6 +580,15 @@ class Nidza3dIdentity {
     return shaderComponent;
   }
 
+  addShaderComponentCustom(arg) {
+    arg.gl = this.gl;
+    arg.canvasDom = this.canvasDom;
+    let shaderComponent = new _shaderComponentCustom.ShaderComponentCustom(arg);
+    this.elements.push(shaderComponent);
+    shaderComponent.draw();
+    return shaderComponent;
+  }
+
   activateUpdater = e => {
     var data = e.detail;
 
@@ -637,7 +648,7 @@ class Nidza3dIdentity {
 
 exports.Nidza3dIdentity = Nidza3dIdentity;
 
-},{"./shader-component":13,"./utility":16}],8:[function(require,module,exports){
+},{"./shader-component":14,"./shader-component-custom":13,"./utility":17}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -824,7 +835,7 @@ class NidzaIdentity {
 
 exports.NidzaIdentity = NidzaIdentity;
 
-},{"./matrix-component":9,"./star-component":14,"./text-component":15,"./utility":16}],9:[function(require,module,exports){
+},{"./matrix-component":9,"./star-component":15,"./text-component":16,"./utility":17}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1095,7 +1106,7 @@ class NidzaMatrixComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaMatrixComponent = NidzaMatrixComponent;
 
-},{"./base-component":3,"./operations":10,"./rotation":12,"./utility":16}],10:[function(require,module,exports){
+},{"./base-component":3,"./operations":10,"./rotation":12,"./utility":17}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1390,7 +1401,7 @@ function drawStarRotation() {
   this.ctx.restore();
 }
 
-},{"./utility":16}],11:[function(require,module,exports){
+},{"./utility":17}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1622,6 +1633,147 @@ exports.Rotator = Rotator;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ShaderComponentCustom = void 0;
+
+var _baseShaderComponent = require("./base-shader-component");
+
+class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
+  constructor(arg) {
+    super();
+    this.gl = arg.gl;
+    console.log('ShaderComponentCustom init', arg);
+  }
+
+  initDefaultFSShader() {
+    return `
+      varying lowp vec4 vColor;
+
+      void main(void) {
+        gl_FragColor = vColor;
+      }
+    `;
+  }
+
+  initDefaultVSShader() {
+    return `
+      attribute vec4 aVertexPosition;
+      attribute vec4 aVertexColor;
+
+      uniform mat4 uModelViewMatrix;
+      uniform mat4 uProjectionMatrix;
+
+      varying lowp vec4 vColor;
+
+      void main(void) {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vColor = aVertexColor;
+      }
+    `;
+  }
+
+  initDefaultBuffers(gl) {
+    const positionBuffer = gl.createBuffer(); // Select the positionBuffer as the one to apply buffer
+    // operations to from here out.
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer); // Now create an array of positions for the square.
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.positions), gl.STATIC_DRAW);
+    const colorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.colors), gl.STATIC_DRAW);
+    return {
+      position: positionBuffer,
+      color: colorBuffer
+    };
+  }
+
+  reload() {
+    this.buffers = this.initDefaultBuffers(this.gl);
+    this.draw();
+  }
+
+  draw() {
+    if (!this.buffers) return;
+    this.gl.clearColor(0.5, 0.0, 0.0, 1.0); // Clear to black, fully opaque
+
+    this.gl.clearDepth(1.0); // Clear everything
+
+    this.gl.enable(this.gl.DEPTH_TEST); // Enable depth testing
+
+    this.gl.depthFunc(this.gl.LEQUAL); // Near things obscure far things
+    // Clear the canvas before we start drawing on it.
+
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT); // Create a perspective matrix, a special matrix that is
+    // used to simulate the distortion of perspective in a camera.
+    // Our field of view is 45 degrees, with a width/height
+    // ratio that matches the display size of the canvas
+    // and we only want to see objects between 0.1 units
+    // and 100 units away from the camera.
+
+    const fieldOfView = 45 * Math.PI / 180; // in radians
+
+    const aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
+    const zNear = 0.1;
+    const zFar = 100.0;
+    const projectionMatrix = mat4.create(); // note: glmatrix.js always has the first argument
+    // as the destination to receive the result.
+
+    mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar); // Set the drawing position to the "identity" point, which is
+    // the center of the scene.
+
+    const modelViewMatrix = mat4.create(); // Now move the drawing position a bit to where we want to
+    // start drawing the square.
+
+    mat4.translate(modelViewMatrix, // destination matrix
+    modelViewMatrix, // matrix to translate
+    [-0.0, 0.0, -5.0]); // amount to translate
+    // Tell WebGL how to pull out the positions from the position
+    // buffer into the vertexPosition attribute.
+
+    {
+      const numComponents = 2;
+      const type = this.gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers.position);
+      this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexPosition, numComponents, type, normalize, stride, offset);
+      this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
+    } // Tell WebGL how to pull out the colors from the color buffer
+    // into the vertexColor attribute.
+
+    {
+      const numComponents = 4;
+      const type = this.gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers.color);
+      this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexColor, numComponents, type, normalize, stride, offset);
+      this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexColor);
+    } // Tell WebGL to use our program when drawing
+
+    this.gl.useProgram(this.programInfo.program); // Set the shader uniforms
+
+    this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, projectionMatrix);
+    this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
+    {
+      const offset = 0;
+      const vertexCount = 4;
+      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, vertexCount);
+    }
+  }
+
+}
+
+exports.ShaderComponentCustom = ShaderComponentCustom;
+
+},{"./base-shader-component":5}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.ShaderComponent = void 0;
 
 var _baseShaderComponent = require("./base-shader-component");
@@ -1811,7 +1963,7 @@ class ShaderComponent extends _baseShaderComponent.BaseShader {
 
 exports.ShaderComponent = ShaderComponent;
 
-},{"./base-shader-component":5,"./operations":10}],14:[function(require,module,exports){
+},{"./base-shader-component":5,"./operations":10}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1878,7 +2030,7 @@ class NidzaStarComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaStarComponent = NidzaStarComponent;
 
-},{"./base-component":3,"./operations":10,"./rotation":12}],15:[function(require,module,exports){
+},{"./base-component":3,"./operations":10,"./rotation":12}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2015,7 +2167,7 @@ class NidzaTextComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaTextComponent = NidzaTextComponent;
 
-},{"./base-component":3,"./operations":10,"./rotation":12}],16:[function(require,module,exports){
+},{"./base-component":3,"./operations":10,"./rotation":12}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2145,7 +2297,7 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
