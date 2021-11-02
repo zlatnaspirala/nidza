@@ -13,7 +13,8 @@
     "build.matrix.effect.1": "browserify js/matrix-effect-1.js -p esmify > builds/matrix-effect-1.js",
     "build.matrix.effect.2": "browserify js/matrix-effect-2.js -p esmify > builds/matrix-effect-2.js",
     "build.shadervc": "browserify js/shader-component-default.js -p esmify > builds/shader-component-default.js",
-    "build.all": "npm run build.example | npm run build.text.example | npm run build.text.rotator.example | npm run build.star.1.example | npm run build.star.2.example | npm run build.star.example | npm run build.matrix.effect.1 | npm run build.matrix.effect.2 | npm run build.shadervc ",
+    "build.shaderCustom": "browserify js/shader-component-default.js -p esmify > builds/shader-component-custom.js",
+    "build.all": "npm run build.example | npm run build.text.example | npm run build.text.rotator.example | npm run build.star.1.example | npm run build.star.2.example | npm run build.star.example | npm run build.matrix.effect.1 | npm run build.matrix.effect.2 | npm run build.shadervc | npm run build.shaderCustom",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
