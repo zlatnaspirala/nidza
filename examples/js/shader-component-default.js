@@ -1,6 +1,6 @@
 
-// import { Nidza, Utility } from "nidza"; prodc
-import { Nidza, Utility } from "../node_modules/nidza/index";
+import { Nidza, Utility } from "nidza";
+// import { Nidza, Utility } from "../node_modules/nidza/index";
 
 window.addEventListener("load", function (e) {
   loader.innerText = "NIDZA READY";
