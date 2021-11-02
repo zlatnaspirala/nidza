@@ -36,7 +36,7 @@ import { Utility } from "nidza";
 
 /**
  * @description Examples loader handler
- * I use async loading script.
+ * I use async loading script modules but only for dev.
  */
 Utility.importAsync(Utility.QueryUrl().u, () => {
   console.info('Application runned.')
@@ -45,7 +45,14 @@ Utility.importAsync(Utility.QueryUrl().u, () => {
 
 ## Dev vs Prodc - How to build examples folder for prodc
 
- First install:
+For production or public stage server looks like:
+```js
+Utility.loadAsync("builds/" + Utility.QueryUrl().u, () => {
+  console.info('Application runned.')
+});
+```
+
+ First install depens:
  ```
   cd examples/
   npm i
@@ -64,6 +71,10 @@ Utility.importAsync(Utility.QueryUrl().u, () => {
   npm i build.all
  ```
   - use `example-build.html`
+
+### Live demos
+#### https://maximumroulette.com/apps/nidza/nidza/examples/example-build.html?u=shader-component-default.js
+
 
 ## How it works
 
@@ -298,8 +309,8 @@ With different combination of Osc i made any animation i want.
 
 
 ## Screenshots examples
-Mix examples:
-![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza.1.2.1.gif)
+Mix `all-in-one.html` example:
+![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/nidza-js.png)
 
 Basic shader program
 ![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/makeRotationOnShaderComponent.png)
