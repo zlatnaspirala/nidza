@@ -315,6 +315,10 @@ Mix `all-in-one.html` example:
 Basic shader program
 ![text-example](https://github.com/zlatnaspirala/nidza/blob/main/non-project/makeRotationOnShaderComponent.png)
 
+### Links:
+ - https://codepen.io/zlatnaspirala/pen/dyzZpQE?editors=0010
+
+
 
 ## Credits and inspiration
 
