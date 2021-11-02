@@ -68,7 +68,7 @@ Utility.loadAsync("builds/" + Utility.QueryUrl().u, () => {
 
  - For prodc build with:
  ```
-  npm i build.all
+  npm run build.all
  ```
   - use `example-build.html`
 
