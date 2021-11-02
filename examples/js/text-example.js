@@ -19,8 +19,8 @@ var nidza = new Nidza();
 let myFirstNidzaObjectOptions = {
   id: "welcomeText",
   size: {
-    width: 250,
-    height: 250
+    width: 300,
+    height: 300
   },
   parentDom: document.getElementById('testHolder')
 };

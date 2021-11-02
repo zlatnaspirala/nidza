@@ -18,9 +18,9 @@ nidza.access.myStar.setBackground('lime')
 for (var j=0; j< 10;j++) {
   let myStarElement = nidza.access.myStar.addStarComponent({
     id: "Title1",
-    radius: 33 + j,
-    inset: 0.4 + j,
-    n: 6,
+    radius: 10 + j,
+    inset: 0.1 + j,
+    n: 6 + j,
     position: {
       x: 50,
       y: 50

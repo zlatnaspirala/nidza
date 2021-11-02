@@ -1,5 +1,6 @@
 import {isMobile, loadSync} from "./utility";
 import {ShaderComponent} from "./shader-component";
+import {ShaderComponentCustom} from "./shader-component-custom";
 
 export class Nidza3dIdentity {
   constructor(arg) {
@@ -65,6 +66,15 @@ export class Nidza3dIdentity {
     return shaderComponent;
   }
 
+  addShaderComponentCustom(arg) {
+    arg.gl = this.gl;
+    arg.canvasDom = this.canvasDom;
+    let shaderComponent = new ShaderComponentCustom(arg);
+    this.elements.push(shaderComponent);
+    shaderComponent.draw();
+    return shaderComponent;
+  }
+  
   activateUpdater = e => {
     var data = e.detail;
     if (data) {

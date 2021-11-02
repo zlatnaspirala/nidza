@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <link rel="manifest" href="manifest.web" />
-    <title>Matrix Engine is WebGL App/Game engine based on glmatrix lib. Created by Nikola Lukic</title>
+    <title>Created by Nikola Lukic</title>
     <meta name="description" content="The benefits of this project is offering an overview of the entire application logic, easy native implementations (hybrid app), object structural. " />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="apple-touch-icon" href="imgs/icons/512.png" />
@@ -16,8 +16,6 @@
     <link rel="icon" type="image/png" sizes="192x192" href="imgs/icons/android-icon.png" />
     <link rel="icon" href="imgs/icons/favicon.ico" type="image/x-icon" />
     <meta name="msapplication-TileImage" content="imgs/icons/ms-icon.png" />
-    <link defer href="css/nidza.css" />
-    <script type="module" src="./js/shader-component-custom.js" ></script>
   </head>
 
 <style>
@@ -35,8 +33,8 @@
     position: absolute;
     width: 50%;
     height: 50%;
-    left:25%;
-    top:2%;
+    left:0;
+    top:0;
     text-align: center;
   }
 
@@ -47,6 +45,11 @@
     left:0;
     top:0;
     text-align: center;
+  }
+
+  .frame {
+    width: 300px;
+    height: 300px;
   }
 
   .loader {
@@ -66,7 +69,15 @@
 </style>
 
 <body>
-  <div class="holder" id="testHolder"></div>
-  <div class="loader" id="loader">LOADING</div>
+  <div style="display:flex;flex-direction: row;flex-wrap: wrap;">
+    <object class="frame" data="./single.html?u=text-example.js"></object>
+    <object class="frame" data="./single.html?u=star-example.js"></object>
+    <object class="frame" data="./single.html?u=text-rotator-example.js"></object>
+    <object class="frame" data="./single.html?u=star-effect-1.js"></object>
+    <object class="frame" data="./single.html?u=star-effect-2.js"></object>
+    <!--object data="./single.html?u=matrix-effect-1.js"></object-->
+    <object class="frame" data="./single.html?u=shader-component-default.js"></object>
+    <object class="frame" data="./single.html?u=shader-component-custom.js"></object>
+  </div>
 </body>
 </html>

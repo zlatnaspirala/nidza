@@ -6,27 +6,7 @@ export class ShaderComponentCustom extends BaseShader {
   constructor( arg ) {
     super();
     this.gl = arg.gl;
-    console.log('.arg.....', arg);
-
-    /*
-    const shaderProgram = this.initShaderProgram(this.gl, this.initDefaultVSShader(), this.initDefaultFSShader());
-    this.programInfo = {
-      program: shaderProgram,
-      attribLocations: {
-        vertexPosition: this.gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-        vertexColor: this.gl.getAttribLocation(shaderProgram, 'aVertexColor'),
-      },
-      uniformLocations: {
-        projectionMatrix: this.gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-        modelViewMatrix: this.gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-      },
-    };
-
-    this.buffers = this.initBuffers(this.gl);
-    // this.draw(this.gl, this.programInfo, this.buffers);
-    this.draw(); */
-
-    console.log('ShaderComponentCustom init ! ');
+    console.log('ShaderComponentCustom init', arg);
   }
 
   initDefaultFSShader() {
@@ -63,26 +43,14 @@ export class ShaderComponentCustom extends BaseShader {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   
     // Now create an array of positions for the square.
-    const positions = [
-       1.0,  1.0,
-      -1.0,  1.0,
-       1.0, -1.0,
-      -1.0, -1.0,
-    ];
+
     gl.bufferData(gl.ARRAY_BUFFER,
-      new Float32Array(positions),
+      new Float32Array(this.positions),
       gl.STATIC_DRAW);
 
-    const colors = [
-      1.0, 1.0, 1.0, 1.0,    // white
-      1.0, 0.0, 0.0, 1.0,    // red
-      0.0, 1.0, 0.0, 1.0,    // green
-      0.0, 0.0, 1.0, 1.0,    // blue
-    ];
-
     const colorBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colors ), gl.STATIC_DRAW );
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.colors), gl.STATIC_DRAW);
 
     return {
       position: positionBuffer,
@@ -91,7 +59,15 @@ export class ShaderComponentCustom extends BaseShader {
 
   }
 
+  reload() {
+    this.buffers = this.initDefaultBuffers(this.gl);
+    this.draw();
+  }
+
   draw() {
+
+    if (!this.buffers) return;
+
     this.gl.clearColor(0.5, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
     this.gl.clearDepth(1.0);                 // Clear everything
     this.gl.enable( this.gl.DEPTH_TEST );    // Enable depth testing
