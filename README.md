@@ -225,6 +225,16 @@ zlatnaspiralaTxt2.rotation.setRotation(rotationOption2)
 
 ```
 
+
+### Create Multi indentity with and without injectCanvas
+ To make website its much easiest to create multi instancing.
+ You can create single nidza instance single website component.
+ You can mix to component with injectCanvas arg options but only 
+ same context. You cant mix '2d' with 'webgl' context!
+
+Take a look `examples/js/multi-nidza-instance.js`
+
+
 ### Create Nidza 3D Indentity [wip]
 
 Take a look `shader-component-default` for basic usage.
@@ -327,3 +337,6 @@ Basic shader program
  - https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
 
  - https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect
+
+ - https://gist.github.com/neauoire/35430ac93f2c5916e201
+

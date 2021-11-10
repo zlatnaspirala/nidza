@@ -14,7 +14,9 @@
     "build.matrix.effect.2": "browserify js/matrix-effect-2.js -p esmify > builds/matrix-effect-2.js",
     "build.shadervc": "browserify js/shader-component-default.js -p esmify > builds/shader-component-default.js",
     "build.shaderCustom": "browserify js/shader-component-default.js -p esmify > builds/shader-component-custom.js",
-    "build.all": "npm run build.example | npm run build.text.example | npm run build.text.rotator.example | npm run build.star.1.example | npm run build.star.2.example | npm run build.star.example | npm run build.matrix.effect.1 | npm run build.matrix.effect.2 | npm run build.shadervc | npm run build.shaderCustom",
+    "build.inlineShader": "browserify js/shader-inline.js -p esmify > builds/shader-inline.js",
+    "build.multi3dindentity" : "browserify js/multi-nidza-3dindentity.js -p esmify > builds/multi-nidza-3dindentity.js",
+    "build.all": "npm run build.example | npm run build.text.example | npm run build.text.rotator.example | npm run build.star.1.example | npm run build.star.2.example | npm run build.star.example | npm run build.matrix.effect.1 | npm run build.matrix.effect.2 | npm run build.shadervc | npm run build.shaderCustom | npm run build.inlineShader | npm run build.multi3dindentity",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
