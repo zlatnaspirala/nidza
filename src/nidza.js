@@ -14,7 +14,7 @@ export class Nidza {
 
   prepareCanvas(arg) {
     let c = document.createElement('canvas');
-    let cStyle = "background: black";
+    let cStyle = "background: transparent";
     c.id = arg.id;
     c.setAttribute("style", cStyle);
     c.width = arg.size.width;
@@ -23,7 +23,16 @@ export class Nidza {
   }
 
   createNidzaIndentity(arg) {
-    let c = this.prepareCanvas(arg);
+
+    let cStyle = "background: transparent";
+    let c;
+    if (arg.injectCanvas) {
+      c = arg.injectCanvas;
+      c.setAttribute('style', cStyle);
+    } else {
+      c = this.prepareCanvas(arg);
+    }
+
     var ctx = c.getContext("2d");
     this.canvasDom = c;
     if (arg.parentDom) {
@@ -44,7 +53,17 @@ export class Nidza {
   }
 
   createNidza3dIndentity(arg) {
-    this.canvasDom = this.prepareCanvas(arg);
+
+    let cStyle = "background: transparent";
+    let c;
+    if (arg.injectCanvas) {
+      c = arg.injectCanvas;
+      c.setAttribute('style', cStyle);
+    } else {
+      c = this.prepareCanvas(arg);
+    }
+
+    this.canvasDom = c;
     const gl = this.canvasDom.getContext("webgl");
     if (!gl) {
       console.warn("No support for webGL.");

@@ -6,6 +6,7 @@ export class ShaderComponentCustom extends BaseShader {
   constructor( arg ) {
     super();
     this.gl = arg.gl;
+    this.background = [0.0, 0.0, 0.0, 0.0];
     console.log('ShaderComponentCustom init', arg);
   }
 
@@ -68,7 +69,7 @@ export class ShaderComponentCustom extends BaseShader {
 
     if (!this.buffers) return;
 
-    this.gl.clearColor(0.5, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+    this.gl.clearColor(this.background[0], this.background[1], this.background[2], this.background[3]);
     this.gl.clearDepth(1.0);                 // Clear everything
     this.gl.enable( this.gl.DEPTH_TEST );    // Enable depth testing
     this.gl.depthFunc( this.gl.LEQUAL );     // Near things obscure far things

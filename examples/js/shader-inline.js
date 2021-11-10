@@ -1,6 +1,6 @@
 
-// import {Nidza, Utility} from "nidza";
-import {Nidza, Utility} from "../node_modules/nidza/index";
+import {Nidza, Utility} from "nidza";
+// import {Nidza, Utility} from "../node_modules/nidza/index";
 
 window.addEventListener("load", function(e) {
   loader.innerText = "NIDZA READY";
@@ -79,7 +79,6 @@ myShaderElement.initDefaultVSShader = () => {
   }`
 }
 
-
 myShaderElement.initDefaultBuffers = function() {
   var gl = this.gl;
 };
@@ -106,13 +105,13 @@ var direction_z = "I.x*30.2434216";
 var spin = "(I.x / p.z)"; 
 // default: sin(I.x*.01)*.2
 
-var r = "((((I.x*1.15*sin(I.x))*3.276))*0.007)+0.0001432";
+var r = "(tan((I.x*1.15*sin(I.x))*3.176)*P.z)*0.007"// "((((I.x*1.15*sin(I.x))*3.276))*0.007)+0.0001432";
 // (tan((I.x*1.15*sin(I.x))*3.176)*P.z)*0.007
 
-var s = "(3.4312-tan(I.x*((I.x)/.41))+1.05)-0.0001234";
+var s = " 3.4312-cos(I.x*2.1)+0.05"// "(3.4312-tan(I.x*((I.x)/.41))+1.05)-0.0001234";
 // 3.4312-cos(I.x*2.1)+0.05
 
-var r2 = "((((tan(I.x)*1.05*tan(I.x))*2.176))*0.007)-0.00001";
+var r2 = "sin((I.x+float(i)*0.0001*sin(I.x*.01))*3.176)*(0.3)+0.5" //  "((((tan(I.x)*1.05*tan(I.x))*2.176))*0.007)-0.00001";
 // sin((I.x+float(i)*0.0001*sin(I.x*.01))*3.176)*(0.3)+0.5
 
 var s2 = "9.14312-cos(I.x+(tan(I.x)/.4))+0.105";
@@ -138,11 +137,10 @@ gs(35632, fcShader.split("Q").join("vec3"));
 g.linkProgram(sp);
 g.useProgram(sp);
 
-var i, u, W, H, w, h;
+var i, u, W, H;
 
 g.bindBuffer(34962, g.createBuffer());
 g.bufferData(34962, new Float32Array([i=-1,i,i,1,1,i,1,1]), 35044);
-
 g.vertexAttribPointer(0, 2, 5126, 0, 0, 0);
 g.enableVertexAttribArray(0);
 
@@ -150,13 +148,11 @@ g.enableVertexAttribArray(0);
   W=innerWidth;
   H=innerHeight;
   s=(H/240)|0;
-  g.viewport(0,0,w=c.width=426,h=c.height=240);
-  c.style.cssText="position:fixed;width:"+(w*=s)+"px;height:"+(h*=s)+"px;left:"+((W-w)/2)+"px;top:"+((H-h)*.3)+"px;image-rendering:-moz-crisp-edges;image-rendering:-webkit-optimize-contrast;image-rendering:-o-crisp-edges;image-rendering:pixelated;-ms-interpolation-mode:nearest-neighbor";
+  g.viewport(0,0,c.width,c.height);
   g.uniform4f(g.getUniformLocation(sp,"I"),(t-30000)*.00002,0,0,0);
   g.drawArrays(5,0,4);
   requestAnimationFrame(u);
 })(0);
-
 
 /*
 dispatchEvent(
