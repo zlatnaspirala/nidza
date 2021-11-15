@@ -7,6 +7,7 @@ export class ShaderComponentCustom extends BaseShader {
     super();
     this.gl = arg.gl;
     this.background = [0.0, 0.0, 0.0, 0.0];
+    this.position = [-0.0, 0.0, -5.0];
     console.log('ShaderComponentCustom init', arg);
   }
 
@@ -106,7 +107,7 @@ export class ShaderComponentCustom extends BaseShader {
 
     mat4.translate( modelViewMatrix,     // destination matrix
       modelViewMatrix,     // matrix to translate
-      [-0.0, 0.0, -5.0] );  // amount to translate
+      this.position);  // amount to translate
 
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
