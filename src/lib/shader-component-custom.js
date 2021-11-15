@@ -7,7 +7,13 @@ export class ShaderComponentCustom extends BaseShader {
     super();
     this.gl = arg.gl;
     this.background = [0.0, 0.0, 0.0, 0.0];
-    this.position = [-0.0, 0.0, -5.0];
+    this.position = [-0.0, 0.0, -2.0];
+    this.geometry = [
+      1.0,  1.0,
+     -1.0,  1.0,
+      1.0, -1.0,
+     -1.0, -1.0,
+    ];
     console.log('ShaderComponentCustom init', arg);
   }
 
@@ -47,7 +53,7 @@ export class ShaderComponentCustom extends BaseShader {
     // Now create an array of positions for the square.
 
     gl.bufferData(gl.ARRAY_BUFFER,
-      new Float32Array(this.positions),
+      new Float32Array(this.geometry),
       gl.STATIC_DRAW);
 
     const colorBuffer = gl.createBuffer();
@@ -163,7 +169,8 @@ export class ShaderComponentCustom extends BaseShader {
     {
       const offset = 0;
       const vertexCount = 4;
-      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, vertexCount);
+      // this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, vertexCount);
+      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, this.geometry.length / 2);
     }
   }
 

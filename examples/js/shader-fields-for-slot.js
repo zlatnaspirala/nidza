@@ -126,19 +126,8 @@ Utility.loadSync(
 
 
     // 222222222222222222222222222222
-
-
-    let myShader2 = {
-      id: "myShader2",
-      size: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      },
-      parentDom: document.getElementById("testHolder"),
-    };
-
-    var indentityMyShader2 = nidza.createNidza3dIndentity(myShader2);
-    let myShaderElement2 = indentityMyShader2.addShaderComponentCustom({
+  
+    let myShaderElement2 = indentityMyShader.addShaderComponentCustom({
       id: "vertex-color-comp-2",
     });
 
@@ -204,7 +193,7 @@ Utility.loadSync(
       }
     };
 
-    const shaderProgram2 = myShaderElement2.initShaderProgram(
+    const shaderProgram2 = myShaderElement.initShaderProgram(
       myShaderElement2.gl,
       myShaderElement2.initDefaultVSShader(),
       myShaderElement2.initDefaultFSShader());
@@ -225,7 +214,7 @@ Utility.loadSync(
 
     // myShaderElement.draw(); Manually call once.
     dispatchEvent(
-      new CustomEvent(indentityMyShader2.getKey("activate-updater"), {
+      new CustomEvent(indentityMyShader.getKey("activate-updater"), {
         detail: {
           id: "vertex-color-comp-2",
         },
@@ -233,7 +222,7 @@ Utility.loadSync(
     );
 
     window.myShaderElement2 = myShaderElement2;
-    
+
     //
 
   }
