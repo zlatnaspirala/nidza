@@ -1,6 +1,6 @@
 {
   "name": "nidza",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "description": "Add full custom any 2d canvas code [combine]. Add position property for custom shader comp .Switched on prodc regime. Added full custom shader construction approach, Test params for default shader component, Add webgl context GLSL Nidza3DIndentity, New Matix component .Option for attaching click/move for (mobile and desktop) event. Make uniq custom events names, preparing for multi nidza instancing. canvas2d engine explicit only for generating textures , animations, images (on web page), animation , visual effect etc. Objective is low CPU usage price.",
   "main": "index.js",
   "scripts": {
