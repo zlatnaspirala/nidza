@@ -318,7 +318,6 @@ class NidzaCustom2dComponent extends _baseComponent.NidzaElement {
     this.draw = arg.draw;
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
-    this.draw = _operations.drawSimpleText;
     var newW = 20,
         newH = 20;
 
@@ -634,6 +633,8 @@ var _starComponent = require("./star-component");
 
 var _matrixComponent = require("./matrix-component");
 
+var _custom2dComponent = require("./custom2d-component");
+
 var _utility = require("./utility");
 
 class NidzaIdentity {
@@ -728,6 +729,15 @@ class NidzaIdentity {
     return starComponent;
   }
 
+  addCustom2dComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let cComponent = new _custom2dComponent.NidzaCustom2dComponent(arg);
+    cComponent.draw();
+    this.elements.push(cComponent);
+    return cComponent;
+  }
+
   activateUpdater = e => {
     var data = e.detail;
 
@@ -784,9 +794,9 @@ class NidzaIdentity {
 
     this.elements.forEach(e => {
       e.position.update();
-      e.dimension.update();
-      e.rotation.update();
-      e.draw();
+      if (e.dimension) e.dimension.update();
+      if (e.rotation) e.rotation.update();
+      e.draw(this.ctx);
     });
   }
 
@@ -807,7 +817,7 @@ class NidzaIdentity {
 
 exports.NidzaIdentity = NidzaIdentity;
 
-},{"./matrix-component":10,"./star-component":16,"./text-component":17,"./utility":18}],10:[function(require,module,exports){
+},{"./custom2d-component":6,"./matrix-component":10,"./star-component":16,"./text-component":17,"./utility":18}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2148,199 +2158,131 @@ exports.NidzaTextComponent = NidzaTextComponent;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NidzaIdentity = void 0;
+exports.importAsync = importAsync;
+exports.loadAsync = loadAsync;
+exports.loadSync = loadSync;
+exports.isMobile = isMobile;
+exports.getRandomIntFromTo = getRandomIntFromTo;
+exports.getRandomArbitrary = getRandomArbitrary;
+exports.convert = exports.QueryUrl = void 0;
 
-var _textComponent = require("./text-component");
+function importAsync(src, callback) {
+  var s, r, t;
+  r = false;
+  s = document.createElement('script'); // s.type = 'text/javascript';
 
-var _starComponent = require("./star-component");
+  s.type = 'module';
+  s.src = src;
 
-var _matrixComponent = require("./matrix-component");
-
-var _custom2dComponent = require("./custom2d-component");
-
-var _utility = require("./utility");
-
-class NidzaIdentity {
-  constructor(arg) {
-    this.canvasDom = arg.canvasDom;
-    this.ctx = arg.ctx;
-    this.elements = arg.elements;
-    this.clearOnUpdate = true;
-    this.updaterIsLive = false;
-    this.updater = null;
-    this.updaterInterval = 1;
-    this.uRegister = [];
-    console.info("Construct uniq acess key for nidza instance.");
-    addEventListener(this.getKey('activate-updater'), this.activateUpdater, {
-      passive: true
-    });
-    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater, {
-      passive: true
-    });
-    this.setupGlobalCtx();
-  }
-
-  attachClickEvent(callback) {
-    if ((0, _utility.isMobile)()) {
-      this.canvasDom.addEventListener("touchstart", callback, {
-        passive: true
-      });
-    } else {
-      this.canvasDom.addEventListener("click", callback, {
-        passive: true
-      });
-    }
-  }
-
-  attachMoveEvent(callback) {
-    if ((0, _utility.isMobile)()) {
-      this.canvasDom.addEventListener("touchmove", callback, {
-        passive: true
-      });
-    } else {
-      this.canvasDom.addEventListener("mousemove", callback, {
-        passive: true
-      });
-    }
-  }
-
-  onClick() {
-    console.info('default indentity click event call.');
-  }
-
-  setBackground(arg) {
-    this.canvasDom.style.background = arg;
-  }
-
-  getKey(action) {
-    return action + this.canvasDom.id;
-  }
-
-  setupGlobalCtx() {
-    this.ctx.textAlign = "center";
-    this.ctx.textBaseline = "middle";
-  }
-
-  setCanvasBgColor(color) {
-    arg.canvasDom.style.background = color;
-  }
-
-  addTextComponent(arg) {
-    arg.ctx = this.ctx;
-    arg.canvasDom = this.canvasDom;
-    let textComponent = new _textComponent.NidzaTextComponent(arg);
-    textComponent.draw();
-    this.elements.push(textComponent);
-    return textComponent;
-  }
-
-  addStarComponent(arg) {
-    arg.ctx = this.ctx;
-    arg.canvasDom = this.canvasDom;
-    let starComponent = new _starComponent.NidzaStarComponent(arg);
-    starComponent.draw();
-    this.elements.push(starComponent);
-    return starComponent;
-  }
-
-  addMatrixComponent(arg) {
-    arg.ctx = this.ctx;
-    arg.canvasDom = this.canvasDom;
-    let starComponent = new _matrixComponent.NidzaMatrixComponent(arg);
-    starComponent.draw();
-    this.elements.push(starComponent);
-    return starComponent;
-  }
-
-  addCustom2dComponent(arg) {
-    arg.ctx = this.ctx;
-    arg.canvasDom = this.canvasDom;
-    let cComponent = new _custom2dComponent.NidzaCustom2dComponent(arg);
-    cComponent.draw();
-    this.elements.push(cComponent);
-    return cComponent;
-  }
-
-  activateUpdater = e => {
-    var data = e.detail;
-
-    if (data) {
-      if (this.uRegister.indexOf(data.id) == -1) {
-        if (data.oneDraw) {
-          this.updateScene();
-          return;
-        } else {
-          // resister
-          this.uRegister.push(data.id);
-        }
-      }
-    }
-
-    if (!this.isUpdaterActive()) {
-      this.updater = setInterval(() => {
-        this.updateScene();
-      }, this.updaterInterval);
-    }
-  };
-  deactivateUpdater = e => {
-    var data = e.detail;
-
-    if (data) {
-      var loc = this.uRegister.indexOf(data.id);
-
-      if (loc == -1) {
-        console.warn("remove event but not exist", data.id);
-      } else {
-        this.uRegister.splice(loc, 1);
-
-        if (this.uRegister.length == 0) {
-          clearInterval(this.updater);
-          this.updater = null;
-          console.info("There is no registred active elements -> deactivate updater.");
-        }
-      }
+  s.onload = s.onreadystatechange = function () {
+    if (!r && (!this.readyState || this.readyState == 'complete')) {
+      r = true;
+      callback();
     }
   };
 
-  isUpdaterActive() {
-    if (this.updater == null) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  updateScene() {
-    if (this.clearOnUpdate) {
-      this.ctx.clearRect(0, 0, this.canvasDom.width, this.canvasDom.height);
-    }
-
-    this.elements.forEach(e => {
-      e.position.update();
-      e.dimension.update();
-      e.rotation.update();
-      e.draw();
-    });
-  }
-
-  print() {
-    console.log('I am big holder nothing else.');
-  }
-
-  getElementById(id) {
-    return this.elements.filter(element => element.id == id)[0];
-  }
-
-  setupMatrix1() {
-    this.canvasDom.style.background = "";
-    this.canvasDom.className = "matrix1";
-  }
-
+  t = document.getElementsByTagName('script')[0];
+  t.parentNode.insertBefore(s, t);
 }
 
-exports.NidzaIdentity = NidzaIdentity;
+function loadAsync(src, callback) {
+  var s, r, t;
+  r = false;
+  s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.src = src;
 
-},{"./custom2d-component":6,"./matrix-component":10,"./star-component":16,"./text-component":17,"./utility":18}],19:[function(require,module,exports){
+  s.onload = s.onreadystatechange = function () {
+    if (!r && (!this.readyState || this.readyState == 'complete')) {
+      r = true;
+      callback();
+    }
+  };
+
+  t = document.getElementsByTagName('script')[0];
+  t.parentNode.insertBefore(s, t);
+}
+
+function loadSync(src, callback) {
+  var s, r, t;
+  r = false;
+  s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.async = false;
+  s.src = src;
+
+  s.onload = s.onreadystatechange = function () {
+    if (!r && (!this.readyState || this.readyState == 'complete')) {
+      r = true;
+      callback();
+    }
+  };
+
+  t = document.getElementsByTagName('script')[0];
+  t.parentNode.insertBefore(s, t);
+}
+
+var QueryUrl = function () {
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split('&');
+
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=');
+
+    if (typeof query_string[pair[0]] === 'undefined') {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+    } else if (typeof query_string[pair[0]] === 'string') {
+      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+      query_string[pair[0]] = arr;
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  }
+
+  return query_string;
+};
+
+exports.QueryUrl = QueryUrl;
+
+function isMobile() {
+  const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
+  return toMatch.some(toMatchItem => {
+    return navigator.userAgent.match(toMatchItem);
+  });
+}
+
+let convert = {
+  PER_TO_PIX: function (v) {
+    var o = window.innerWidth / 100;
+    return v * o;
+  },
+  PIX_TO_PER: function (v) {
+    var o = window.innerWidth / 100;
+    return v / o;
+  },
+  PER_TO_PIY: function (v) {
+    var o = window.innerHeight / 100;
+    return v * o;
+  },
+  PIY_TO_PER: function (v) {
+    var o = window.innerHeight / 100;
+    return v / o;
+  }
+};
+exports.convert = convert;
+
+function getRandomIntFromTo(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+},{}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

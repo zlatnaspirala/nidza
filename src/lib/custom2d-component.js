@@ -37,10 +37,26 @@ export class NidzaCustom2dComponent extends NidzaElement {
     this.dimension.elementIdentity = this.id;
     this.dimension.setDimension(newW, newH);
 
+    dispatchEvent(new CustomEvent("activate-updater", {
+      detail: {
+        id: arg.id,
+        oneDraw: false
+      }
+    }));
+
   }
 
   getKey(action) {
     return action + this.canvasDom.id;
+  }
+
+  activeDraw = () => {
+    dispatchEvent(new CustomEvent(this.getKey("activate-updater"), { 
+      detail: {
+       id: this.elementIdentity,
+       oneDraw: false
+      }
+    }));
   }
 
 }

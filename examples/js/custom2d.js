@@ -38,4 +38,4 @@ let myStarElement = nidza.access.myStar.addCustom2dComponent({
 
   let rotationOption = new nidza.Osc(0, 90, 0.5, "oscMax");
   // myStarElement.rotation.setRotation(rotationOption)
-
+  window.myStarElement = myStarElement

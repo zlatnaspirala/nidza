@@ -543,7 +543,6 @@ class NidzaCustom2dComponent extends _baseComponent.NidzaElement {
     this.draw = arg.draw;
     this.ctx = arg.ctx;
     this.canvasDom = arg.canvasDom;
-    this.draw = _operations.drawSimpleText;
     var newW = 20,
         newH = 20;
 
@@ -1020,9 +1019,9 @@ class NidzaIdentity {
 
     this.elements.forEach(e => {
       e.position.update();
-      e.dimension.update();
-      e.rotation.update();
-      e.draw();
+      if (e.dimension) e.dimension.update();
+      if (e.rotation) e.rotation.update();
+      e.draw(this.ctx);
     });
   }
 
