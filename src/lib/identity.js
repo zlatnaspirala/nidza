@@ -2,6 +2,7 @@
 import { NidzaTextComponent } from "./text-component";
 import { NidzaStarComponent } from "./star-component";
 import { NidzaMatrixComponent } from "./matrix-component";
+import { NidzaCustom2dComponent} from "./custom2d-component";
 
 import { isMobile } from "./utility";
 
@@ -92,6 +93,15 @@ export class NidzaIdentity {
     return starComponent;
   }
 
+  addCustom2dComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let cComponent = new NidzaCustom2dComponent(arg);
+    cComponent.draw();
+    this.elements.push(cComponent);
+    return cComponent;
+  }
+
   activateUpdater = (e) => {
     var data = e.detail;
     if (data) {
@@ -149,9 +159,9 @@ export class NidzaIdentity {
 
     this.elements.forEach(e => {
       e.position.update();
-      e.dimension.update();
-      e.rotation.update();
-      e.draw();
+      if (e.dimension) e.dimension.update();
+      if (e.rotation) e.rotation.update();
+      e.draw(this.ctx);
     });
 
   }

@@ -59,7 +59,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-},{"./src/lib/utility":17,"./src/nidza":18}],3:[function(require,module,exports){
+},{"./src/lib/utility":18,"./src/nidza":19}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -83,7 +83,7 @@ class NidzaElement {
 
 exports.NidzaElement = NidzaElement;
 
-},{"./dimension":6,"./position":11}],4:[function(require,module,exports){
+},{"./dimension":7,"./position":12}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -255,6 +255,55 @@ exports.BaseShader = BaseShader;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.NidzaCustom2dComponent = void 0;
+
+var _baseComponent = require("./base-component");
+
+var _operations = require("./operations");
+
+var _rotation = require("./rotation");
+
+class NidzaCustom2dComponent extends _baseComponent.NidzaElement {
+  constructor(arg) {
+    const eArg = {
+      position: arg.position,
+      id: arg.id,
+      canvasDom: arg.canvasDom // draw: arg.draw
+
+    };
+    super(eArg);
+    this.id = arg.id;
+    this.draw = arg.draw;
+    this.ctx = arg.ctx;
+    this.canvasDom = arg.canvasDom;
+    this.draw = _operations.drawSimpleText;
+    var newW = 20,
+        newH = 20;
+
+    if (arg.dimension) {
+      newW = arg.dimension.width || 20;
+      newH = arg.dimension.height || 20;
+    }
+
+    this.dimension.setReferent(this.canvasDom);
+    this.dimension.elementIdentity = this.id;
+    this.dimension.setDimension(newW, newH);
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
+  }
+
+}
+
+exports.NidzaCustom2dComponent = NidzaCustom2dComponent;
+
+},{"./base-component":3,"./operations":11,"./rotation":13}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.Dimension = void 0;
 
 var _baseReferent = require("./base-referent");
@@ -380,7 +429,7 @@ class Dimension {
 
 exports.Dimension = Dimension;
 
-},{"./base-referent":4}],7:[function(require,module,exports){
+},{"./base-referent":4}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -529,7 +578,7 @@ class Nidza3dIdentity {
 
 exports.Nidza3dIdentity = Nidza3dIdentity;
 
-},{"./shader-component":14,"./shader-component-custom":13,"./utility":17}],8:[function(require,module,exports){
+},{"./shader-component":15,"./shader-component-custom":14,"./utility":18}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -716,7 +765,7 @@ class NidzaIdentity {
 
 exports.NidzaIdentity = NidzaIdentity;
 
-},{"./matrix-component":9,"./star-component":15,"./text-component":16,"./utility":17}],9:[function(require,module,exports){
+},{"./matrix-component":10,"./star-component":16,"./text-component":17,"./utility":18}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -987,7 +1036,7 @@ class NidzaMatrixComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaMatrixComponent = NidzaMatrixComponent;
 
-},{"./base-component":3,"./operations":10,"./rotation":12,"./utility":17}],10:[function(require,module,exports){
+},{"./base-component":3,"./operations":11,"./rotation":13,"./utility":18}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1282,7 +1331,7 @@ function drawStarRotation() {
   this.ctx.restore();
 }
 
-},{"./utility":17}],11:[function(require,module,exports){
+},{"./utility":18}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1415,7 +1464,7 @@ class Position {
 
 exports.Position = Position;
 
-},{"./base-referent":4}],12:[function(require,module,exports){
+},{"./base-referent":4}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1508,7 +1557,7 @@ class Rotator {
 
 exports.Rotator = Rotator;
 
-},{"./operations":10}],13:[function(require,module,exports){
+},{"./operations":11}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1522,6 +1571,9 @@ class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
   constructor(arg) {
     super();
     this.gl = arg.gl;
+    this.background = [0.0, 0.0, 0.0, 0.0];
+    this.position = [-0.0, 0.0, -2.0];
+    this.geometry = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
     console.log('ShaderComponentCustom init', arg);
   }
 
@@ -1558,7 +1610,7 @@ class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer); // Now create an array of positions for the square.
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.positions), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.geometry), gl.STATIC_DRAW);
     const colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.colors), gl.STATIC_DRAW);
@@ -1575,8 +1627,7 @@ class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
 
   draw() {
     if (!this.buffers) return;
-    this.gl.clearColor(0.5, 0.0, 0.0, 1.0); // Clear to black, fully opaque
-
+    this.gl.clearColor(this.background[0], this.background[1], this.background[2], this.background[3]);
     this.gl.clearDepth(1.0); // Clear everything
 
     this.gl.enable(this.gl.DEPTH_TEST); // Enable depth testing
@@ -1607,7 +1658,7 @@ class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
 
     mat4.translate(modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to translate
-    [-0.0, 0.0, -5.0]); // amount to translate
+    this.position); // amount to translate
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
 
@@ -1640,8 +1691,9 @@ class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
     this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
     {
       const offset = 0;
-      const vertexCount = 4;
-      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, vertexCount);
+      const vertexCount = 4; // this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, vertexCount);
+
+      this.gl.drawArrays(this.gl.TRIANGLE_STRIP, offset, this.geometry.length / 2);
     }
   }
 
@@ -1649,7 +1701,7 @@ class ShaderComponentCustom extends _baseShaderComponent.BaseShader {
 
 exports.ShaderComponentCustom = ShaderComponentCustom;
 
-},{"./base-shader-component":5}],14:[function(require,module,exports){
+},{"./base-shader-component":5}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1844,7 +1896,7 @@ class ShaderComponent extends _baseShaderComponent.BaseShader {
 
 exports.ShaderComponent = ShaderComponent;
 
-},{"./base-shader-component":5,"./operations":10}],15:[function(require,module,exports){
+},{"./base-shader-component":5,"./operations":11}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1911,7 +1963,7 @@ class NidzaStarComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaStarComponent = NidzaStarComponent;
 
-},{"./base-component":3,"./operations":10,"./rotation":12}],16:[function(require,module,exports){
+},{"./base-component":3,"./operations":11,"./rotation":13}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2048,137 +2100,205 @@ class NidzaTextComponent extends _baseComponent.NidzaElement {
 
 exports.NidzaTextComponent = NidzaTextComponent;
 
-},{"./base-component":3,"./operations":10,"./rotation":12}],17:[function(require,module,exports){
+},{"./base-component":3,"./operations":11,"./rotation":13}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.importAsync = importAsync;
-exports.loadAsync = loadAsync;
-exports.loadSync = loadSync;
-exports.isMobile = isMobile;
-exports.getRandomIntFromTo = getRandomIntFromTo;
-exports.getRandomArbitrary = getRandomArbitrary;
-exports.convert = exports.QueryUrl = void 0;
+exports.NidzaIdentity = void 0;
 
-function importAsync(src, callback) {
-  var s, r, t;
-  r = false;
-  s = document.createElement('script'); // s.type = 'text/javascript';
+var _textComponent = require("./text-component");
 
-  s.type = 'module';
-  s.src = src;
+var _starComponent = require("./star-component");
 
-  s.onload = s.onreadystatechange = function () {
-    if (!r && (!this.readyState || this.readyState == 'complete')) {
-      r = true;
-      callback();
-    }
-  };
+var _matrixComponent = require("./matrix-component");
 
-  t = document.getElementsByTagName('script')[0];
-  t.parentNode.insertBefore(s, t);
-}
+var _custom2dComponent = require("./custom2d-component");
 
-function loadAsync(src, callback) {
-  var s, r, t;
-  r = false;
-  s = document.createElement('script');
-  s.type = 'text/javascript';
-  s.src = src;
+var _utility = require("./utility");
 
-  s.onload = s.onreadystatechange = function () {
-    if (!r && (!this.readyState || this.readyState == 'complete')) {
-      r = true;
-      callback();
-    }
-  };
+class NidzaIdentity {
+  constructor(arg) {
+    this.canvasDom = arg.canvasDom;
+    this.ctx = arg.ctx;
+    this.elements = arg.elements;
+    this.clearOnUpdate = true;
+    this.updaterIsLive = false;
+    this.updater = null;
+    this.updaterInterval = 1;
+    this.uRegister = [];
+    console.info("Construct uniq acess key for nidza instance.");
+    addEventListener(this.getKey('activate-updater'), this.activateUpdater, {
+      passive: true
+    });
+    addEventListener(this.getKey('deactivate-updater'), this.deactivateUpdater, {
+      passive: true
+    });
+    this.setupGlobalCtx();
+  }
 
-  t = document.getElementsByTagName('script')[0];
-  t.parentNode.insertBefore(s, t);
-}
-
-function loadSync(src, callback) {
-  var s, r, t;
-  r = false;
-  s = document.createElement('script');
-  s.type = 'text/javascript';
-  s.async = false;
-  s.src = src;
-
-  s.onload = s.onreadystatechange = function () {
-    if (!r && (!this.readyState || this.readyState == 'complete')) {
-      r = true;
-      callback();
-    }
-  };
-
-  t = document.getElementsByTagName('script')[0];
-  t.parentNode.insertBefore(s, t);
-}
-
-var QueryUrl = function () {
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split('&');
-
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split('=');
-
-    if (typeof query_string[pair[0]] === 'undefined') {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-    } else if (typeof query_string[pair[0]] === 'string') {
-      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
-      query_string[pair[0]] = arr;
+  attachClickEvent(callback) {
+    if ((0, _utility.isMobile)()) {
+      this.canvasDom.addEventListener("touchstart", callback, {
+        passive: true
+      });
     } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+      this.canvasDom.addEventListener("click", callback, {
+        passive: true
+      });
     }
   }
 
-  return query_string;
-};
-
-exports.QueryUrl = QueryUrl;
-
-function isMobile() {
-  const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
-  return toMatch.some(toMatchItem => {
-    return navigator.userAgent.match(toMatchItem);
-  });
-}
-
-let convert = {
-  PER_TO_PIX: function (v) {
-    var o = window.innerWidth / 100;
-    return v * o;
-  },
-  PIX_TO_PER: function (v) {
-    var o = window.innerWidth / 100;
-    return v / o;
-  },
-  PER_TO_PIY: function (v) {
-    var o = window.innerHeight / 100;
-    return v * o;
-  },
-  PIY_TO_PER: function (v) {
-    var o = window.innerHeight / 100;
-    return v / o;
+  attachMoveEvent(callback) {
+    if ((0, _utility.isMobile)()) {
+      this.canvasDom.addEventListener("touchmove", callback, {
+        passive: true
+      });
+    } else {
+      this.canvasDom.addEventListener("mousemove", callback, {
+        passive: true
+      });
+    }
   }
-};
-exports.convert = convert;
 
-function getRandomIntFromTo(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  onClick() {
+    console.info('default indentity click event call.');
+  }
+
+  setBackground(arg) {
+    this.canvasDom.style.background = arg;
+  }
+
+  getKey(action) {
+    return action + this.canvasDom.id;
+  }
+
+  setupGlobalCtx() {
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+  }
+
+  setCanvasBgColor(color) {
+    arg.canvasDom.style.background = color;
+  }
+
+  addTextComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let textComponent = new _textComponent.NidzaTextComponent(arg);
+    textComponent.draw();
+    this.elements.push(textComponent);
+    return textComponent;
+  }
+
+  addStarComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let starComponent = new _starComponent.NidzaStarComponent(arg);
+    starComponent.draw();
+    this.elements.push(starComponent);
+    return starComponent;
+  }
+
+  addMatrixComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let starComponent = new _matrixComponent.NidzaMatrixComponent(arg);
+    starComponent.draw();
+    this.elements.push(starComponent);
+    return starComponent;
+  }
+
+  addCustom2dComponent(arg) {
+    arg.ctx = this.ctx;
+    arg.canvasDom = this.canvasDom;
+    let cComponent = new _custom2dComponent.NidzaCustom2dComponent(arg);
+    cComponent.draw();
+    this.elements.push(cComponent);
+    return cComponent;
+  }
+
+  activateUpdater = e => {
+    var data = e.detail;
+
+    if (data) {
+      if (this.uRegister.indexOf(data.id) == -1) {
+        if (data.oneDraw) {
+          this.updateScene();
+          return;
+        } else {
+          // resister
+          this.uRegister.push(data.id);
+        }
+      }
+    }
+
+    if (!this.isUpdaterActive()) {
+      this.updater = setInterval(() => {
+        this.updateScene();
+      }, this.updaterInterval);
+    }
+  };
+  deactivateUpdater = e => {
+    var data = e.detail;
+
+    if (data) {
+      var loc = this.uRegister.indexOf(data.id);
+
+      if (loc == -1) {
+        console.warn("remove event but not exist", data.id);
+      } else {
+        this.uRegister.splice(loc, 1);
+
+        if (this.uRegister.length == 0) {
+          clearInterval(this.updater);
+          this.updater = null;
+          console.info("There is no registred active elements -> deactivate updater.");
+        }
+      }
+    }
+  };
+
+  isUpdaterActive() {
+    if (this.updater == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  updateScene() {
+    if (this.clearOnUpdate) {
+      this.ctx.clearRect(0, 0, this.canvasDom.width, this.canvasDom.height);
+    }
+
+    this.elements.forEach(e => {
+      e.position.update();
+      e.dimension.update();
+      e.rotation.update();
+      e.draw();
+    });
+  }
+
+  print() {
+    console.log('I am big holder nothing else.');
+  }
+
+  getElementById(id) {
+    return this.elements.filter(element => element.id == id)[0];
+  }
+
+  setupMatrix1() {
+    this.canvasDom.style.background = "";
+    this.canvasDom.className = "matrix1";
+  }
+
 }
 
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
+exports.NidzaIdentity = NidzaIdentity;
 
-},{}],18:[function(require,module,exports){
+},{"./custom2d-component":6,"./matrix-component":10,"./star-component":16,"./text-component":17,"./utility":18}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2278,4 +2398,4 @@ class Nidza {
 
 exports.Nidza = Nidza;
 
-},{"./lib/identity":8,"./lib/identity-3d":7,"./lib/operations":10}]},{},[1]);
+},{"./lib/identity":9,"./lib/identity-3d":8,"./lib/operations":11}]},{},[1]);

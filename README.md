@@ -316,7 +316,7 @@ Explanation for Osc:
 ```
 
 With different combination of Osc i made any animation i want.
-
+Also you can combine full custom any 2d canvas code with `addCustom2dComponent`.
 
 ## Screenshots examples
 Mix `all-in-one.html` example:
