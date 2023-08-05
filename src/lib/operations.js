@@ -1,5 +1,5 @@
 
-import { getRandomArbitrary, getRandomIntFromTo} from "./utility";
+import { getRandomArbitrary, getRandomIntFromTo} from "./utility.js";
 
 /**
  * @description Diffrent variant of math and

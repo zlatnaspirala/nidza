@@ -1,5 +1,5 @@
 
-import { Osc } from "./operations";
+import { Osc } from "./operations.js";
 
 export class Rotator {
 

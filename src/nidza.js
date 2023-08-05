@@ -1,7 +1,7 @@
 
-import { NidzaIdentity } from "./lib/identity";
-import { Nidza3dIdentity } from "./lib/identity-3d";
-import { Osc } from "./lib/operations";
+import { NidzaIdentity } from "./lib/identity.js";
+import { Nidza3dIdentity } from "./lib/identity-3d.js";
+import { Osc } from "./lib/operations.js";
 
 export class Nidza {
 

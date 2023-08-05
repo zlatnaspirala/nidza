@@ -1,12 +1,12 @@
 
-import { NidzaElement } from "./base-component";
+import { NidzaElement } from "./base-component.js";
 import { Osc,
          drawSimpleText,
          drawRotatedText,
          drawBorder,
          drawWithBorder,
-         drawRotatedBorderText } from "./operations";
-import {Rotator} from "./rotation";
+         drawRotatedBorderText } from "./operations.js";
+import {Rotator} from "./rotation.js";
 
 export class NidzaTextComponent extends NidzaElement {
 

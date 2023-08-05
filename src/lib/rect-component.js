@@ -1,5 +1,5 @@
 
-import {NidzaElement} from "./base-component";
+import {NidzaElement} from "./base-component.js";
 import {
   toRad,
   drawStar,

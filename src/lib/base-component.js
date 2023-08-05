@@ -1,6 +1,6 @@
 
-import {Position} from "./position";
-import {Dimension} from "./dimension";
+import {Position} from "./position.js";
+import {Dimension} from "./dimension.js";
 
 export class NidzaElement {
 

@@ -1,4 +1,4 @@
-import {setReferent} from "./base-referent";
+import {setReferent} from "./base-referent.js";
 
 export class Position {
   constructor(curentX, curentY) {

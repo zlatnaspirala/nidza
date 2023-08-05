@@ -136,7 +136,7 @@ export class NidzaIdentity {
         if (this.uRegister.length == 0) {
           clearInterval(this.updater);
           this.updater = null;
-          console.info("There is no registred active elements -> deactivate updater.");
+          // console.info("There is no registred active elements -> deactivate updater.");
         }
       }
     }

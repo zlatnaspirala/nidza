@@ -1,5 +1,5 @@
 
-import {BaseShader} from './base-shader-component';
+import {BaseShader} from './base-shader-component.js';
 
 export class ShaderComponentCustom extends BaseShader {
 

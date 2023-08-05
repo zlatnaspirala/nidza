@@ -1,6 +1,6 @@
 
-import {BaseShader} from './base-shader-component';
-import { Osc } from "./operations";
+import {BaseShader} from './base-shader-component.js';
+import { Osc } from "./operations.js";
 
 export class ShaderComponent extends BaseShader {
 

@@ -1,8 +1,8 @@
 
-import {NidzaElement} from "./base-component";
-import { Osc } from "./operations";
-import {getRandomIntFromTo, getRandomArbitrary} from "./utility";
-import {Rotator} from "./rotation";
+import {NidzaElement} from "./base-component.js";
+import { Osc } from "./operations.js";
+import {getRandomIntFromTo, getRandomArbitrary} from "./utility.js";
+import {Rotator} from "./rotation.js";
 
 export class NidzaMatrixComponent extends NidzaElement {
 

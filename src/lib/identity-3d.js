@@ -104,12 +104,10 @@ export class Nidza3dIdentity {
         console.warn("remove event but not exist", data.id);
       } else {
         this.uRegister.splice(loc, 1);
-        if (this.uRegister.length == 0) {
+        if (this.uRegister.length == 0 && this.updater != null) {
           clearInterval(this.updater);
           this.updater = null;
-          console.info(
-            "There is no registred active elements -> deactivate updater."
-          );
+          // console.info("There is no registred active elements -> deactivate updater.");
         }
       }
     }
