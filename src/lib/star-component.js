@@ -4,8 +4,8 @@ import {
   toRad,
   drawStar,
   drawStarRotation,
-} from "./operations";
-import {Rotator} from "./rotation";
+} from "./operations.js";
+import {Rotator} from "./rotation.js";
 
 export class NidzaStarComponent extends NidzaElement {
 

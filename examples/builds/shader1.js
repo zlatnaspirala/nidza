@@ -1,0 +1,1 @@
+console.error("Error: Can't walk dependency graph: Cannot find module 'G:\\web_server\\xampp\\htdocs\\PRIVATE_SERVER\\nidza\\examples\\js\\shader1.js' from 'js\\_fake.js'\n    required by G:\\web_server\\xampp\\htdocs\\PRIVATE_SERVER\\nidza\\examples\\js\\_fake.js");

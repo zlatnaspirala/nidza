@@ -4,7 +4,9 @@
   "description": "Test instance for nidza.js",
   "main": "examples.js",
   "scripts": {
-    "build.example": "browserify examples.js -p esmify > builds/examples-build.js",
+    "examples": "watchify examples.js -p [esmify --noImplicitAny] -o builds/examples-build.js",
+    "shader1": "watchify js/shader-1.js -p [esmify --noImplicitAny] -o builds/shader-1.js",
+    "build.examples": "browserify examples.js -p esmify > builds/examples-build.js",
     "build.text.example": "browserify js/text-example.js -p esmify > builds/text-example.js",
     "build.text.rotator.example": "browserify js/text-rotator-example.js -p esmify > builds/text-rotator-example.js",
     "build.star.1.example": "browserify js/star-effect-1.js -p esmify > builds/star-effect-1.js",
@@ -20,11 +22,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "browser-resolve": "^2.0.0"
+    "nidza": "^1.2.21"
   },
   "devDependencies": {
     "esmify": "^2.1.1",
-    "nidza": "^1.2.14"
+    "browser-resolve": "^2.0.0",
+    "browserify": "^17.0.0",
+    "watchify": "^4.0.0"
   },
   "repository": {
     "type": "git",

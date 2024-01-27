@@ -1,10 +1,10 @@
 
-import { NidzaTextComponent } from "./text-component";
-import { NidzaStarComponent } from "./star-component";
-import { NidzaMatrixComponent } from "./matrix-component";
-import { NidzaCustom2dComponent} from "./custom2d-component";
+import { NidzaTextComponent } from "./text-component.js";
+import { NidzaStarComponent } from "./star-component.js";
+import { NidzaMatrixComponent } from "./matrix-component.js";
+import { NidzaCustom2dComponent} from "./custom2d-component.js";
 
-import { isMobile } from "./utility";
+import { isMobile } from "./utility.js";
 
 export class NidzaIdentity {
 

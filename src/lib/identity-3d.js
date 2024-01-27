@@ -1,6 +1,6 @@
-import {isMobile, loadSync} from "./utility";
-import {ShaderComponent} from "./shader-component";
-import {ShaderComponentCustom} from "./shader-component-custom";
+import {isMobile, loadSync} from "./utility.js";
+import {ShaderComponent} from "./shader-component.js";
+import {ShaderComponentCustom} from "./shader-component-custom.js";
 
 export class Nidza3dIdentity {
   constructor(arg) {

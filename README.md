@@ -25,7 +25,6 @@ You can look this functions in ./src/lib/operations.js , you will see that `draw
  - Every example will run without loading time.
  - Run 100 nidza example applications on same page.
 
-
 ### About running Examples
 
 Run examples with url parameter `?u=text-example.js`:
@@ -339,4 +338,3 @@ Basic shader program
  - https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect
 
  - https://gist.github.com/neauoire/35430ac93f2c5916e201
-

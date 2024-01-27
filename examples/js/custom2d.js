@@ -1,6 +1,6 @@
 
-import { Nidza } from "../node_modules/nidza/index";
-// import { Nidza, Utility } from "nidza";
+// import { Nidza } from "../node_modules/nidza/index";
+import { Nidza, Utility } from "nidza";
 
 var nidza = new Nidza();
 
@@ -23,7 +23,7 @@ let myStarElement = nidza.access.myStar.addCustom2dComponent({
     // radius: 10 + j,
     // inset: 0.1 + j,
     // n: 6 + j,
-    draw: (e) => {
+    draw: function(e)  {
       console.log("CUSTOM DRAW", e)
     },
     position: {
