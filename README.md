@@ -338,3 +338,7 @@ Basic shader program
  - https://github.com/kaizhelam/Hacking-Matrix-Rain-Effect
 
  - https://gist.github.com/neauoire/35430ac93f2c5916e201
+
+ - https://shadertoy.com/view/3l23Rh
+
+ - https://shadertoy.com/view/lcfXD8

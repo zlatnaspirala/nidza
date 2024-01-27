@@ -6,6 +6,7 @@
   "scripts": {
     "examples": "watchify examples.js -p [esmify --noImplicitAny] -o builds/examples-build.js",
     "shader1": "watchify js/shader-1.js -p [esmify --noImplicitAny] -o builds/shader-1.js",
+    "shader2": "watchify js/shader-2.js -p [esmify --noImplicitAny] -o builds/shader-2.js",
     "build.examples": "browserify examples.js -p esmify > builds/examples-build.js",
     "build.text.example": "browserify js/text-example.js -p esmify > builds/text-example.js",
     "build.text.rotator.example": "browserify js/text-rotator-example.js -p esmify > builds/text-rotator-example.js",
