@@ -2326,6 +2326,40 @@ class Nidza {
     return nidza3dIntentityInstance;
   }
 
+  createNidza3dIndentity2(arg) {
+    let cStyle = "background: transparent";
+    let c;
+
+    if (arg.injectCanvas) {
+      c = arg.injectCanvas;
+      c.setAttribute('style', cStyle);
+    } else {
+      c = this.prepareCanvas(arg);
+    }
+
+    this.canvasDom = c;
+    const gl = this.canvasDom.getContext("webgl2");
+
+    if (!gl) {
+      console.warn("No support for webGL2.");
+      return;
+    }
+
+    if (arg.parentDom) {
+      arg.parentDom.append(this.canvasDom);
+    } else {
+      document.body.append(this.canvasDom);
+    }
+
+    let nidza3dIntentityInstance = new _identity3d.Nidza3dIdentity({
+      canvasDom: this.canvasDom,
+      ctx: gl,
+      parentDom: arg.parentDom
+    });
+    this.access[arg.id] = nidza3dIntentityInstance;
+    return nidza3dIntentityInstance;
+  }
+
 }
 
 exports.Nidza = Nidza;
